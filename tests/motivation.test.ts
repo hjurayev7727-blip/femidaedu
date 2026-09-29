@@ -125,25 +125,39 @@ describe("musobaqa", () => {
     expect((await one<{ r: { reason: string } }>(`select public.start_contest($1, $2, false) as r`, [X, future])).r.reason).toBe("premium");
   });
 
-  it("natijalar tugaguncha yopiq; tugagach — to'g'ri javob ↓, vaqt ↑", async () => {
+  it("erta tugatish faqat yopadi: baho va javoblar musobaqa tugaguncha ko'rinmaydi; tugagach — to'g'ri javob ↓, vaqt ↑", async () => {
     const entries = (await db.query<{ user_id: string; attempt_id: string }>(`select user_id, attempt_id from public.contest_entries where contest_id = $1`, [contest])).rows;
     const byUser = new Map(entries.map((e) => [e.user_id, e.attempt_id]));
     const qs = (await one<{ q: string[] }>(`select question_ids as q from public.contests where id = $1`, [contest])).q.map(Number);
-    const finish = async (u: string, correct: number, secondsAgo: number) => {
+    const answerAndClose = async (u: string, secondsAgo: number) => {
       const att = byUser.get(u)!;
       for (const q of qs) await db.query(`select public.save_mock_answer($1, $2, $3, '{"index":0}')`, [u, att, q]);
       await db.query(`update public.attempts set started_at = now() - make_interval(secs => $2) where id = $1`, [att, secondsAgo]);
-      await db.query(`select public.finish_contest_attempt($1, $2::jsonb)`, [att, JSON.stringify(qs.map((q, i) => ({ q, correct: i < correct })))]);
+      await db.query(`select public.close_contest_attempt($1, $2)`, [u, att]);
     };
-    await finish(X, 4, 300); // 4 ta, 5 daqiqa
-    await finish(Y, 4, 120); // 4 ta, 2 daqiqa — X dan yuqori
-    await finish(Z, 2, 60);
+    await answerAndClose(X, 300);
+    await answerAndClose(Y, 120);
+    await answerAndClose(Z, 60);
 
+    // musobaqa davom etmoqda: baholash rad etiladi, o'z javoblari (is_correct) va natija ustunlari ko'rinmaydi
+    const attX = byUser.get(X)!;
+    const early = await one<{ r: { ok: boolean; reason: string } }>(`select public.finish_contest_attempt($1, '[]') as r`, [attX]);
+    expect(early.r).toMatchObject({ ok: false, reason: "not_ended" });
+    const visible = await asUser(db, X, () => db.query(`select * from public.attempt_answers where attempt_id = $1`, [attX]).then((r) => r.rows));
+    expect(visible).toEqual([]);
+    await expect(asUser(db, X, () => db.query(`select correct from public.contest_entries`))).rejects.toThrow(/permission denied/);
     expect(await asUser(db, X, () => db.query(`select * from public.contest_results($1)`, [contest]).then((r) => r.rows))).toEqual([]);
-    expect((await one<{ r: { reason: string } }>(`select public.finalize_contest($1) as r`, [contest])).r.reason).toBe("not_ended");
 
+    // tugadi → baholash → yakunlash
     await db.query(`update public.contests set ends_at = now() - interval '1 second' where id = $1`, [contest]);
+    expect((await one<{ r: { reason: string } }>(`select public.finalize_contest($1) as r`, [contest])).r.reason).toBe("ungraded");
+    const grade = (u: string, correct: number) =>
+      db.query(`select public.finish_contest_attempt($1, $2::jsonb)`, [byUser.get(u), JSON.stringify(qs.map((q, i) => ({ q, correct: i < correct })))]);
+    await grade(X, 4);
+    await grade(Y, 4);
+    await grade(Z, 2);
     expect((await one<{ r: { ok: boolean } }>(`select public.finalize_contest($1) as r`, [contest])).r.ok).toBe(true);
+
     const res = await asUser(db, X, () => db.query<{ rank: number; name: string; correct: number; is_me: boolean }>(
       `select rank, name, correct, is_me from public.contest_results($1)`, [contest]).then((r) => r.rows));
     expect(res).toEqual([
@@ -151,6 +165,8 @@ describe("musobaqa", () => {
       { rank: 2, name: "Xurshid X.", correct: 4, is_me: true },
       { rank: 3, name: "Zafar Z.", correct: 2, is_me: false },
     ]);
+    const after = await asUser(db, X, () => db.query(`select is_correct from public.attempt_answers where attempt_id = $1`, [attX]).then((r) => r.rows));
+    expect(after).toHaveLength(qs.length);
     expect((await one<{ b: string[] }>(`select public.award_badges($1) as b`, [Y])).b).toContain("contest_top3");
   });
 

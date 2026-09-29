@@ -7,7 +7,8 @@ describe("safeNext", () => {
     expect(safeNext("/ustoz#g")).toBe("/ustoz#g");
   });
 
-  it.each(["//evil.com", "https://evil.com", "/\\evil.com", "javascript:alert(1)", "", null, undefined, "app"])(
+  it.each(["//evil.com", "https://evil.com", "/\\evil.com", "javascript:alert(1)", "", null, undefined, "app",
+    "/.//evil.com", "/%2e//evil.com", "/a/..//evil.com", "/./\\evil.com"])(
     "tashqi yoki buzuq manzilni rad etadi: %s",
     (v) => expect(safeNext(v)).toBe("/app"),
   );

@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { z } from "zod";
 import { aiEnabled } from "@/lib/ai-server";
 import { requireUser } from "@/lib/auth";
-import { localizeQuestion, QUESTION_COLUMNS, scriptOf } from "@/lib/practice";
+import { isPracticeMode, localizeQuestion, QUESTION_COLUMNS, scriptOf } from "@/lib/practice";
 import type { ClientQuestion } from "@/lib/questions";
 import { PracticeRunner } from "./runner";
 
@@ -27,6 +27,7 @@ export default async function PracticeSession({ params }: PageProps<"/app/mashq/
     .maybeSingle<{ id: string; mode: string; topic_id: number | null; question_ids: number[]; finished_at: string | null }>();
   if (!attempt) notFound();
   if (attempt.mode === "mock") redirect(`/app/imtihon/${id}`);
+  if (!isPracticeMode(attempt.mode)) redirect("/app/musobaqa"); // musobaqa — faqat o'z sahifasida (javoblar tugagach)
   if (attempt.finished_at) redirect(`/app/mashq/s/${id}/natija`);
 
   const ids = attempt.question_ids.map(Number);

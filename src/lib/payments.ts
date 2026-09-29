@@ -1,5 +1,5 @@
 import "server-only";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { checkReceipt } from "@/lib/receipt";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 
@@ -29,12 +29,15 @@ export async function submitManualPayment(userId: string, planCode: string, file
     return { ok: false, message: "Chekni yuklab bo'lmadi. Qayta urinib ko'ring." };
   }
 
-  const { data, error } = await admin.rpc("create_manual_payment", { p_user: userId, p_plan: planCode, p_receipt: path });
+  // Bir xil chek fayli boshqa akkauntdan qayta yuborilmasin
+  const sha256 = createHash("sha256").update(receipt.bytes).digest("hex");
+  const { data, error } = await admin.rpc("create_manual_payment", { p_user: userId, p_plan: planCode, p_receipt: path, p_sha256: sha256 });
   const r = data as { ok: boolean; reason?: string } | null;
   if (error || !r?.ok) {
     await admin.storage.from(RECEIPT_BUCKET).remove([path]); // yetim fayl qolmasin
     if (r?.reason === "pending") return { ok: false, message: "Oldingi to'lovingiz hali ko'rib chiqilmoqda." };
     if (r?.reason === "plan") return { ok: false, message: "Tarif topilmadi." };
+    if (r?.reason === "duplicate_receipt") return { ok: false, message: "Bu chek avval yuborilgan. Yangi to'lov chekini yuklang." };
     console.error("create_manual_payment", error?.message);
     return { ok: false, message: "Serverda xatolik. Qayta urinib ko'ring." };
   }

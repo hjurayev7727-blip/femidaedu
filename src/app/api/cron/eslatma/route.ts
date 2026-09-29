@@ -23,6 +23,8 @@ export async function GET(request: NextRequest) {
   if (slot !== "morning" && slot !== "evening") return new NextResponse("slot", { status: 400 });
 
   const admin = createSupabaseAdmin();
+  // Uzilgan streak'lar nollanadi — eslatma va /natija eskirgan raqamni ko'rsatmasin
+  if (slot === "morning") await admin.rpc("reset_stale_streaks");
   const { data, error } = await admin.rpc("bot_recipients", { p_slot: slot });
   if (error) return new NextResponse(error.message, { status: 500 });
   const site = env().NEXT_PUBLIC_SITE_URL;

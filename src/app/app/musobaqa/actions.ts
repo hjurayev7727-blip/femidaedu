@@ -2,7 +2,6 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth";
-import { finishContestAttempt } from "@/lib/contest-server";
 import { saveMockAnswer } from "@/lib/mock-server";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 
@@ -30,6 +29,7 @@ export async function finishContest(attemptId: string) {
   const { data: entry } = await admin.from("contest_entries").select("contest_id").eq("attempt_id", attemptId).eq("user_id", userId)
     .maybeSingle<{ contest_id: number }>();
   if (!entry) redirect("/app/musobaqa");
-  await finishContestAttempt(attemptId);
+  // Faqat yopiladi — baholash va natijalar musobaqa tugagach (finalizeIfEnded)
+  await admin.rpc("close_contest_attempt", { p_user: userId, p_attempt: attemptId });
   redirect(`/app/musobaqa/${entry.contest_id}`);
 }

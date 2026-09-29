@@ -12,6 +12,7 @@ const ERRORS: Record<string, string> = {
   telegram_imzo: "Telegram ma'lumotini tasdiqlab bo'lmadi. Qaytadan urinib ko'ring.",
   google: "Google orqali kirish yakunlanmadi. Qaytadan urinib ko'ring.",
   server: "Serverda xatolik. Birozdan keyin urinib ko'ring.",
+  sessiya: "Kirish sessiyasi eskirgan. Sahifani yangilab, qayta urinib ko'ring.",
 };
 
 export default async function LoginPage({ searchParams }: PageProps<"/kirish">) {

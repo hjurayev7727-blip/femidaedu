@@ -2,11 +2,14 @@ import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { draftToQuestion, explainQuestion, generateDrafts, regradeOpenAnswer, type AiUsage, type Draft } from "@/lib/ai";
 import { describeAnswer, describeResponse, type Answer, type OpenAnswer, type Payload, type QuestionType, type Response } from "@/lib/questions";
+import { isPracticeMode } from "@/lib/practice";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 import { toScript, type Script } from "@/lib/translit";
 
 /** Premium foydalanuvchi uchun kunlik AI so'rovlari */
 export const AI_DAILY_LIMIT = 30;
+/** Muallif uchun kunlik generator so'rovlari (xarajat nazorati) */
+export const AUTHOR_DAILY_LIMIT = 40;
 
 export function aiEnabled(): boolean {
   return Boolean(process.env.ANTHROPIC_API_KEY);
@@ -68,7 +71,7 @@ export async function aiRegrade(
   const row = await loadOwnAnswer(userId, attemptId, questionId);
   const q = row?.questions;
   if (!row || !q || q.type !== "open" || (q.payload as { kind: string }).kind !== "text") return { ok: false, message: "Faqat matnli yozma javob qayta tekshiriladi." };
-  if (row.attempts?.mode === "mock") return { ok: false, message: "Sinov imtihoni natijasi o'zgartirilmaydi." };
+  if (!isPracticeMode(row.attempts?.mode ?? "")) return { ok: false, message: "Sinov va musobaqa natijasi o'zgartirilmaydi." };
   if (row.is_correct) return { ok: false, message: "Javob allaqachon to'g'ri." };
   if (row.ai_feedback) return { ok: false, message: "Bu javob AI tomonidan tekshirilgan." };
   if (!(await consume(userId, AI_DAILY_LIMIT))) return { ok: false, message: FAIL_TEXT.limit };
@@ -99,6 +102,8 @@ export async function aiExplain(
   const row = await loadOwnAnswer(userId, attemptId, questionId);
   const q = row?.questions;
   if (!row || !q) return { ok: false, message: "Avval savolga javob bering." };
+  // Sinov/musobaqada javob saqlanadi, lekin to'g'ri javob oshkor qilinmasligi kerak
+  if (!isPracticeMode(row.attempts?.mode ?? "")) return { ok: false, message: "AI ustoz sinov va musobaqa paytida ishlamaydi." };
   if (!(await consume(userId, AI_DAILY_LIMIT))) return { ok: false, message: FAIL_TEXT.limit };
 
   const r = await explainQuestion(
@@ -127,6 +132,7 @@ export async function generateAndSave(
 ): Promise<AiResult<GenerateReport>> {
   const c = aiClient();
   if (!c) return { ok: false, message: FAIL_TEXT.unavailable };
+  if (!(await consume(authorId, AUTHOR_DAILY_LIMIT))) return { ok: false, message: `Bugungi generator limiti (${AUTHOR_DAILY_LIMIT} ta) tugadi.` };
   const admin = createSupabaseAdmin();
   const { data: doc } = await admin.from("documents").select("id, number, short_title").eq("number", opts.documentNumber)
     .maybeSingle<{ id: number; number: number; short_title: string }>();

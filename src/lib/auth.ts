@@ -15,6 +15,7 @@ export type Profile = {
   telegram_username: string | null;
   streak_days: number;
   streak_best: number;
+  last_active_on: string | null;
   bot_enabled: boolean;
   notify_morning: boolean;
   notify_evening: boolean;
@@ -33,7 +34,7 @@ export const requireUser = cache(async () => {
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("id, full_name, avatar_url, role, goal, region, script, telegram_id, telegram_username, streak_days, streak_best, bot_enabled, notify_morning, notify_evening, leaderboard_visible")
+    .select("id, full_name, avatar_url, role, goal, region, script, telegram_id, telegram_username, streak_days, streak_best, last_active_on, bot_enabled, notify_morning, notify_evening, leaderboard_visible")
     .eq("id", userId)
     .single<Profile>();
   if (error || !profile) throw new Error(`Profil topilmadi: ${error?.message ?? userId}`);

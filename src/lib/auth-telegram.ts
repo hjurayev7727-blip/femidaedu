@@ -42,19 +42,20 @@ export async function resolveTelegramUser(admin: SupabaseClient, tg: TelegramUse
   const { error } = await admin.auth.admin.createUser({
     email,
     email_confirm: true,
-    user_metadata: {
-      full_name: displayName(tg),
-      avatar_url: tg.photo_url,
-      telegram_id: String(tg.id),
-      telegram_username: tg.username,
-      provider: "telegram",
-    },
+    // telegram_id — faqat app_metadata da: uni faqat server yoza oladi (user_metadata ni foydalanuvchi o'zi
+    // signUp orqali yozishi mumkin — trigger u yerdan o'qisa, begona hisobni oldindan "egallash" mumkin bo'lardi)
+    app_metadata: { telegram_id: String(tg.id), telegram_username: tg.username ?? null, provider: "telegram" },
+    user_metadata: { full_name: displayName(tg), avatar_url: tg.photo_url },
   });
-  // Bir vaqtda ikki marta bosilsa — ikkinchisi "allaqachon mavjud" oladi, bu xato emas
-  if (error && !/already|exists|registered/i.test(error.message)) {
-    return { ok: false, reason: "error", message: error.message };
-  }
-  return { ok: true, email, created: !error };
+  if (!error) return { ok: true, email, created: true };
+  if (!/already|exists|registered/i.test(error.message)) return { ok: false, reason: "error", message: error.message };
+
+  // Email band. Faqat parallel so'rov (ikki marta bosish) hisobni yaratgan bo'lsagina davom etamiz —
+  // ya'ni profil aynan shu telegram_id bilan bog'langan. Aks holda texnik emailni kimdir oldindan
+  // egallagan: unga kirish havolasi BERILMAYDI.
+  const again = await admin.from("profiles").select("id").eq("telegram_id", tg.id).maybeSingle();
+  if (again.data) return { ok: true, email, created: false };
+  return { ok: false, reason: "error", message: `texnik email band, lekin telegram_id bog'lanmagan: ${email}` };
 }
 
 /** Kirgan foydalanuvchiga (masalan, Google orqali) Telegram hisobini bog'laydi. */

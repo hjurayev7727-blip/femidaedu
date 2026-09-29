@@ -6,13 +6,15 @@ import { createSupabaseAdmin } from "@/lib/supabase/server";
 
 type Q = { id: number; type: QuestionType; payload: Payload; answer: Answer };
 
-/** Urinish javoblarini baholab yakunlaydi (qayta chaqirish xavfsiz). */
-export async function finishContestAttempt(attemptId: string): Promise<boolean> {
+/**
+ * Urinish javoblarini baholaydi — faqat musobaqa tugagach (SQL ham tekshiradi). Qayta chaqirish xavfsiz.
+ * Muddatidan oldin tugatish uchun — close_contest_attempt (baholamaydi, natija sizib chiqmasin).
+ */
+export async function gradeContestAttempt(attemptId: string): Promise<boolean> {
   const admin = createSupabaseAdmin();
-  const { data: a } = await admin.from("attempts").select("id, question_ids, finished_at, mode").eq("id", attemptId).eq("mode", "contest")
-    .maybeSingle<{ id: string; question_ids: number[]; finished_at: string | null }>();
+  const { data: a } = await admin.from("attempts").select("id, question_ids, mode").eq("id", attemptId).eq("mode", "contest")
+    .maybeSingle<{ id: string; question_ids: number[] }>();
   if (!a) return false;
-  if (a.finished_at) return true;
   const [{ data: questions }, { data: answers }] = await Promise.all([
     admin.from("questions").select("id, type, payload, answer").in("id", a.question_ids.map(Number)).returns<Q[]>(),
     admin.from("attempt_answers").select("question_id, response").eq("attempt_id", attemptId).returns<{ question_id: number; response: Response }[]>(),
@@ -22,8 +24,8 @@ export async function finishContestAttempt(attemptId: string): Promise<boolean> 
     const q = byId.get(Number(ans.question_id));
     return { q: Number(ans.question_id), correct: Boolean(q && gradeResponse(q.type, q.payload, q.answer, ans.response).correct) };
   });
-  const { error } = await admin.rpc("finish_contest_attempt", { p_attempt: attemptId, p_results: results });
-  return !error;
+  const { data, error } = await admin.rpc("finish_contest_attempt", { p_attempt: attemptId, p_results: results });
+  return !error && Boolean((data as { ok: boolean } | null)?.ok);
 }
 
 /**
@@ -36,9 +38,9 @@ export async function finalizeIfEnded(contestId: number): Promise<void> {
     .maybeSingle<{ id: number; title: string; ends_at: string; finalized: boolean }>();
   if (!c || c.finalized || Date.parse(c.ends_at) > Date.now()) return;
 
-  const { data: open } = await admin.from("contest_entries").select("attempt_id, attempts!inner(finished_at)").eq("contest_id", contestId)
-    .is("attempts.finished_at", null).returns<{ attempt_id: string }[]>();
-  for (const e of open ?? []) await finishContestAttempt(e.attempt_id);
+  const { data: ungraded } = await admin.from("contest_entries").select("attempt_id").eq("contest_id", contestId)
+    .is("correct", null).returns<{ attempt_id: string }[]>();
+  for (const e of ungraded ?? []) await gradeContestAttempt(e.attempt_id);
 
   const { data } = await admin.rpc("finalize_contest", { p_contest: contestId });
   if (!(data as { ok: boolean; already?: boolean } | null)?.ok || (data as { already?: boolean }).already) return;

@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { z } from "zod";
 import { ReviewList, type ReviewAnswer } from "@/components/question/review-list";
 import { requireUser } from "@/lib/auth";
-import { scriptOf } from "@/lib/practice";
+import { isPracticeMode, scriptOf } from "@/lib/practice";
 import { startPractice, startReview } from "../../../actions";
 
 export const metadata: Metadata = { title: "Natija" };
@@ -25,6 +25,7 @@ export default async function PracticeResult({ params }: PageProps<"/app/mashq/s
     .maybeSingle<{ id: string; mode: string; topic_id: number | null; question_ids: number[]; finished_at: string | null; correct_count: number; raw_score: number }>();
   if (!attempt) notFound();
   if (attempt.mode === "mock") redirect(`/app/imtihon/${id}/natija`);
+  if (!isPracticeMode(attempt.mode)) redirect("/app/musobaqa"); // musobaqa — faqat o'z sahifasida (javoblar tugagach)
   if (!attempt.finished_at) redirect(`/app/mashq/s/${id}`);
 
   const ids = attempt.question_ids.map(Number);

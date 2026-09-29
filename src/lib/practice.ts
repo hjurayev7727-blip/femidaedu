@@ -12,6 +12,10 @@ import {
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 import { toScript, type Script } from "@/lib/translit";
 
+/** Javob darhol tekshirilib ko'rsatiladigan rejimlar (sinov va musobaqada javob oshkor qilinmaydi) */
+export const PRACTICE_MODES = ["practice", "review", "daily", "assignment"] as const;
+export const isPracticeMode = (mode: string) => (PRACTICE_MODES as readonly string[]).includes(mode);
+
 /** Bepul tarifda kuniga javob berish mumkin bo'lgan savollar */
 export const FREE_DAILY_LIMIT = 20;
 export const PRACTICE_SIZE = 10;

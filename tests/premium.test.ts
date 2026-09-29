@@ -13,8 +13,9 @@ const newUser = async () => {
   return id;
 };
 type R = { ok: boolean; reason?: string; id?: number; already?: boolean };
-const pay = async (u: string, plan = "oy1") =>
-  (await one<{ r: R }>(`select public.create_manual_payment($1, $2, $3) as r`, [u, plan, `${u}/chek.jpg`])).r;
+let receipt = 0;
+const pay = async (u: string, plan = "oy1", sha = `sha-${++receipt}`) =>
+  (await one<{ r: R }>(`select public.create_manual_payment($1, $2, $3, $4) as r`, [u, plan, `${u}/chek.jpg`, sha])).r;
 const approve = async (admin: string, id: number) => (await one<{ r: R }>(`select public.approve_payment($1, $2) as r`, [admin, id])).r;
 const premium = (u: string) => asUser(db, u, () => one<{ p: boolean }>(`select public.is_premium() as p`)).then((r) => r.p);
 const until = (u: string) => asUser(db, u, () => one<{ t: string | null }>(`select public.my_premium_until() as t`)).then((r) => r.t);
@@ -79,12 +80,22 @@ describe("qo'lda to'lov", () => {
       asUser(db, u, () => db.query(`insert into public.subscriptions (user_id, ends_at) values ('${u}', now() + interval '1 year')`)),
     ).rejects.toThrow(/permission denied/);
     for (const sql of [
-      `select public.create_manual_payment('${u}', 'oy1', 'x')`,
+      `select public.create_manual_payment('${u}', 'oy1', 'x', 'y')`,
       `select public.approve_payment('${u}', 1)`,
       `select public.reject_payment('${u}', 1, 'x')`,
     ]) {
       await expect(asUser(db, u, () => db.query(sql))).rejects.toThrow(/permission denied/);
     }
+  });
+
+  it("bir xil chek (sha256) ikkinchi marta qabul qilinmaydi; rad etilgan chekni qayta yuborish mumkin", async () => {
+    const a = await newUser();
+    const b = await newUser();
+    expect((await pay(a, "oy1", "bir-xil")).ok).toBe(true);
+    expect(await pay(b, "oy1", "bir-xil")).toMatchObject({ ok: false, reason: "duplicate_receipt" });
+    const { id } = await one<{ id: number }>(`select id from public.payments where receipt_sha256 = 'bir-xil'`);
+    await db.query(`select public.reject_payment($1, $2, 'soxta')`, [ADMIN, id]);
+    expect((await pay(b, "oy1", "bir-xil")).ok).toBe(true);
   });
 
   it("tariflar va to'lov rekvizitlari o'qiladi, boshqa sozlamalar yopiq", async () => {

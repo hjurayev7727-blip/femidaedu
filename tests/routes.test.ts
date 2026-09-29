@@ -101,3 +101,25 @@ describe("POST /api/auth/telegram-webapp", () => {
     expect((await POST(req(SITE, { x: 1 }))).status).toBe(400);
   });
 });
+
+describe("GET /api/auth/telegram (widget)", () => {
+  const req = (query: string, cookie?: string) =>
+    new NextRequest(`${SITE}/api/auth/telegram?${query}`, { headers: cookie ? { cookie } : {} });
+
+  it("state cookie yo'q yoki mos emas — kirish rad etiladi (login CSRF)", async () => {
+    baseEnv();
+    const { GET } = await import("@/app/api/auth/telegram/route");
+    for (const r of [req("id=1&hash=x"), req("id=1&hash=x&s=abc"), req("id=1&hash=x&s=abc", "tg_state=boshqa")]) {
+      const res = await GET(r);
+      expect(res.status).toBe(307);
+      expect(res.headers.get("location")).toContain("/kirish?xato=sessiya");
+    }
+  });
+
+  it("state mos, lekin imzo noto'g'ri — telegram_imzo", async () => {
+    baseEnv();
+    const { GET } = await import("@/app/api/auth/telegram/route");
+    const res = await GET(req("id=1&hash=00&auth_date=1&s=abc", "tg_state=abc"));
+    expect(res.headers.get("location")).toContain("/kirish?xato=telegram_imzo");
+  });
+});

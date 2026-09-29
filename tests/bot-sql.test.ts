@@ -6,8 +6,8 @@ let db: PGlite;
 let n = 0;
 async function user(opts: { tg?: number; bot?: boolean; morning?: boolean; evening?: boolean; today?: number; activeDaysAgo?: number | null }) {
   const id = `00000000-0000-0000-0000-0000000002${String(++n).padStart(2, "0")}`;
-  await db.query(`insert into auth.users (id, email, raw_user_meta_data) values ($1, $2, $3)`, [
-    id, `b${n}@x.uz`, JSON.stringify({ full_name: `U${n}`, ...(opts.tg ? { telegram_id: String(opts.tg) } : {}) }),
+  await db.query(`insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data) values ($1, $2, $3, $4)`, [
+    id, `b${n}@x.uz`, JSON.stringify({ full_name: `U${n}` }), opts.tg ? JSON.stringify({ telegram_id: String(opts.tg) }) : null,
   ]);
   await db.query(
     `update public.profiles set bot_enabled = $2, notify_morning = $3, notify_evening = $4,

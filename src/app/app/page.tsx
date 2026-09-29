@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
-import { daysUntil, fmtWhen, serverNow } from "@/lib/dates";
+import { daysUntil, effectiveStreak, fmtWhen, serverNow } from "@/lib/dates";
 import { startAssignment, startDaily } from "./mashq/actions";
 
 export const metadata: Metadata = { title: "Bosh sahifa" };
@@ -80,7 +80,7 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Stat label="Streak" value={`🔥 ${profile.streak_days} kun`} hint={`Eng yaxshisi: ${profile.streak_best} · kuniga 10 savol`} />
+        <Stat label="Streak" value={`🔥 ${effectiveStreak(profile.streak_days, profile.last_active_on)} kun`} hint={`Eng yaxshisi: ${profile.streak_best} · kuniga 10 savol`} />
         <Stat
           label="Taxminiy daraja"
           value={lastMock ? `${lastMock.grade ?? "—"} · ${Number(lastMock.scaled_score)}` : "—"}

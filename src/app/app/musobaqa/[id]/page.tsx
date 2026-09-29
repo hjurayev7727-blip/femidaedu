@@ -39,8 +39,8 @@ export default async function ContestPage({ params, searchParams }: PageProps<"/
   if (ended && !c.finalized) await finalizeIfEnded(c.id);
 
   const [{ data: entry }, { data: count }] = await Promise.all([
-    supabase.from("contest_entries").select("attempt_id, rank, correct, attempts(finished_at, question_ids)").eq("contest_id", c.id).eq("user_id", userId)
-      .maybeSingle<{ attempt_id: string; rank: number | null; correct: number | null; attempts: { finished_at: string | null; question_ids: number[] } | null }>(),
+    supabase.from("contest_entries").select("attempt_id, rank, attempts(finished_at, question_ids)").eq("contest_id", c.id).eq("user_id", userId)
+      .maybeSingle<{ attempt_id: string; rank: number | null; attempts: { finished_at: string | null; question_ids: number[] } | null }>(),
     supabase.rpc("contest_participants", { p_contest: c.id }),
   ]);
 
@@ -76,7 +76,7 @@ export default async function ContestPage({ params, searchParams }: PageProps<"/
     ? ((await supabase.from("attempt_answers").select("question_id, response, is_correct").eq("attempt_id", entry.attempt_id).returns<ReviewAnswer[]>()).data ?? [])
     : [];
   // Javoblar faqat tugagan musobaqada ochiladi (ReviewList to'g'ri javoblarni admin klient bilan o'qiydi)
-  const reviewIds = ended && entry?.attempts ? entry.attempts.question_ids.map(Number) : [];
+  const reviewIds = ended && results.length > 0 && entry?.attempts ? entry.attempts.question_ids.map(Number) : [];
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">

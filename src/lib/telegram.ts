@@ -8,7 +8,7 @@ export type TelegramUser = {
   photo_url?: string;
 };
 
-/** Login Widget ma'lumoti necha soniyagacha amal qiladi (takroriy hujumdan himoya). */
+/** Imzolangan ma'lumot necha soniyagacha amal qiladi (takroriy ishlatishdan himoya) */
 const MAX_AGE_SEC = 24 * 60 * 60;
 
 const WIDGET_FIELDS = new Set(["id", "first_name", "last_name", "username", "photo_url", "auth_date", "hash"]);

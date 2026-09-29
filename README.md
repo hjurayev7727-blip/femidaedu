@@ -93,6 +93,10 @@ export PATH="$HOME/.local/node/bin:$PATH"
    npm run db:migrate -- --seed
    ```
 
+5. **Authentication → Sign In / Providers → Email — o'chiring.** Platforma faqat Telegram va Google orqali
+   kiritadi; ochiq email ro'yxati begona Telegram hisobini oldindan egallashga urinish uchun ishlatilishi mumkin
+   (kod bundan himoyalangan, lekin keraksiz eshikni yopib qo'ygan ma'qul).
+
 ### 2. Telegram bot
 
 1. [@BotFather](https://t.me/BotFather) → `/newbot` → token va username'ni `.env.local` ga yozing.
@@ -146,7 +150,7 @@ npm run import:build
 ```bash
 npm install
 npm run dev        # http://localhost:3000  (Supabase'siz namunalar: /dev/savollar, /dev/imtihon, /dev/premium — faqat dev)
-npm test           # 217 ta test: RLS, import, mashq/imtihon SQL funksiyalari (PGlite), baholash, transliteratsiya
+npm test           # 229 ta test: RLS, import, mashq/imtihon SQL funksiyalari (PGlite), baholash, transliteratsiya
 npm run typecheck
 npm run lint
 ```

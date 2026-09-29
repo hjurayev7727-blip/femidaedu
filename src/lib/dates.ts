@@ -19,3 +19,10 @@ export function tashkentMonthStart(now: Date = new Date()): number {
 export function fmtWhen(s: string): string {
   return new Date(s).toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
 }
+
+/** Ko'rsatish uchun streak: oxirgi faol kun kecha yoki bugundan oldin bo'lsa — uzilgan (0) */
+export function effectiveStreak(streakDays: number, lastActiveOn: string | null, now: Date = new Date()): number {
+  if (!lastActiveOn || streakDays <= 0) return 0;
+  const today = Date.parse(now.toLocaleDateString("en-CA", { timeZone: "Asia/Tashkent" }));
+  return (today - Date.parse(lastActiveOn)) / 86_400_000 <= 1 ? streakDays : 0;
+}

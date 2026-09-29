@@ -2,8 +2,11 @@ import { NextResponse, type NextRequest } from "next/server";
 import { LINK_COOKIE, linkTelegram, signInTelegramUser } from "@/lib/auth-telegram";
 import { serverEnv } from "@/lib/env";
 import { safeNext } from "@/lib/redirect";
+import { secretEquals } from "@/lib/secure-compare";
 import { createSupabase, createSupabaseAdmin } from "@/lib/supabase/server";
 import { verifyLoginWidget } from "@/lib/telegram";
+
+const STATE_COOKIE = "tg_state"; // components/telegram-login.tsx bilan bir xil
 
 /**
  * Telegram Login Widget shu manzilga yo'naltiradi (data-auth-url).
@@ -13,6 +16,10 @@ export async function GET(request: NextRequest) {
   const url = request.nextUrl;
   const next = safeNext(url.searchParams.get("keyin"));
   const fail = (code: string) => NextResponse.redirect(new URL(`/kirish?xato=${code}`, url.origin));
+
+  // Login CSRF: faqat shu brauzerda boshlangan kirish (widget sahifasi qo'ygan state cookie) qabul qilinadi
+  const state = url.searchParams.get("s");
+  if (!state || !secretEquals(request.cookies.get(STATE_COOKIE)?.value, state)) return fail("sessiya");
 
   const tg = verifyLoginWidget(url.searchParams, serverEnv().TELEGRAM_BOT_TOKEN);
   if (!tg) return fail("telegram_imzo");

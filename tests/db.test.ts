@@ -23,10 +23,10 @@ beforeAll(async () => {
   db = await createTestDb();
 
   await db.exec(`
-    insert into auth.users (id, email, raw_user_meta_data) values
-      ('${STUDENT}', 's@x.uz', '{"full_name":"Ali Valiyev","telegram_id":"123456","telegram_username":"ali"}'),
-      ('${OTHER}',   'o@x.uz', '{"name":"Boshqa"}'),
-      ('${TEACHER}', 't@x.uz', '{"full_name":"Ustoz"}');
+    insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data) values
+      ('${STUDENT}', 's@x.uz', '{"full_name":"Ali Valiyev"}', '{"telegram_id":"123456","telegram_username":"ali"}'),
+      ('${OTHER}',   'o@x.uz', '{"name":"Boshqa","telegram_id":"777"}', null),
+      ('${TEACHER}', 't@x.uz', '{"full_name":"Ustoz"}', null);
     update public.profiles set role = 'teacher' where id = '${TEACHER}';
     insert into public.questions (type, stem, payload, answer, explanation, status) values
       ('single', 'Nashr etilgan savol', '{"options":["a","b","c","d"]}', '{"index":2}', 'izoh', 'published'),
@@ -43,6 +43,11 @@ describe("profil", () => {
       [STUDENT],
     );
     expect(rows[0]).toEqual({ full_name: "Ali Valiyev", telegram_id: "123456", role: "student" });
+  });
+
+  it("telegram_id foydalanuvchi o'zi yozadigan metadata'dan olinmaydi (hisobni oldindan egallash)", async () => {
+    const { rows } = await db.query<{ telegram_id: string | null }>(`select telegram_id::text from public.profiles where id = $1`, [OTHER]);
+    expect(rows[0].telegram_id).toBeNull();
   });
 
   it("o'quvchi ismini o'zgartira oladi, lekin rolini emas", async () => {

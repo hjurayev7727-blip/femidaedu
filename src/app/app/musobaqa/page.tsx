@@ -11,7 +11,7 @@ export default async function Contests() {
   const { supabase, userId } = await requireUser();
   const [{ data: contests }, { data: mine }] = await Promise.all([
     supabase.from("contests").select("id, title, starts_at, ends_at, is_premium, finalized").order("starts_at", { ascending: false }).limit(30).returns<Contest[]>(),
-    supabase.from("contest_entries").select("contest_id, rank, correct").eq("user_id", userId).returns<{ contest_id: number; rank: number | null; correct: number | null }[]>(),
+    supabase.from("contest_entries").select("contest_id, rank").eq("user_id", userId).returns<{ contest_id: number; rank: number | null }[]>(),
   ]);
   const now = serverNow();
   const my = new Map((mine ?? []).map((m) => [m.contest_id, m]));
