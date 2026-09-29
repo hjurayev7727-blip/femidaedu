@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
+/* A+ Huquq — grafit + firuza (v1 theme.css bilan bir xil tokenlar) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --graf: #1e293b;
+  --graf-2: #0f172a;
+  --graf-3: #334155;
+  --cyan: #06b6d4;
+  --cyan-2: #0891b2;
+  --cyan-soft: #cffafe;
+  --ok: #10b981;
+  --ok-soft: #d1fae5;
+  --no: #f43f5e;
+  --no-soft: #ffe4e6;
+  --amber: #f59e0b;
+  --amber-soft: #fef3c7;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --ink: #0f172a;
+  --mute: #64748b;
+  --line: #e2e8f0;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --bg: #0b1220;
+    --card: #151f31;
+    --ink: #e8eef7;
+    --mute: #94a3b8;
+    --line: #22304a;
+    --cyan-soft: #0e3a47;
+    --ok-soft: #0f2e24;
+    --no-soft: #3a1620;
+    --amber-soft: #3a2c0c;
+    color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #0b1220;
+  --card: #151f31;
+  --ink: #e8eef7;
+  --mute: #94a3b8;
+  --line: #22304a;
+  --cyan-soft: #0e3a47;
+  --ok-soft: #0f2e24;
+  --no-soft: #3a1620;
+  --amber-soft: #3a2c0c;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-graf: var(--graf);
+  --color-graf-2: var(--graf-2);
+  --color-graf-3: var(--graf-3);
+  --color-cyan: var(--cyan);
+  --color-cyan-2: var(--cyan-2);
+  --color-cyan-soft: var(--cyan-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-no: var(--no);
+  --color-no-soft: var(--no-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-mute: var(--mute);
+  --color-line: var(--line);
+  --font-sans: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+@utility bg-hero {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 55%, #134e5a 100%);
+}
+@utility bg-accent {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+@utility card {
+  @apply rounded-[18px] border border-line bg-card p-5 shadow-[0_4px_20px_-10px_rgba(15,23,42,.22)];
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-[14px] px-5 py-3.5 text-[15px] font-extrabold
+    tracking-tight transition-transform active:scale-[.985] disabled:opacity-50;
+}
+@utility btn-primary {
+  @apply btn bg-accent text-white shadow-[0_8px_20px_-10px_rgba(6,182,212,.9)];
+}
+@utility btn-ghost {
+  @apply btn border-2 border-line text-cyan-2;
+}
+@utility tag {
+  @apply inline-block rounded-full bg-cyan-soft px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.1em] text-cyan-2;
 }
