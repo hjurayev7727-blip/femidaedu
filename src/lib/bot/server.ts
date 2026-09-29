@@ -27,6 +27,26 @@ export function botDeps(api: BotApi): BotDeps {
       const { data } = await admin.from("profiles").update({ bot_enabled: enabled }).eq("telegram_id", telegramId).select("id");
       return (data?.length ?? 0) > 0;
     },
+    async loginRequest(tokenHash) {
+      const { data } = await admin
+        .from("bot_logins")
+        .select("id")
+        .eq("token_hash", tokenHash)
+        .is("confirmed_at", null)
+        .gt("expires_at", new Date().toISOString())
+        .maybeSingle<{ id: string }>();
+      return data ?? null;
+    },
+    async confirmLogin(id, tg) {
+      const { data } = await admin
+        .from("bot_logins")
+        .update({ tg, confirmed_at: new Date().toISOString() })
+        .eq("id", id)
+        .is("confirmed_at", null)
+        .gt("expires_at", new Date().toISOString())
+        .select("id");
+      return (data?.length ?? 0) > 0;
+    },
   };
 }
 

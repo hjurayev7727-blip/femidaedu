@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { GoogleLogin } from "@/components/google-login";
 import { Logo } from "@/components/logo";
-import { TelegramLogin } from "@/components/telegram-login";
+import { TelegramBotLogin } from "@/components/telegram-bot-login";
 import { env, isConfigured } from "@/lib/env";
 import { safeNext } from "@/lib/redirect";
 
@@ -41,10 +41,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/kirish">) 
         ) : (
           <div className="mt-6 space-y-4">
             {env().NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ? (
-              <TelegramLogin
-                bot={env().NEXT_PUBLIC_TELEGRAM_BOT_USERNAME!}
-                authUrl={`${env().NEXT_PUBLIC_SITE_URL}/api/auth/telegram?keyin=${encodeURIComponent(next)}`}
-              />
+              <TelegramBotLogin next={next} />
             ) : (
               <p className="text-center text-sm text-mute">Telegram bot hali ulanmagan</p>
             )}

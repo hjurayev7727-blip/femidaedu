@@ -22,6 +22,8 @@ function deps(over: Partial<BotDeps> = {}) {
     siteUrl: SITE,
     stats: async () => ({ found: false }),
     setBotEnabled: async (id, on) => (enabled.set(id, on), id === 42),
+    loginRequest: async () => null,
+    confirmLogin: async () => false,
     ...over,
   };
   return { d, sent, enabled };
@@ -133,5 +135,53 @@ describe("broadcast", () => {
     const r = await broadcast(api, recipients, () => ({ html: "x" }), async (ms) => void sleeps.push(ms));
     expect(r).toEqual({ sent: 28, blocked: [2], failed: 1 }); // 30 - bloklangan - xato
     expect(sleeps).toEqual([2000, 1000]); // 429 kutish + 25-xabardan keyin 1 s
+  });
+});
+
+describe("saytga bot orqali kirish", () => {
+  const TOKEN = "abcdefghijklmnopqrstuvwxyz012345"; // 32 belgi
+  const REQ = "11111111-2222-3333-4444-555555555555";
+
+  it("/start login_<kod>: kutilayotgan so'rov bo'lsa — ogohlantirish va Tasdiqlash/Bekor tugmalari", async () => {
+    const seen: string[] = [];
+    const { d, sent } = deps({ loginRequest: async (h) => (seen.push(h), { id: REQ }) });
+    await handleUpdate(msg(`/start login_${TOKEN}`), d);
+    expect(seen[0]).toMatch(/^[a-f0-9]{64}$/); // bazaga kod emas, xesh
+    expect(seen[0]).not.toContain(TOKEN);
+    expect(sent[0].html).toContain("tasdiqlamang");
+    const kb = (sent[0].opts as { reply_markup: { inline_keyboard: { callback_data: string }[][] } }).reply_markup.inline_keyboard;
+    expect(kb.flat().map((b) => b.callback_data)).toEqual([`lg:${REQ}`, `lgx:${REQ}`]);
+  });
+
+  it("muddati o'tgan yoki buzuq kod — tushuntirish, tugmasiz", async () => {
+    const { d, sent } = deps({ loginRequest: async () => null });
+    await handleUpdate(msg(`/start login_${TOKEN}`), d);
+    await handleUpdate(msg("/start login_qisqa"), d);
+    expect(sent).toHaveLength(2);
+    expect(sent.every((m) => m.html.includes("muddati o'tgan") && !m.opts)).toBe(true);
+  });
+
+  const cb = (data: string, from = { id: 42, first_name: "Ali", username: "ali" }) => ({
+    update_id: 2,
+    callback_query: { id: "q1", from, data, message: { message_id: 9, chat: { id: 42, type: "private" } } },
+  });
+
+  it("Tasdiqlash: callback egasi (Telegram tasdiqlagan) nomidan tasdiqlanadi va xabar yangilanadi", async () => {
+    const confirmed: [string, unknown][] = [];
+    const { d } = deps({ confirmLogin: async (id, tg) => (confirmed.push([id, tg]), true) });
+    await handleUpdate(cb(`lg:${REQ}`), d);
+    expect(confirmed).toEqual([[REQ, { id: 42, first_name: "Ali", last_name: undefined, username: "ali" }]]);
+    const calls = (d.api.call as ReturnType<typeof vi.fn>).mock.calls.map((c) => c[0]);
+    expect(calls).toEqual(["answerCallbackQuery", "editMessageText"]);
+  });
+
+  it("eskirgan tasdiq, bekor qilish va begona callback — tasdiqlanmaydi", async () => {
+    const confirmed: string[] = [];
+    const { d } = deps({ confirmLogin: async (id) => (confirmed.push(id), false) });
+    await handleUpdate(cb(`lg:${REQ}`), d); // eskirgan
+    await handleUpdate(cb(`lgx:${REQ}`), d); // bekor
+    await handleUpdate(cb("lg:not-a-uuid"), d);
+    await handleUpdate(cb("boshqa"), d);
+    expect(confirmed).toEqual([REQ]); // faqat birinchisi urinib ko'rildi (va rad etildi)
   });
 });

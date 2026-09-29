@@ -27,7 +27,7 @@ async function main() {
   await api.call("setWebhook", {
     url: `${site}/api/bot`,
     secret_token: secret,
-    allowed_updates: ["message", "my_chat_member"],
+    allowed_updates: ["message", "my_chat_member", "callback_query"],
     drop_pending_updates: true,
   });
   await api.call("setMyCommands", {

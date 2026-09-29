@@ -1,5 +1,7 @@
 // Bot yangilanishlarini (webhook) qayta ishlash. Baza va Bot API tashqaridan beriladi — test qilish oson.
 import { esc, type BotApi, type InlineButton } from "@/lib/bot/api";
+import { BOT_LOGIN_PREFIX, hashLoginToken, isLoginToken, tgFromCallback } from "@/lib/bot-login";
+import type { TelegramUser } from "@/lib/telegram";
 
 export type BotStats =
   | { found: false }
@@ -20,12 +22,17 @@ export type BotDeps = {
   stats(telegramId: number): Promise<BotStats>;
   /** bot_enabled ni o'rnatadi; profil topilmasa false */
   setBotEnabled(telegramId: number, enabled: boolean): Promise<boolean>;
+  /** Saytga kirish: kod xeshi bo'yicha kutilayotgan (muddati o'tmagan, tasdiqlanmagan) so'rov */
+  loginRequest(tokenHash: string): Promise<{ id: string } | null>;
+  /** Tasdiqlash — faqat hali tasdiqlanmagan va muddati o'tmagan so'rov uchun; true = tasdiqlandi */
+  confirmLogin(id: string, tg: TelegramUser): Promise<boolean>;
 };
 
-type TgUser = { id: number; first_name?: string; is_bot?: boolean };
+type TgUser = { id: number; first_name?: string; last_name?: string; username?: string; is_bot?: boolean };
 export type Update = {
   update_id: number;
   message?: { message_id: number; from?: TgUser; chat: { id: number; type: string }; text?: string };
+  callback_query?: { id: string; from: TgUser; data?: string; message?: { message_id: number; chat: { id: number; type: string } } };
   my_chat_member?: { chat: { id: number; type: string }; from: TgUser; new_chat_member: { status: string } };
 };
 
@@ -45,7 +52,51 @@ export const HELP = [
   "/yordam — shu ro'yxat",
 ].join("\n");
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+export const LOGIN_ASK = [
+  "🔐 <b>Saytga kirish</b>",
+  "",
+  "A+ Huquq saytiga shu Telegram hisobi bilan kirishni tasdiqlaysizmi?",
+  "",
+  "⚠️ Agar hozir saytda o'zingiz «Telegram orqali kirish» tugmasini bosmagan bo'lsangiz — tasdiqlamang.",
+].join("\n");
+
+async function handleCallback(q: NonNullable<Update["callback_query"]>, d: BotDeps) {
+  const [kind, id] = (q.data ?? "").split(":");
+  const answer = (text: string) => d.api.call("answerCallbackQuery", { callback_query_id: q.id, text });
+  const edit = async (html: string) => {
+    if (!q.message) return;
+    try {
+      await d.api.call("editMessageText", { chat_id: q.message.chat.id, message_id: q.message.message_id, text: html, parse_mode: "HTML" });
+    } catch {
+      // xabar o'chirilgan yoki allaqachon o'zgartirilgan — muhim emas
+    }
+  };
+  if ((kind !== "lg" && kind !== "lgx") || !UUID.test(id ?? "") || q.from.is_bot) {
+    await answer("");
+    return;
+  }
+  if (kind === "lgx") {
+    await answer("Bekor qilindi");
+    await edit("❌ Kirish bekor qilindi.");
+    return;
+  }
+  if (await d.confirmLogin(id, tgFromCallback(q.from))) {
+    await answer("Tasdiqlandi ✓");
+    await edit("✅ <b>Tasdiqlandi.</b> Brauzerga qayting — sayt o'zi kiradi.");
+  } else {
+    await answer("Havola eskirgan");
+    await edit("⌛ Bu kirish havolasining muddati o'tgan yoki u ishlatilgan. Saytda qaytadan bosing.");
+  }
+}
+
 export async function handleUpdate(u: Update, d: BotDeps): Promise<void> {
+  if (u.callback_query) {
+    await handleCallback(u.callback_query, d);
+    return;
+  }
+
   // Foydalanuvchi botni bloklasa / qayta ochsa
   if (u.my_chat_member && u.my_chat_member.chat.type === "private") {
     const status = u.my_chat_member.new_chat_member.status;
@@ -57,7 +108,25 @@ export async function handleUpdate(u: Update, d: BotDeps): Promise<void> {
   if (!m?.text || m.chat.type !== "private" || !m.from || m.from.is_bot) return;
   const chat = m.chat.id;
   const tgId = m.from.id;
-  const cmd = m.text.trim().split(/\s+/)[0].toLowerCase().replace(/@.*$/, "");
+  const [first, arg = ""] = m.text.trim().split(/\s+/);
+  const cmd = first.toLowerCase().replace(/@.*$/, "");
+
+  // Saytdan kelgan kirish so'rovi: /start login_<kod>
+  if (cmd === "/start" && arg.startsWith(BOT_LOGIN_PREFIX)) {
+    await d.setBotEnabled(tgId, true);
+    const token = arg.slice(BOT_LOGIN_PREFIX.length);
+    const req = isLoginToken(token) ? await d.loginRequest(hashLoginToken(token)) : null;
+    if (!req) {
+      await d.api.sendMessage(chat, "⌛ Kirish havolasining muddati o'tgan. Saytdagi «Telegram orqali kirish» tugmasini qaytadan bosing.");
+      return;
+    }
+    await d.api.sendMessage(chat, LOGIN_ASK, {
+      reply_markup: {
+        inline_keyboard: [[{ text: "✅ Tasdiqlash", callback_data: `lg:${req.id}` }], [{ text: "❌ Bekor qilish", callback_data: `lgx:${req.id}` }]],
+      },
+    });
+    return;
+  }
 
   switch (cmd) {
     case "/start": {
