@@ -47,14 +47,19 @@ export async function resolveTelegramUser(admin: SupabaseClient, tg: TelegramUse
     app_metadata: { telegram_id: String(tg.id), telegram_username: tg.username ?? null, provider: "telegram" },
     user_metadata: { full_name: displayName(tg), avatar_url: tg.photo_url },
   });
-  if (!error) return { ok: true, email, created: true };
-  if (!/already|exists|registered/i.test(error.message)) return { ok: false, reason: "error", message: error.message };
+  if (error && !/already|exists|registered/i.test(error.message)) return { ok: false, reason: "error", message: error.message };
 
-  // Email band. Faqat parallel so'rov (ikki marta bosish) hisobni yaratgan bo'lsagina davom etamiz —
-  // ya'ni profil aynan shu telegram_id bilan bog'langan. Aks holda texnik emailni kimdir oldindan
-  // egallagan: unga kirish havolasi BERILMAYDI.
-  const again = await admin.from("profiles").select("id").eq("telegram_id", tg.id).maybeSingle();
-  if (again.data) return { ok: true, email, created: false };
+  // Supabase Auth telegram_id'ni (app_metadata) foydalanuvchi qatori yaratilgandan KEYIN yozadi — trigger uni
+  // ko'rmaydi. Shuning uchun profilni server o'zi bog'laydi. Email band bo'lsa ham shu yo'l: faqat server
+  // yoza oladigan app_metadata.telegram_id aynan shu Telegram hisobi bo'lsagina bog'lanadi (parallel so'rov
+  // yoki yarim yaratilgan hisob). Aks holda texnik emailni kimdir oldindan egallagan: kirish BERILMAYDI.
+  const linked = await admin.rpc("link_telegram_profile", {
+    p_email: email,
+    p_telegram_id: tg.id,
+    p_username: tg.username ?? null,
+  });
+  if (linked.error) return { ok: false, reason: "error", message: linked.error.message };
+  if (linked.data) return { ok: true, email, created: !error };
   return { ok: false, reason: "error", message: `texnik email band, lekin telegram_id bog'lanmagan: ${email}` };
 }
 
