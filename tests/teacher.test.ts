@@ -151,3 +151,26 @@ describe("admin amallari", () => {
     }
   });
 });
+
+describe("tuzatishlar", () => {
+  it("taklif havolasini faqat guruh egasi yangilaydi; eski kod ishlamay qoladi", async () => {
+    const old = group.invite_code;
+    await expect(asUser(db, T2, () => db.query(`select public.regenerate_invite($1)`, [group.id]))).rejects.toThrow(/forbidden/);
+    const fresh = (await asUser(db, T, () => one<{ c: string }>(`select public.regenerate_invite($1) as c`, [group.id]))).c;
+    expect(fresh).not.toBe(old);
+    expect(await rpc(`select public.join_group($1, $2) as r`, [OUT, old])).toMatchObject({ ok: false, reason: "not_found" });
+    expect(await rpc(`select public.join_group($1, $2) as r`, [OUT, fresh])).toMatchObject({ ok: true });
+  });
+
+  it("muddati o'tgan vazifa boshlanmaydi, boshlangani davom etadi", async () => {
+    const topic = await one<{ id: number }>(`select id from public.topics where slug = 'hujjat-4'`);
+    const late = (await one<{ id: number }>(
+      `insert into public.assignments (group_id, title, mode, topic_id, question_count, due_at) values ($1, 'Kech', 'assignment', $2, 5, now() - interval '1 hour') returning id`,
+      [group.id, topic.id],
+    )).id;
+    expect(await rpc(`select public.start_assignment($1, $2) as r`, [S2, late])).toMatchObject({ ok: false, reason: "overdue" });
+    // S1 ning oldingi vazifasi muddatini o'tkazamiz — boshlangan urinish qaytariladi
+    await db.query(`update public.assignments set due_at = now() - interval '1 hour' where id = $1`, [assignment]);
+    expect(await rpc(`select public.start_assignment($1, $2) as r`, [S1, assignment])).toMatchObject({ ok: true });
+  });
+});

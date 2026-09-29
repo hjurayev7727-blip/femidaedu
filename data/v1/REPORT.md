@@ -77,6 +77,65 @@ Manba: `/Users/sultan/CLAUDE AI/HUQUQSHUNOSLIK KURSI`
 
 Barcha 52 hujjat bo'yicha savol bor.
 
+## To'g'ri javobi keskin uzun savollar — 1074 / 2647 (41%)
+To'g'ri variant boshqalardan kamida 30% va 8 belgi uzun — o'quvchi bilmasdan topa oladi. Kontent panelida "Javobi ko'zga tashlanadi" filtri bilan tuzating (chalg'ituvchi variantlarni uzaytiring).
+
+| Hujjat | Keskin uzun | Jami |
+|---|---|---|
+| Darsliklar | 254 | 374 |
+| №18 Mualliflik huquqi | 41 | 68 |
+| №14 Jinoyat-protsessual kodeksi | 41 | 69 |
+| №15 Ma'muriy javobgarlik kodeksi | 40 | 68 |
+| №30 Tabiatni muhofaza qilish | 40 | 64 |
+| №13 Jinoyat kodeksi | 38 | 82 |
+| №31 Huquqiy ong va madaniyat (PF-5618) | 37 | 65 |
+| №1 Konstitutsiya | 37 | 104 |
+| №21 Oila kodeksi | 36 | 87 |
+| №10 Fuqarolik kodeksi | 36 | 51 |
+| №29 Xalqaro shartnomalar | 35 | 63 |
+| №16 Mehnat kodeksi | 32 | 85 |
+| №12 Iste'molchilar huquqlari | 32 | 67 |
+| №33 Jamoat birlashmalari | 31 | 62 |
+| №22 Ombudsman | 28 | 61 |
+| №32 Murojaatlar | 26 | 67 |
+| №17 Inson huquqlari Milliy markazi | 26 | 61 |
+| №28 Adliya vazirligi | 14 | 19 |
+| №19 Normativ-huquqiy hujjatlar | 14 | 47 |
+| №26 Soliq kodeksi | 13 | 26 |
+| №5 Vijdon erkinligi | 12 | 37 |
+| №11 Fuqarolik to'g'risida | 12 | 37 |
+| №9 Budjet kodeksi | 11 | 18 |
+| №47 Bola huquqlari kafolatlari | 11 | 35 |
+| №25 Saylov kodeksi | 10 | 40 |
+| №23 Prokuratura | 10 | 29 |
+| №35 Mahalliy davlat hokimiyati | 10 | 19 |
+| №24 Referendum | 9 | 33 |
+| №43 Ma'muriy sud ishlarini yuritish kodeksi | 8 | 35 |
+| №6 Siyosiy partiyalar | 8 | 37 |
+| №7 Vazirlar Mahkamasi | 8 | 36 |
+| №8 Advokatura | 8 | 38 |
+| №27 Sudlar | 8 | 31 |
+| №45 Axborot erkinligi prinsiplari | 8 | 35 |
+| №34 O'zini o'zi boshqarish organlari | 7 | 18 |
+| №46 Jamoatchilik nazorati | 7 | 35 |
+| №49 Davlat mustaqilligi asoslari | 7 | 35 |
+| №50 Mudofaa | 7 | 35 |
+| №51 Sudyalar oliy kengashi | 6 | 35 |
+| №41 18 yoshgacha xodimlar uchun og'ir yuk normalari | 6 | 35 |
+| №2 Davlat bayrog'i | 6 | 22 |
+| №3 Davlat gerbi | 6 | 22 |
+| №48 Ommaviy axborot vositalari | 5 | 35 |
+| №52 Ma'muriy tartib-taomillar | 5 | 35 |
+| №4 Davlat madhiyasi | 5 | 22 |
+| №39 Ma'muriy-hududiy tuzilish | 4 | 35 |
+| №42 Davlat tili | 4 | 35 |
+| №37 Qonunchilik palatasi | 3 | 35 |
+| №36 Konstitutsiyaviy sud | 3 | 35 |
+| №44 Axborot olish kafolatlari | 3 | 35 |
+| №20 Notariat | 3 | 23 |
+| №40 Prezident faoliyati kafolatlari | 2 | 35 |
+| №38 Senat | 1 | 35 |
+
 ## Javobi ziddiyatli dublikatlar (ekspert ko'rib chiqsin)
 Yo'q.
 

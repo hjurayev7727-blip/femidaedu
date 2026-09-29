@@ -71,6 +71,9 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
         {sp.xato === "kunlik" && (
           <p role="alert" className="mt-3 rounded-xl bg-no-soft px-4 py-3 text-sm font-semibold text-no">Kunlik testni ochib bo&apos;lmadi.</p>
         )}
+        {sp.xato === "vazifa_muddat" && (
+          <p role="alert" className="mt-3 rounded-xl bg-no-soft px-4 py-3 text-sm font-semibold text-no">Vazifa muddati o&apos;tgan.</p>
+        )}
         {sp.xato === "vazifa" && (
           <p role="alert" className="mt-3 rounded-xl bg-no-soft px-4 py-3 text-sm font-semibold text-no">Vazifani ochib bo&apos;lmadi.</p>
         )}
@@ -104,6 +107,8 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
                 </span>
                 {a.finished ? (
                   <Link href={`/app/mashq/s/${a.attempt_id}/natija`} className="text-sm font-bold text-ok">✓ {Math.round(Number(a.score))}%</Link>
+                ) : !a.attempt_id && a.due_at && Date.parse(a.due_at) < serverNow() ? (
+                  <span className="text-sm font-semibold text-mute">muddati o&apos;tgan</span>
                 ) : (
                   <form action={startAssignment}>
                     <input type="hidden" name="id" value={a.id} />

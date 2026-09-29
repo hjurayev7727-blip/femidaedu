@@ -87,8 +87,8 @@ export async function startAssignment(form: FormData) {
   const id = z.coerce.number().int().positive().safeParse(form.get("id"));
   if (!id.success) redirect("/app");
   const { data } = await createSupabaseAdmin().rpc("start_assignment", { p_user: userId, p_assignment: id.data });
-  const r = data as { ok: boolean; id?: string } | null;
-  redirect(r?.ok && r.id ? `/app/mashq/s/${r.id}` : "/app?xato=vazifa");
+  const r = data as { ok: boolean; id?: string; reason?: string } | null;
+  redirect(r?.ok && r.id ? `/app/mashq/s/${r.id}` : `/app?xato=${r?.reason === "overdue" ? "vazifa_muddat" : "vazifa"}`);
 }
 
 export async function askAiRegrade(attemptId: string, questionId: number) {

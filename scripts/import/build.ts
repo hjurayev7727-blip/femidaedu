@@ -2,6 +2,7 @@
 // Natija: data/v1/bundle.json (repoga qo'shiladi) va data/v1/REPORT.md (tekshiruv hisoboti).
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { longestOptionBias } from "../../src/lib/bias";
 import { buildBundle } from "./bundle";
 import { documentByNumber } from "./documents";
 import { dedupe, isRejected, normalize, type ImportedQuestion, type Rejected } from "./normalize";
@@ -35,6 +36,18 @@ for (const q of bundle.questions) {
 }
 const emptyDocs = bundle.documents.filter((d) => !byDoc.has(d.number));
 
+// To'g'ri javobi keskin uzun (taxmin qilinadigan) savollar — hujjatlar bo'yicha
+const choice = bundle.questions.filter((q) => "options" in q.payload && "index" in q.answer);
+const biasedByDoc = new Map<string, { biased: number; total: number }>();
+for (const q of choice) {
+  const key = q.documentNumber != null ? `№${q.documentNumber} ${bundle.documents.find((d) => d.number === q.documentNumber)!.shortTitle}` : "Darsliklar";
+  const e = biasedByDoc.get(key) ?? { biased: 0, total: 0 };
+  e.total++;
+  if (longestOptionBias((q.payload as { options: string[] }).options, (q.answer as { index: number }).index).biased) e.biased++;
+  biasedByDoc.set(key, e);
+}
+const biasedTotal = [...biasedByDoc.values()].reduce((s, v) => s + v.biased, 0);
+
 const lines = [
   `# v1 import hisoboti`,
   ``,
@@ -58,6 +71,13 @@ const lines = [
   ...bundle.documents.map((d) => `| ${d.number} | ${d.shortTitle} | ${byDoc.get(d.number) ?? 0} |`),
   ``,
   emptyDocs.length ? `⚠ Savolsiz hujjatlar: ${emptyDocs.map((d) => `№${d.number}`).join(", ")}` : `Barcha 52 hujjat bo'yicha savol bor.`,
+  ``,
+  `## To'g'ri javobi keskin uzun savollar — ${biasedTotal} / ${choice.length} (${Math.round((100 * biasedTotal) / choice.length)}%)`,
+  `To'g'ri variant boshqalardan kamida 30% va 8 belgi uzun — o'quvchi bilmasdan topa oladi. Kontent panelida "Javobi ko'zga tashlanadi" filtri bilan tuzating (chalg'ituvchi variantlarni uzaytiring).`,
+  ``,
+  `| Hujjat | Keskin uzun | Jami |`,
+  `|---|---|---|`,
+  ...[...biasedByDoc].sort((a, b) => b[1].biased - a[1].biased).map(([k, v]) => `| ${k} | ${v.biased} | ${v.total} |`),
   ``,
   `## Javobi ziddiyatli dublikatlar (ekspert ko'rib chiqsin)`,
   conflicts.length ? `Bir xil savol turli manbalarda turli to'g'ri javob bilan. Import birinchisini oldi.` : "Yo'q.",

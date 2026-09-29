@@ -69,6 +69,12 @@ Reja: `../HUQUQSHUNOSLIK KURSI/05_TEXNIK_ONLAYN_TIZIM/PLATFORMA_2.0_REJA.md`
       javob kaliti shubhali savollar (ajratish kuchi manfiy) va yorlig'i noto'g'ri savollar
 - [ ] ~200 ta sinov imtihoni yig'ilgach ishga tushirish, keyin `-- --apply` (sinov imtihoni kalibrlangan toifalarni ishlatadi)
 
+**Kontent sifati va PWA**
+- [x] `/app/kontent/savollar`: qidiruv, hujjat filtri, "javobi ko'zga tashlanadi" filtri; savolni tahrirlash
+      (versiya oshadi — qayta import ustidan yozmaydi; ikki ekspert bir vaqtda tahrirlasa — to'qnashuv aniqlanadi)
+- [ ] **1 074 ta savolda (41%) to'g'ri javob keskin uzun** — tahrir kerak (`data/v1/REPORT.md`)
+- [x] PWA: manifest, ikonkalar, service worker (faqat statik fayllar keshlanadi), offline sahifa, xavfsizlik sarlavhalari
+
 **Kurs o'quvchilarini ko'chirish:** v1 da akkaunt yo'q edi (ism + telefon), shuning uchun avtomatik ko'chirilmaydi.
 Tartib: o'zingizga admin panelda "O'qituvchi" rolini bering → `/app/ustoz` da "A+ kurs 2026" guruhini oching →
 `/admin/guruhlar` da uni "Premium guruh" qiling → taklif havolasini kurs Telegram guruhiga tashlang.
@@ -150,7 +156,7 @@ npm run import:build
 ```bash
 npm install
 npm run dev        # http://localhost:3000  (Supabase'siz namunalar: /dev/savollar, /dev/imtihon, /dev/premium — faqat dev)
-npm test           # 229 ta test: RLS, import, mashq/imtihon SQL funksiyalari (PGlite), baholash, transliteratsiya
+npm test           # 234 ta test: RLS, import, mashq/imtihon SQL funksiyalari (PGlite), baholash, transliteratsiya
 npm run typecheck
 npm run lint
 ```

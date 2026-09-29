@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 import { requireRole } from "@/lib/auth";
 import { env } from "@/lib/env";
-import { createAssignment, deleteAssignment, removeMember } from "../actions";
+import { createAssignment, deleteAssignment, regenerateInvite, removeMember } from "../actions";
 import { CopyLink } from "./copy-link";
 
 export const metadata: Metadata = { title: "Guruh" };
@@ -67,6 +67,12 @@ export default async function GroupPage({ params, searchParams }: PageProps<"/ap
         <h2 className="font-extrabold">Taklif havolasi</h2>
         <p className="text-sm text-mute">O&apos;quvchi havolani ochib, kirib, bir bosishda guruhga qo&apos;shiladi.</p>
         <CopyLink url={invite} />
+        <form action={regenerateInvite} className="pt-1">
+          <input type="hidden" name="group" value={group.id} />
+          <button className="text-xs font-bold text-mute hover:text-no">
+            Havolani yangilash (eski havola ishlamay qoladi — begona qo&apos;lga tushgan bo&apos;lsa)
+          </button>
+        </form>
       </section>
 
       <section className="card overflow-x-auto p-0!">

@@ -64,3 +64,11 @@ export async function deleteAssignment(form: FormData) {
   await supabase.from("assignments").delete().eq("id", id);
   revalidatePath(`/app/ustoz/${groupId}`);
 }
+
+export async function regenerateInvite(form: FormData) {
+  const { supabase } = await requireRole("teacher", "admin");
+  const groupId = z.coerce.number().int().positive().parse(form.get("group"));
+  // regenerate_invite egalikni tekshiradi va kodni tasodifiy yaratadi
+  await supabase.rpc("regenerate_invite", { p_group: groupId });
+  revalidatePath(`/app/ustoz/${groupId}`);
+}

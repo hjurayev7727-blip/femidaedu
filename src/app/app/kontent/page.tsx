@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { aiEnabled } from "@/lib/ai-server";
 import { requireRole } from "@/lib/auth";
 import { describeAnswer, type Answer, type Payload, type QuestionType } from "@/lib/questions";
@@ -40,6 +41,10 @@ export default async function ContentPanel() {
       <div>
         <h1 className="text-2xl font-extrabold tracking-tight">Kontent paneli</h1>
         <p className="mt-1 text-mute">Qoralamalar: {queue?.length ?? 0} · ochiq shikoyatlar: {reports?.length ?? 0}</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link href="/app/kontent/savollar" className="btn-ghost px-4! py-2! text-sm!">Barcha savollar</Link>
+          <Link href="/app/kontent/savollar?filtr=uzun" className="btn-ghost px-4! py-2! text-sm!">⚠ Javobi ko&apos;zga tashlanadiganlar</Link>
+        </div>
       </div>
 
       {canGenerate && (aiEnabled() ? (
@@ -54,6 +59,7 @@ export default async function ContentPanel() {
         {(queue ?? []).map((q) => (
           <article key={q.id} className="card space-y-2">
             <QuestionPreview q={q} />
+            <Link href={`/app/kontent/savollar/${q.id}`} className="text-xs font-bold text-cyan-2">Tahrirlash →</Link>
             {canReview && (
               <div className="flex gap-2 pt-1">
                 <form action={reviewQuestion}>
@@ -82,6 +88,7 @@ export default async function ContentPanel() {
                 <b>{r.profiles?.full_name || "O'quvchi"}:</b> {r.message}
               </p>
               {r.questions && <QuestionPreview q={r.questions} />}
+              {r.questions && <Link href={`/app/kontent/savollar/${r.questions.id}`} className="text-xs font-bold text-cyan-2">Savolni tuzatish →</Link>}
               <div className="flex gap-2 pt-1">
                 <form action={resolveReport}>
                   <input type="hidden" name="id" value={r.id} />
