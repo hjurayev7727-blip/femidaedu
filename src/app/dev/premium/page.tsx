@@ -10,8 +10,8 @@ export default function DevPremium() {
       <p className="rounded-xl bg-amber-soft px-4 py-2 text-sm font-semibold">DEV · to&apos;lov formasi (yuborilmaydi)</p>
       <div className="card">
         <PayForm plans={[
-          { code: "oy1", title: "1 oy", months: 1, price: formatUzs(59000) },
-          { code: "oy3", title: "3 oy", months: 3, price: formatUzs(149000) },
+          { code: "oy1", title: "1 oy", months: 1, price: formatUzs(49000) },
+          { code: "oy3", title: "3 oy", months: 3, price: formatUzs(129000) },
         ]} />
       </div>
     </main>

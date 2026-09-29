@@ -32,7 +32,7 @@ describe("qo'lda to'lov", () => {
     const r = await pay(u, "oy3");
     expect(r.ok).toBe(true);
     const p = await one<{ amount_uzs: number; months: number; status: string }>(`select amount_uzs, months, status from public.payments where id = $1`, [r.id]);
-    expect(p).toEqual({ amount_uzs: 149000, months: 3, status: "pending" });
+    expect(p).toEqual({ amount_uzs: 129000, months: 3, status: "pending" });
     expect(await pay(u)).toMatchObject({ ok: false, reason: "pending" });
     expect(await pay(await newUser(), "yoq")).toMatchObject({ ok: false, reason: "plan" });
   });

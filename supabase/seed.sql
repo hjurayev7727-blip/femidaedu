@@ -64,8 +64,8 @@ on conflict (code) do nothing;
 
 -- Tariflar — VAQTINCHALIK narxlar. Haqiqiy narxni admin panel (/admin/sozlamalar) yoki shu yerda o'zgartiring.
 insert into public.plans (code, title, months, price_uzs, sort) values
-  ('oy1', '1 oy', 1, 59000, 1),
-  ('oy3', '3 oy', 3, 149000, 2)
+  ('oy1', '1 oy', 1, 49000, 1),
+  ('oy3', '3 oy', 3, 129000, 2)
 on conflict (code) do nothing;
 
 -- Qo'lda to'lov rekvizitlari — admin panelda to'ldiriladi (bo'sh bo'lsa, to'lov formasi yopiq)

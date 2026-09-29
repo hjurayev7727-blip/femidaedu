@@ -24,7 +24,7 @@ export default async function AdminSettings() {
           {(plans ?? []).map((p) => <PlanForm key={p.code} plan={p} />)}
         </div>
         <p className="border-t border-line px-5 py-3 text-xs text-mute">
-          Narx o&apos;zgarishi faqat yangi to&apos;lovlarga ta&apos;sir qiladi. Boshlang&apos;ich narxlar vaqtinchalik (59 000 / 149 000).
+          Narx o&apos;zgarishi faqat yangi to&apos;lovlarga ta&apos;sir qiladi. Boshlang&apos;ich narxlar: 49 000 / 129 000.
         </p>
       </section>
 

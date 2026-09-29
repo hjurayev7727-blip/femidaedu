@@ -27,7 +27,7 @@ Reja: `../HUQUQSHUNOSLIK KURSI/05_TEXNIK_ONLAYN_TIZIM/PLATFORMA_2.0_REJA.md`
 - [x] Yozma (qisqa javobli) savollar mashqqa ham qo'shildi; mobil pastki navigatsiya
 
 **3-bosqich (Premium va to'lov)** ✅ — qo'lda to'lov
-- [x] Tariflar (`plans`) va to'lov rekvizitlari admin paneldan o'zgartiriladi — narxlar hozircha **vaqtinchalik** (59 000 / 149 000)
+- [x] Tariflar (`plans`) va to'lov rekvizitlari admin paneldan o'zgartiriladi — narxlar: 1 oy — 49 000, 3 oy — 129 000 so'm
 - [x] `/app/premium`: bepul va Premium solishtirmasi, karta rekvizitlari, chek yuklash (JPG/PNG/WEBP/PDF ≤ 5 MB,
       tur fayl baytlaridan tekshiriladi), to'lovlar tarixi va holati
 - [x] Chek yopiq `receipts` bucket'ida; admin 10 daqiqalik imzolangan havola orqali ko'radi
