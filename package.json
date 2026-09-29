@@ -11,7 +11,9 @@
     "typecheck": "tsc --noEmit",
     "import:build": "tsx scripts/import/build.ts",
     "db:import": "tsx scripts/import/load.ts",
-    "bot:setup": "tsx scripts/bot-setup.ts"
+    "bot:setup": "tsx scripts/bot-setup.ts",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:calibrate": "tsx scripts/calibrate.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.129.0",

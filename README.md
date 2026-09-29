@@ -63,7 +63,11 @@ Reja: `../HUQUQSHUNOSLIK KURSI/05_TEXNIK_ONLAYN_TIZIM/PLATFORMA_2.0_REJA.md`
 - [x] Nishonlar (9 ta): mashq/sinov/musobaqa yakunida avtomatik beriladi, botga xabar, profilda ko'rinadi
 - [x] Musobaqalar: admin vaqt/davomiylik/savollar/mavzuni belgilaydi va botda e'lon qiladi; hamma bir xil savollarni
       ishlaydi, javoblar va natijalar tugagach ochiladi; o'rin — to'g'ri javoblar, teng bo'lsa vaqt; top-3 ga nishon
-- [ ] 8-bosqich: savol qiyinligini Rasch/IRT bilan kalibrlash (yetarli ma'lumot yig'ilgach)
+
+**8-bosqich (kalibrlash)** — vosita tayyor, real ma'lumot kutilmoqda
+- [x] `npm run db:calibrate`: Rasch (JMLE) bilan savol qiyinligi, 10/18/7 toifalari, hisobot `data/calibration/REPORT.md`:
+      javob kaliti shubhali savollar (ajratish kuchi manfiy) va yorlig'i noto'g'ri savollar
+- [ ] ~200 ta sinov imtihoni yig'ilgach ishga tushirish, keyin `-- --apply` (sinov imtihoni kalibrlangan toifalarni ishlatadi)
 
 **Kurs o'quvchilarini ko'chirish:** v1 da akkaunt yo'q edi (ism + telefon), shuning uchun avtomatik ko'chirilmaydi.
 Tartib: o'zingizga admin panelda "O'qituvchi" rolini bering → `/app/ustoz` da "A+ kurs 2026" guruhini oching →
@@ -80,9 +84,14 @@ export PATH="$HOME/.local/node/bin:$PATH"
 ### 1. Supabase loyihasi
 
 1. [supabase.com](https://supabase.com) → **New project** (region: Frankfurt `eu-central-1` — O'zbekistonga eng yaqin).
-2. **SQL Editor** → `supabase/migrations/20260929000001_init.sql` ni to'liq qo'yib **Run**, keyin `supabase/seed.sql` ni **Run**.
-3. **Project Settings → API Keys** dan `URL`, `publishable` va `secret` kalitlarni oling.
-4. `.env.example` ni `.env.local` ga nusxalab, qiymatlarni to'ldiring.
+2. **Project Settings → API Keys** dan `URL`, `publishable` va `secret` kalitlarni, **Connect → Session pooler** dan
+   `DATABASE_URL` ni oling.
+3. `.env.example` ni `.env.local` ga nusxalab, qiymatlarni to'ldiring.
+4. Sxema va boshlang'ich ma'lumot (qayta ishga tushirish xavfsiz — faqat yangi migratsiyalar qo'llanadi):
+
+   ```bash
+   npm run db:migrate -- --seed
+   ```
 
 ### 2. Telegram bot
 
@@ -137,7 +146,7 @@ npm run import:build
 ```bash
 npm install
 npm run dev        # http://localhost:3000  (Supabase'siz namunalar: /dev/savollar, /dev/imtihon, /dev/premium — faqat dev)
-npm test           # 207 ta test: RLS, import, mashq/imtihon SQL funksiyalari (PGlite), baholash, transliteratsiya
+npm test           # 217 ta test: RLS, import, mashq/imtihon SQL funksiyalari (PGlite), baholash, transliteratsiya
 npm run typecheck
 npm run lint
 ```
