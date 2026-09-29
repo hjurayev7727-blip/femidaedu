@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { env, isConfigured } from "@/lib/env";
+import { sessionCookieOptions } from "@/lib/supabase/cookies";
 
 const PROTECTED = ["/app", "/ustoz", "/admin"];
 
@@ -19,9 +20,10 @@ export async function proxy(request: NextRequest) {
   }
 
   let response = NextResponse.next({ request });
-  const { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY } = env();
+  const { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, NEXT_PUBLIC_SITE_URL } = env();
 
   const supabase = createServerClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
+    cookieOptions: sessionCookieOptions(NEXT_PUBLIC_SITE_URL),
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll(cookiesToSet, headers) {

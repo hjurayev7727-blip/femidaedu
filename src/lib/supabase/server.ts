@@ -3,12 +3,14 @@ import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { env, serverEnv } from "@/lib/env";
+import { sessionCookieOptions } from "@/lib/supabase/cookies";
 
 /** So'rov egasi nomidan ishlaydigan klient (RLS amal qiladi). Har so'rovda yangisi yaratiladi. */
 export async function createSupabase() {
   const cookieStore = await cookies();
-  const { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY } = env();
+  const { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, NEXT_PUBLIC_SITE_URL } = env();
   return createServerClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
+    cookieOptions: sessionCookieOptions(NEXT_PUBLIC_SITE_URL),
     cookies: {
       getAll: () => cookieStore.getAll(),
       setAll(cookiesToSet) {

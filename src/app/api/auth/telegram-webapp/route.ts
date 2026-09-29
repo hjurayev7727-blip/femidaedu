@@ -3,6 +3,7 @@ import { z } from "zod";
 import { signInTelegramUser } from "@/lib/auth-telegram";
 import { env, serverEnv } from "@/lib/env";
 import { safeNext } from "@/lib/redirect";
+import { isSameOrigin } from "@/lib/supabase/cookies";
 import { createSupabase, createSupabaseAdmin } from "@/lib/supabase/server";
 import { verifyWebAppInitData } from "@/lib/telegram";
 
@@ -11,8 +12,7 @@ const Body = z.object({ initData: z.string().min(10).max(4096), keyin: z.string(
 /** Telegram Mini App: initData imzosi tekshiriladi va foydalanuvchi tizimga kiritiladi. */
 export async function POST(request: NextRequest) {
   // Login CSRF'dan himoya: faqat o'z saytimiz sahifasidan (/tg) kelgan so'rov
-  const origin = request.headers.get("origin");
-  if (origin !== new URL(env().NEXT_PUBLIC_SITE_URL).origin && origin !== request.nextUrl.origin) {
+  if (!isSameOrigin(request, env().NEXT_PUBLIC_SITE_URL)) {
     return NextResponse.json({ ok: false, error: "origin" }, { status: 403 });
   }
 
