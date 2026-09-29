@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LegalFooter } from "@/components/legal-page";
 import { Logo } from "@/components/logo";
 
 const FEATURES = [
@@ -103,9 +104,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-line py-6 text-center text-sm text-mute">
-        © {new Date().getFullYear()} A+ Huquq
-      </footer>
+      <LegalFooter />
     </main>
   );
 }

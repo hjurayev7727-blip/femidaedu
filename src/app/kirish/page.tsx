@@ -54,6 +54,10 @@ export default async function LoginPage({ searchParams }: PageProps<"/kirish">) 
               <span className="h-px flex-1 bg-line" />
             </div>
             <GoogleLogin next={next} />
+            <p className="text-center text-xs leading-relaxed text-mute">
+              Kirish orqali <Link href="/shartlar" className="underline">foydalanish shartlari</Link> va{" "}
+              <Link href="/maxfiylik" className="underline">maxfiylik siyosati</Link>ga rozilik bildirasiz.
+            </p>
           </div>
         )}
 
