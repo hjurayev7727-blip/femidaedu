@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { env, isConfigured } from "@/lib/env";
+import { safeNext } from "@/lib/redirect";
 import { sessionCookieOptions } from "@/lib/supabase/cookies";
 
 const PROTECTED = ["/app", "/ustoz", "/admin"];
@@ -46,10 +47,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
   if (signedIn && path === "/kirish") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/app";
-    url.search = "";
-    return NextResponse.redirect(url);
+    // Kirgan foydalanuvchi: so'ralgan sahifaga (keyin), bo'lmasa /app ga
+    const target = safeNext(request.nextUrl.searchParams.get("keyin") ?? undefined);
+    return NextResponse.redirect(new URL(target.startsWith("/kirish") ? "/app" : target, request.url));
   }
   return response;
 }
