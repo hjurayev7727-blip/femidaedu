@@ -3,7 +3,10 @@ import { AI_DAILY_LIMIT } from "@/lib/ai-server";
 import { requireUser } from "@/lib/auth";
 import { FREE_MONTHLY_MOCKS } from "@/lib/mock-server";
 import { formatUzs, type ManualPaymentSettings, type Plan } from "@/lib/payments";
+import { paymeEnv } from "@/lib/payme";
 import { FREE_DAILY_LIMIT } from "@/lib/practice";
+import { createSupabaseAdmin } from "@/lib/supabase/server";
+import { payWithPayme } from "./actions";
 import { PayForm } from "./pay-form";
 
 export const metadata: Metadata = { title: "Premium" };
@@ -28,8 +31,10 @@ const FEATURES: [string, string, string][] = [
 
 const fmtDate = (s: string) => new Date(s).toLocaleDateString("uz-UZ", { timeZone: "Asia/Tashkent", day: "numeric", month: "long", year: "numeric" });
 
-export default async function PremiumPage() {
+export default async function PremiumPage({ searchParams }: PageProps<"/app/premium">) {
   const { supabase, userId } = await requireUser();
+  const paymeParam = (await searchParams).payme;
+  const paymeCode = typeof paymeParam === "string" ? paymeParam : null;
   const [{ data: until }, { data: plans }, { data: settings }, { data: payments }, { data: premium }] = await Promise.all([
     supabase.rpc("my_premium_until"),
     supabase.from("plans").select("code, title, months, price_uzs, sort").order("sort").returns<Plan[]>(),
@@ -44,9 +49,16 @@ export default async function PremiumPage() {
     supabase.rpc("is_premium"),
   ]);
 
+  // Payme'dan qaytganda: shu foydalanuvchining buyurtma holati (payme_orders mijozga yopiq — admin klient, user_id bilan)
+  const paymeOrder =
+    paymeCode && /^A[A-Z0-9]{9}$/.test(paymeCode)
+      ? (await createSupabaseAdmin().from("payme_orders").select("status").eq("code", paymeCode).eq("user_id", userId).maybeSingle<{ status: string }>()).data
+      : null;
+  const payme = paymeEnv() !== null;
+
   const pay = settings?.value;
   const pending = (payments ?? []).some((p) => p.status === "pending");
-  const canPay = Boolean(pay?.card?.trim()) && (plans ?? []).length > 0;
+  const canPayManually = Boolean(pay?.card?.trim()) && (plans ?? []).length > 0;
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -88,9 +100,41 @@ export default async function PremiumPage() {
         </table>
       </div>
 
+      {paymeCode === "xato" && (
+        <p className="rounded-xl bg-no-soft px-4 py-3 text-sm font-semibold text-no">Payme to&apos;lovini boshlab bo&apos;lmadi. Qayta urinib ko&apos;ring.</p>
+      )}
+      {paymeOrder?.status === "paid" && (
+        <p className="rounded-xl bg-ok-soft px-4 py-3 text-sm font-semibold text-ok">✓ To&apos;lov qabul qilindi — Premium faollashdi.</p>
+      )}
+      {paymeOrder && paymeOrder.status !== "paid" && (
+        <p className="rounded-xl bg-amber-soft px-4 py-3 text-sm">
+          To&apos;lov hali tasdiqlanmadi. Agar to&apos;lagan bo&apos;lsangiz, bir necha daqiqadan keyin sahifani yangilang.
+        </p>
+      )}
+
+      {payme && (plans ?? []).length > 0 && (
+        <section className="card space-y-3">
+          <h2 className="text-lg font-extrabold">{premium ? "Muddatni uzaytirish" : "Premium olish"} — Payme</h2>
+          <p className="text-sm text-mute">Istalgan bank kartasi (Uzcard, Humo) bilan. Premium to&apos;lovdan so&apos;ng darhol yoqiladi.</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {plans!.map((p) => (
+              <form key={p.code} action={payWithPayme}>
+                <input type="hidden" name="plan" value={p.code} />
+                <button type="submit" className="btn-primary w-full">
+                  {p.title} — {formatUzs(p.price_uzs)}
+                </button>
+              </form>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {(canPayManually || !payme) && (
       <section className="card space-y-4">
-        <h2 className="text-lg font-extrabold">{premium ? "Muddatni uzaytirish" : "Premium olish"}</h2>
-        {!canPay ? (
+        <h2 className="text-lg font-extrabold">
+          {payme ? "Karta orqali o'tkazma (chek bilan)" : premium ? "Muddatni uzaytirish" : "Premium olish"}
+        </h2>
+        {!canPayManually ? (
           <p className="rounded-xl bg-amber-soft px-4 py-3 text-sm">To&apos;lov hozircha qabul qilinmayapti — tez orada ochiladi.</p>
         ) : pending ? (
           <p className="rounded-xl bg-amber-soft px-4 py-3 text-sm font-semibold">
@@ -112,8 +156,8 @@ export default async function PremiumPage() {
             <PayForm plans={(plans ?? []).map((p) => ({ code: p.code, title: p.title, months: p.months, price: formatUzs(p.price_uzs) }))} />
           </>
         )}
-        <p className="text-xs text-mute">Click, Payme va Uzum orqali to&apos;lov tez orada qo&apos;shiladi.</p>
       </section>
+      )}
 
       {(payments ?? []).length > 0 && (
         <section>
