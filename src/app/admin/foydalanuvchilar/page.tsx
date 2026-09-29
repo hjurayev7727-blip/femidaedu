@@ -8,8 +8,10 @@ export const metadata: Metadata = { title: "Foydalanuvchilar" };
 
 type Row = {
   id: string; full_name: string; telegram_username: string | null; role: string; region: string | null; created_at: string;
-  subscriptions: { ends_at: string }[];
+  subscriptions: { ends_at: string; source: string }[];
 };
+
+const SOURCE_LABEL: Record<string, string> = { payment: "to'lov", promo: "admin bergan", group: "guruh" };
 
 const ROLE_LABEL: Record<string, string> = { student: "O'quvchi", teacher: "O'qituvchi", author: "Muallif", reviewer: "Ekspert", admin: "Admin" };
 
@@ -19,7 +21,7 @@ export default async function AdminUsers({ searchParams }: PageProps<"/admin/foy
   const q = String(sp.q ?? "").trim().slice(0, 60);
   let query = createSupabaseAdmin()
     .from("profiles")
-    .select("id, full_name, telegram_username, role, region, created_at, subscriptions(ends_at)")
+    .select("id, full_name, telegram_username, role, region, created_at, subscriptions(ends_at, source)")
     .order("created_at", { ascending: false })
     .limit(50);
   // PostgREST filtr sintaksisiga ta'sir qiladigan belgilarni olib tashlaymiz
@@ -51,7 +53,9 @@ export default async function AdminUsers({ searchParams }: PageProps<"/admin/foy
       </form>
       <ul className="card divide-y divide-line p-0!">
         {(data ?? []).map((u) => {
-          const until = u.subscriptions.map((s) => Date.parse(s.ends_at)).filter((t) => t > now).sort().at(-1);
+          const activeSubs = u.subscriptions.filter((s) => Date.parse(s.ends_at) > now);
+          const until = activeSubs.map((s) => Date.parse(s.ends_at)).sort().at(-1);
+          const sources = [...new Set(activeSubs.map((s) => SOURCE_LABEL[s.source] ?? s.source))].join(", ");
           return (
             <li key={u.id} className="flex flex-wrap items-center gap-3 px-5 py-3">
               <span className="min-w-0 flex-1">
@@ -59,7 +63,7 @@ export default async function AdminUsers({ searchParams }: PageProps<"/admin/foy
                   <span className="font-bold">{u.full_name || "Ismsiz"}</span>
                   {until ? (
                     <span className="rounded-md bg-ok-soft px-2 py-0.5 text-xs font-extrabold text-ok">
-                      Premium · {new Date(until).toLocaleDateString("uz-UZ", { timeZone: "Asia/Tashkent" })} gacha
+                      Premium ({sources}) · {new Date(until).toLocaleDateString("uz-UZ", { timeZone: "Asia/Tashkent" })} gacha
                     </span>
                   ) : (
                     <span className="rounded-md bg-bg px-2 py-0.5 text-xs font-extrabold text-mute">Bepul</span>
