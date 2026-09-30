@@ -7,6 +7,7 @@ const NAV = [
   { href: "/app/mashq", label: "Mashq", short: "Mashq", icon: "🎯" },
   { href: "/app/sohalar", label: "Sohalar", short: "Sohalar", icon: "⚖️" },
   { href: "/app/testlar", label: "Testlar", short: "Testlar", icon: "📝" },
+  { href: "/app/yordamchi", label: "AI ustoz", short: "AI ustoz", icon: "💡", wide: true },
   { href: "/app/imtihon", label: "Imtihon", short: "Imtihon", icon: "⏱️" },
   { href: "/app/takrorlash", label: "Takrorlash", short: "Xatolar", icon: "🔁" },
   { href: "/app/profil", label: "Profil", short: "Profil", icon: "👤" },
@@ -29,7 +30,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
           <Logo href="/app" />
           <nav aria-label="Asosiy" className="hidden items-center gap-1 text-sm font-bold md:flex">
             {NAV.map((n) => (
-              <Link key={n.href} href={n.href} className="rounded-lg px-3 py-2 text-slate-300 hover:bg-white/10 hover:text-white">
+              <Link key={n.href} href={n.href} className={`rounded-lg px-3 py-2 text-slate-300 hover:bg-white/10 hover:text-white ${"wide" in n ? "hidden lg:inline-block" : ""}`}>
                 {n.label}
               </Link>
             ))}
@@ -60,7 +61,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
       {/* Mobil: pastki panel */}
       <nav aria-label="Asosiy (mobil)" className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
         <ul className="grid grid-cols-7">
-          {NAV.map((n) => (
+          {NAV.filter((n) => !("wide" in n)).map((n) => (
             <li key={n.href}>
               <Link href={n.href} className="flex flex-col items-center gap-0.5 py-2 text-[10px] font-bold text-mute hover:text-brand-2">
                 <span className="text-lg leading-none" aria-hidden>{n.icon}</span>

@@ -147,6 +147,16 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
         </div>
 
         <div className="card">
+          <span className="tag">AI</span>
+          <h2 className="mt-3 text-lg font-extrabold">AI ustoz va AI testlar</h2>
+          <p className="mt-1 text-mute">Modda yoki vaziyatni tushuntirish, xatolardan test, o&apos;quv reja; o&apos;z testingizni yaratib ulashing.</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link href="/app/yordamchi" className="btn-primary">💡 AI ustoz</Link>
+            <Link href="/app/testlar" className="btn-ghost">📝 Testlar</Link>
+          </div>
+        </div>
+
+        <div className="card">
           <span className="tag">3 000+ savol</span>
           <h2 className="mt-3 text-lg font-extrabold">Mavzu bo&apos;yicha mashq</h2>
           <p className="mt-1 text-mute">52 ta qonunchilik hujjati va 8–11-sinf darsliklari.</p>

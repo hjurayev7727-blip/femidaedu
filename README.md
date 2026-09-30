@@ -46,6 +46,17 @@ Next.js 16 + Supabase + Telegram. YURISTIM TEAM MChJ mahsuloti.
 - Javob kaliti klientga hech qachon berilmaydi — barcha amallar service_role funksiyalari orqali.
 - Supabase'siz ko'rish: `npm run dev` → `/dev/testlar?sahifa=bosh|yangi|tahrir|karta|ishlash`.
 
+## V3 — 5-qism: AI ustoz ✅ (kod)
+
+- `/app/yordamchi` — "Tushuntirish" (modda/tushuncha, misol bilan) va "Kazus tahlili" (o'quv masalasi) suhbatlari;
+  kontekst bazadagi moddalardan (`search_articles` — to'liq matnli qidiruv + suhbat moddasi + matndagi "12-modda" havolalari).
+  Har javob ostida manba moddalar (havola) va "Bu yuridik maslahat emas"; shaxsiy ish bo'yicha — yuristga murojaat tavsiyasi.
+- Modda sahifasida "💡 AI tushuntirsin"; bosh sahifada AI kartasi.
+- "Xatolardan test": `weak_articles` (xato bor, o'zlashtirilmagan) → AI test (4-qism, test limitiga kiradi).
+- `/app/yordamchi/reja` — maqsad (sertifikat/soha), sana, kunlik vaqt, daraja + zaif moddalar → 8 haftagacha reja.
+- Limit: bepul — haftasiga 10 ta savol (reja ham 1 ta), Premium — 200; AI xatosida qaytariladi.
+- Supabase'siz ko'rish: `/dev/ustoz?sahifa=bosh|suhbat|reja`.
+
 ---
 
 ## A+ Huquq 2.0 dan meros (holat)
