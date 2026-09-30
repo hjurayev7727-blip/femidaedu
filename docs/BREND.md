@@ -3,7 +3,7 @@
 > Holat: **qaror qabul qilingan, ro'yxatdan o'tkazilmagan.** Domen, bot va tovar belgisi hali olinmagan.
 > So'rovnoma: `data/v3/polls.json`, 62–69.
 
-![W10 uslubi](brand-w10.png)
+![R3 — 4 shrift](brand-r3-shriftlar.png)
 
 ## Nom
 
@@ -24,6 +24,9 @@ yuqori o'ngda kichik EDU (Montserrat). Shu uslubdagi 9 variant (P1–P9), 6 rang
 
 **Keyingi qadam:** P7 (oltin "i" nuqtasi), EDU pastga — 4 joylashuv (Q1–Q4, `docs/brand-p7-edu-past.png`,
 `scripts/brand-p7.mjs`).
+
+**Egasi R3 ni tanladi:** "Femida" + oltin nishonchadagi EDU, yonma-yon. 4 shriftda (S1 Playfair, S2 Bodoni,
+S3 EB Garamond, S4 Cinzel) — `public/brand/final/r3/`, `docs/brand-r3-shriftlar.png`, `scripts/brand-r3.mjs`.
 
 Belgili variantlar (A–N) rad etildi.
 10 ta matnli variant — `public/brand/wordmarks/` (W1–W10), hammasi bir xil ranglarda, farq faqat tipografiyada;
