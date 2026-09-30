@@ -1223,6 +1223,106 @@
       ],
       "owner": "DOYSE kassasi orqali, yangi prefiks",
       "decision": "Buyurtma kodi \"F…\"; DOYSE F-buyurtmalarni Femida Edu ga uzatadi."
+    },
+    {
+      "id": 94,
+      "block": "P. Ish tartibi",
+      "q": "Qaysi ishlar uchun egasining tasdig'i kerak?",
+      "multi": true,
+      "options": [
+        "Production'ga chiqarish",
+        "Pul bilan bog'liq",
+        "Ma'lumot o'chirish",
+        "Tashqariga xabar"
+      ],
+      "owner": "Hammasini o'zing qil",
+      "decision": "Claude hammasini o'zi qiladi (zaxira bilan, qaytariladigan yo'l bilan)."
+    },
+    {
+      "id": 95,
+      "block": "P. Ish tartibi",
+      "q": "Tayyor PR'ni kim merge qiladi?",
+      "multi": false,
+      "options": [
+        "Egasi (tasdiqlab)",
+        "Claude, testlar o'tsa"
+      ],
+      "owner": "Hammasini o'zing",
+      "decision": "Claude merge qiladi."
+    },
+    {
+      "id": 96,
+      "block": "P. Ish tartibi",
+      "q": "Qachon so'rovnoma o'tkaziladi?",
+      "multi": false,
+      "options": [
+        "Har katta qism oldidan 8+",
+        "Faqat egasi so'raganda",
+        "Har qadamda"
+      ],
+      "owner": "Hozirgisi yetarli",
+      "decision": "Egasi so'raganda yoki mantiq haqiqatan noaniq bo'lsa."
+    },
+    {
+      "id": 97,
+      "block": "P. Ish tartibi",
+      "q": "Imkonsiz ish chiqsa?",
+      "multi": false,
+      "options": [
+        "Hammasini tayyorlab, bitta qisqa ko'rsatma",
+        "Aylanib o'tish yo'lini izla"
+      ],
+      "owner": "Aylanib o'tish yo'lini izla",
+      "decision": "Avval qonuniy aylanib o'tish yo'li; topilmasa — bitta qisqa xabar."
+    },
+    {
+      "id": 98,
+      "block": "P. Ish tartibi",
+      "q": "Hisobot qanday?",
+      "multi": false,
+      "options": [
+        "Har qism tugaganda qisqa",
+        "Faqat muhim voqealarda",
+        "Batafsil har qadamda"
+      ],
+      "owner": "Faqat muhim voqealarda",
+      "decision": "Katta qism tugashi, to'siq, production."
+    },
+    {
+      "id": 99,
+      "block": "P. Ish tartibi",
+      "q": "Skill qaysi repolarga yoziladi?",
+      "multi": false,
+      "options": [
+        "Ikkala repo",
+        "Faqat femidaedu"
+      ],
+      "owner": "Ikkala repo",
+      "decision": "ish-tartibi skill: femidaedu#3 va aplushuquq#2 (merge qilindi)."
+    },
+    {
+      "id": 100,
+      "block": "P. Ish tartibi",
+      "q": "Brend va qonun bazasi PR'lari?",
+      "multi": false,
+      "options": [
+        "Darhol merge qil va davom et",
+        "Ochiq qoldir, keyingi qismlarni ustiga qur"
+      ],
+      "owner": "Ochiq qoldir, keyingi qismlarni ustiga qur",
+      "decision": "Stacked PR'lar to'liq V3 tayyor bo'lguncha ochiq."
+    },
+    {
+      "id": 101,
+      "block": "P. Ish tartibi",
+      "q": "A+ repodagi eski PR?",
+      "multi": false,
+      "options": [
+        "Yopib qo'y",
+        "Ochiq qolsin"
+      ],
+      "owner": "Yopib qo'y",
+      "decision": "aplushuquq#1 yopildi (branch saqlangan)."
     }
   ]
 }
