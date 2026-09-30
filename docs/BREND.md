@@ -3,7 +3,7 @@
 > Holat: **qaror qabul qilingan, ro'yxatdan o'tkazilmagan.** Domen, bot va tovar belgisi hali olinmagan.
 > So'rovnoma: `data/v3/polls.json`, 62–69.
 
-![Logo eskizi](brand-preview.png)
+![Logo variantlari](brand-variants.png)
 
 ## Nom
 
@@ -17,16 +17,26 @@
 
 ## Logo va ranglar
 
-- Belgi (`public/brand/femida-edu-mark.svg`): **F** harfi. Tepa chizig'i — halqaga osilgan tarozi shayini, ikki palla.
-  O'rta chizig'i — **to'g'ri javob belgisi (✓)**. Huquq + test/ta'lim.
-- To'liq logo: `public/brand/femida-edu-logo.svg`.
-- Bu — **eskiz**. Ro'yxatdan o'tkazishdan oldin dizayner vektorini tozalashi va kichik o'lchamda (16–32 px) soddalashtirishi kerak:
-  48 px da pallalar deyarli ko'rinmaydi, favicon uchun faqat F + ✓ versiyasi kerak.
+Birinchi eskiz ("F" + ✓, yumaloq shrift) rad etildi — o'yinchoq ko'rinish. Yangi 6 variant (`public/brand/variants/`),
+hammasida matn vektor yo'lga aylantirilgan (shrift o'rnatilmagan qurilmada ham bir xil ko'rinadi):
+
+| | Belgi | Shrift |
+|---|---|---|
+| A — Muhr | Ikki doira ichida F monogramma | Cinzel (rim yozuvi) + Montserrat |
+| B — Tarozi | Nafis chiziqli tarozi, doira | Cormorant Garamond + Montserrat |
+| C — Zamonaviy | Geometrik F, o'rta chiziq oltin | Montserrat |
+| D | C belgisi | Cinzel + Montserrat |
+| E | Tarozi, yumaloq kvadrat | Cinzel + Montserrat |
+| F — Qalqon | Qalqon ichida F | Cinzel (belgi) + Cormorant Garamond |
+
+Har variant: oq fon, to'q fon, Telegram avatari (doira) va 32 px. Qayta yaratish: `scripts/brand-logos.mjs`
+(opentype.js va @fontsource shriftlari bilan). Tanlangan variantni dizayner yakuniy vektorga keltiradi.
+Shriftlar SIL Open Font License ostida — logoda erkin ishlatish mumkin.
 
 | Token | Rang | Qayerda |
 |---|---|---|
-| `--brand` | `#0F2A4A` to'q ko'k | fon, sarlavhalar |
-| `--accent` | `#D4AF37` oltin | belgi, "EDU", Premium |
+| `--brand` | `#0E2340` to'q ko'k | fon, sarlavhalar |
+| `--accent` | `#B8923A` oltin (to'q fonda `#C9A24A`) | belgi, "EDU", Premium |
 | `--success` | `#2DD4BF` firuza | to'g'ri javob, progress |
 
 ## Domen va Telegram
