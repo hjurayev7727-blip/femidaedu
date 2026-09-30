@@ -1,7 +1,7 @@
 # DOYSE V3 — yagona huquq platformasi: AI bilan test yaratish va ulashish
 
 > Holat: **loyiha hujjati (reja)**, kod hali yozilmagan. Asos: hozirgi A+ Huquq 2.0 kodi (shu repo).
-> Qarorlar: loyiha egasi bilan 41 savollik so'rovnoma (2026-09-30), `data/v3/polls.json`.
+> Qarorlar: loyiha egasi bilan 41 + 20 savollik so'rovnoma (2026-09-30), `data/v3/polls.json`.
 
 ## 0. Qisqa xulosa
 
@@ -17,8 +17,9 @@
    hamma. Nusxalash yo'q. Mehmon ishlay oladi. Muallif natijalarni ism bilan ko'radi.
 5. **Birinchi versiyada 4 ta katta qism**: sohalar katalogi, AI test + ulashish, AI ustoz, jonli viktorina.
    Taxminiy muddat — 12–14 hafta, oldin qonun bazasi.
-6. **Pul:** ikki tarif ("Sertifikat" va "Sohalar"), har biri 39 000 so'm/oy. Markazlar uchun paketlar. Mualliflarga
-   bonus, keyinroq pullik testlar.
+6. **Pul:** ikki tarif ("Sertifikat" va "Sohalar"), har biri 39 000 so'm/oy, ikkalasi 59 000. Markazlar uchun paketlar.
+   Mualliflarga bonus, pullik testlarda DOYSE 50%.
+7. **Ishga tushirish:** hamma qism sinov muhitida to'liq sinovdan o'tadi, egasi qabul qilgach production.
 
 ## 1. So'rovnoma natijalari (sizning javoblaringiz)
 
@@ -56,7 +57,7 @@
 | 18 | Test ishlaganlarning natijasini muallif ko'radimi? | **Har doim ism bilan** | Muallif hamma natijani ism bilan ko'radi. Test boshida ogohlantirish: 'Natijangiz va ismingiz muallifga ko'rinadi'. Mehmondan ism so'raladi. |
 | 19 | Ulashilgan testga qanday sozlamalar kerak? | **Hammasi** | settings: taymer, muddat, urinishlar soni, aralashtirish. |
 | 20 | To'g'ri javoblar qachon ko'rsatilsin? | **Uchala variant ham (muallif tanlaydi)** | Muallif tanlaydi: har savoldan keyin / tugagach / muddat o'tgach. |
-| 21 | Muallif testni o'zgartirsa, eski natijalar? | **Qayta hisoblansin** | Javob kaliti o'zgarsa, hamma urinishlar yangi kalit bilan qayta hisoblanadi, ishlaganlarga xabar boradi. Savol matni o'zgarsa, eski javoblar saqlanadi, savol 'o'zgartirilgan' deb belgilanadi. |
+| 21 | Muallif testni o'zgartirsa, eski natijalar? | **Qayta hisoblansin** | Javob kaliti o'zgarsa, hamma urinishlar yangi kalit bilan jimgina qayta hisoblanadi (aniqlashtirish, 44). Savol matni o'zgarsa, eski javoblar saqlanadi, savol 'o'zgartirilgan' deb belgilanadi. |
 
 ### D. Sifat va moderatsiya
 
@@ -103,19 +104,29 @@
 | 40 | Ota-onaga hisobot kerakmi? | **Kerak emas** | Ota-ona funksiyasi yo'q. |
 | 41 | Hozirgi A+ Huquq foydalanuvchilari? | **Hammasi avtomatik saqlanadi** | Shu baza ustida evolyutsiya: obuna, streak, natijalar joyida qoladi. |
 
-## 2. Javoblar orasidagi ziddiyatlar va ularning yechimi
+## 2. Aniqlashtirish (20 savol) — yakuniy qarorlar
 
-So'rovnomada bir-biriga to'g'ridan-to'g'ri ta'sir qiladigan 7 ta javob bor. Har biri uchun tavsiyam:
+Birinchi so'rovnomadagi ziddiyatlar va ochiq savollar ikkinchi raundda hal qilindi (`data/v3/polls.json`, 42–61):
 
-| # | Ziddiyat | Tavsiya (tasdiqlashingiz kerak) |
-|---|---|---|
-| 1 | **6 ↔ 7.** Foydalanuvchi o'z matni/PDF/rasmidan test tuzadi, lekin testlar "faqat bazadagi rasmiy matndan" bo'lishi kerak | AI foydalanuvchi materialidan savol tuzadi, lekin har savolni bazadagi moddaga bog'laydi. Bog'lab bo'lmagan savol (masalan, ma'ruzadagi nazariya) **"manba: foydalanuvchi materiali"** belgisini oladi va ommaviy katalogga chiqmaydi (private/link/group da qoladi) |
-| 2 | **13 ↔ 22.** Izoh ixtiyoriy, lekin katalogda sifat talab qilinadi | Izoh ixtiyoriy qoladi, modda havolasi esa avtomatik. Katalogga chiqish uchun izohli savollar kamida 50% bo'lishi kerak; AI izohni bir bosishda yozib beradi |
-| 3 | **17 ↔ 18.** Mehmon ro'yxatdan o'tmay ishlaydi, lekin muallif har doim ismni ko'radi | Mehmon boshlashdan oldin ismini kiritadi va "Natijangiz va ismingiz muallifga ko'rinadi" degan ogohlantirishni ko'radi. Ommaviy katalog testlarida muallif ism o'rniga qisqartmani ko'radi ("Ali V.", hozirgi reytingdagi kabi). To'liq ism faqat link/group testlarida ko'rinadi |
-| 4 | **21.** Test o'zgarsa, natijalar qayta hisoblanadi | Faqat **javob kaliti** o'zgarganda qayta hisoblanadi. Ishlaganlarga Telegram'da xabar boradi, eski ball tarixda saqlanadi. Muddati o'tgan guruh vazifasida muallif tasdiqlaydi ("12 kishining bali o'zgaradi — davom etasizmi?") |
-| 5 | **16 ↔ 23 ↔ 32.** Nusxalash yo'q, lekin savol rasmiy bankka o'tishi va pullik test bo'lishi mumkin | Foydalanish shartlariga band: muallif DOYSE'ga savolni rasmiy bankda ishlatish huquqini beradi (rasmiy bankka o'tsa — bonus). Pullik testni nusxalash va ulashish mumkin emas, faqat sotib olgan ishlaydi |
-| 6 | **38.** To'rt katta qism birinchi versiyada | Hammasi bir versiyada qoladi, lekin ichki tartib qat'iy: qonun bazasi → katalog (A sohalar) → AI test + ulashish → AI ustoz → jonli viktorina. Har qism tayyor bo'lishi bilan yopiq beta'ga chiqadi |
-| 7 | **30 ↔ 31.** Ikki tarif, narx 39 000 | "Sertifikat" 39 000, "Sohalar" 39 000, ikkalasi birga 59 000 (taklif). Hozirgi 49 000 lik obunachilar ikkala tarifni oladi, narxi o'zgarmaydi |
+| Mavzu | Qaror |
+|---|---|
+| Bazaga bog'lanmagan savol (o'z materiali) | "Foydalanuvchi materiali" belgisi bilan qoladi; ommaviy katalogga chiqmaydi |
+| Muallif ishlovchining ismini ko'rishi | **Har doim to'liq ism**, katalogda ham. Test boshida majburiy ogohlantirish |
+| Javob kaliti o'zgarsa | Jimgina avtomatik qayta hisoblash; eski ball audit tarixida saqlanadi |
+| Mualliflik huquqi | Foydalanish shartlarida litsenziya bandi; rasmiy bankka o'tsa bonus |
+| Narx | Sertifikat 39 000, Sohalar 39 000, ikkalasi **59 000** so'm/oy |
+| Bepul AI test hajmi | Haftasiga 10 ta test × **10 savolgacha** |
+| A sohalar | **Fuqarolik, oila, jinoyat, jinoyat-protsessual, mehnat, soliq**. Konstitutsiyaviy va ma'muriy — B |
+| Rasmiy savollar tekshiruvi | Trust 3 ekspertlar tekshiradi, **oxirgi tasdiq — admin** |
+| Trust 3 va trust 1 | Ikkalasini ham **admin qo'lda** beradi |
+| Ekspert mukofoti | Bepul Premium + har tasdiqlangan savol uchun to'lov + belgi + reytingda ustunlik |
+| Bepul sohalar | Har sohaning 1-bobi + barcha C sohalar |
+| AI ustoz (bepul) | Haftasiga 10 savol |
+| Konspektlar | AI yozadi → ekspert tekshiradi |
+| Soha sertifikati | Faqat **nazoratli onlayn imtihon** (kamera + ekran) dan keyin |
+| Jonli viktorina (bepul) | 30 kishigacha |
+| Pullik testlar | DOYSE **50%**, muallif 50% |
+| Ishga tushirish | Hamma qism alohida sinov muhitida to'liq sinovdan o'tadi; egasi "mukammal" deb qabul qilgach, bir marta production'ga chiqariladi |
 
 ## 3. Qurilgan logika
 
@@ -170,13 +181,13 @@ create table certificates (id uuid primary key, user_id uuid, field_id int, scor
 
 | Daraja | Sohalar (taklif) | Kontent |
 |---|---|---|
-| A | Konstitutsiyaviy, fuqarolik, jinoyat, mehnat, oila, ma'muriy javobgarlik | Har modda bo'yicha test, bob konspekti, kazuslar, hayotiy mavzular |
-| B | Jinoyat-protsessual, fuqarolik-protsessual, soliq, yer, uy-joy, iste'molchi huquqlari | Asosiy boblar bo'yicha test va konspekt |
+| A | Fuqarolik, oila, jinoyat, jinoyat-protsessual, mehnat, soliq | Har modda bo'yicha test, bob konspekti, kazuslar, hayotiy mavzular |
+| B | Konstitutsiyaviy, ma'muriy, fuqarolik-protsessual, yer, uy-joy, iste'molchi huquqlari | Asosiy boblar bo'yicha test va konspekt |
 | C | Bojxona, ekologiya, xalqaro, bank, sug'urta, intellektual mulk va boshqalar | Umumiy tanishuv, 20–50 savol |
 
 **Progress (29):** soha foizi = (o'zlashtirilgan moddalar / sohadagi moddalar); modda "o'zlashtirilgan" bo'lishi
 uchun oxirgi 3 javobdan kamida 2 tasi to'g'ri va kamida 1 marta takrorlashda to'g'ri bo'lishi kerak (Leitner, bor).
-Sertifikat — A soha ≥ 80% va yakuniy 30 savollik test ≥ 70%.
+Sertifikat — A soha ≥ 80% va **nazoratli onlayn imtihon** (kamera + ekran) ≥ 70%.
 
 ### 3.3. Foydalanuvchi testlari (UGC)
 
@@ -193,7 +204,7 @@ create table tests (
   settings jsonb not null default '{}',            -- {timer_min, opens_at, closes_at, max_attempts, shuffle, reveal: 'each'|'end'|'after_close'}
   price_uzs int,                                   -- pullik test (keyinroq; null = bepul)
   version int not null default 1,
-  own_material boolean not null default false,     -- ziddiyat 1: bazaga bog'lanmagan savol bor
+  own_material boolean not null default false,     -- bazaga bog'lanmagan savol bor (2-bo'lim)
   quality_score real, rating_sum int default 0, rating_n int default 0, attempts_count int default 0,
   status text not null default 'draft' check (status in ('draft','published','hidden','removed')),
   created_at timestamptz default now(), updated_at timestamptz default now()
@@ -231,7 +242,7 @@ Manba ─────────────┬─ soha/mavzu → bazadan tegis
 Limit: ai_weekly.tests < 10 (bepul) · tarif bo'yicha (pullik) — atomar SQL
         ↓
 AI generatsiya: 5–50 savol, 10 talik bo'laklar, turlar: single/multi/matching/true_false/open/case
-   har savol → {article_ref, ...}; article_ref bazada topilmasa → own_material (ziddiyat 1)
+   har savol → {article_ref, ...}; article_ref bazada topilmasa → own_material (2-bo'lim)
         ↓
 Validatsiya: draftToQuestion (bor) + bias.ts (javob keskin uzunmi) + dublikat (fingerprint)
         ↓
@@ -251,7 +262,7 @@ Ishlovchi → test kartasi (nom, muallif + trust belgisi, soha, savollar, ★, m
 Tekshiruv: opens_at ≤ now ≤ closes_at · urinishlar < max_attempts · taymer server vaqtida (sinov imtihonidagidek)
 Javob ko'rsatish: settings.reveal = each | end | after_close
 Muallif paneli: har ishlovchi (ism, ball, vaqt), har savol bo'yicha to'g'ri %, shubhali savollar
-Javob kaliti o'zgarsa (21): key_version++ → qayta hisoblash → ball o'zgarganlarga xabar (ziddiyat 4)
+Javob kaliti o'zgarsa (21): key_version++ → jimgina qayta hisoblash (xabarsiz), eski ball audit tarixida
 ```
 
 ### 3.6. Sifat, ishonch, moderatsiya (22–25)
@@ -259,10 +270,10 @@ Javob kaliti o'zgarsa (21): key_version++ → qayta hisoblash → ball o'zgargan
 ```
 quality_score = 0.35·★ (Bayes o'rtacha, m=10) + 0.25·(1 − tasdiqlangan shikoyatlar ulushi)
               + 0.20·savol statistikasi (ajratish kuchi > 0) + 0.20·AI audit
-trust_level: 0 → yangi (katalog yo'q) · 1 → ≥ 3 nashr, 30 kun shikoyatsiz · 2 → admin tasdiqlagan yurist/o'qituvchi · 3 → ekspert
+trust_level (hammasini admin qo'lda beradi): 0 → yangi · 1 → katalogga chiqadi (nomzodlar navbati: ≥ 3 nashr) · 2 → tasdiqlangan yurist/o'qituvchi · 3 → ekspert
 Katalog: public ∧ trust ≥ 1 ∧ AI filtrdan o'tgan ∧ own_material = false ∧ ≥ 5 savol ∧ izohli ≥ 50%
 Avtomatik yashirish: quality < 0.4 (≥ 30 urinishdan keyin) yoki ≥ 3 ochiq "maxfiy material" shikoyati
-Promote (23): ekspert navbati → questions ga nusxa (source='community', author_id saqlanadi) → muallifga bonus
+Promote (23): ekspert tekshiradi → admin tasdiqlaydi → questions ga nusxa (source='community', author_id saqlanadi) → muallifga bonus
 ```
 
 ### 3.7. AI ustoz (36–37)
@@ -286,10 +297,10 @@ Mavjud musobaqa mexanizmi (`contests`) asos bo'ladi.
 
 | Tarif | Narx | Nima kiradi |
 |---|---|---|
-| Bepul | 0 | Kuniga 20 rasmiy savol (hozirgi), oyiga 1 sinov, haftasiga 10 ta AI test, sohalarda C darajali va A/B ning birinchi boblari |
+| Bepul | 0 | Kuniga 20 rasmiy savol (hozirgi), oyiga 1 sinov, haftasiga 10 ta AI test (≤ 10 savol), AI ustoz haftasiga 10 savol, har sohaning 1-bobi + C sohalar, jonli viktorina 30 kishigacha |
 | **Sertifikat** | 39 000 so'm/oy | Milliy sertifikat to'liq: sinov imtihonlari, cheksiz mashq, AI tekshiruv |
 | **Sohalar** | 39 000 so'm/oy | Barcha sohalar to'liq, sertifikatlar, AI ustoz |
-| Ikkalasi | 59 000 so'm/oy (taklif) | Hammasi + AI testlar limiti oshadi |
+| Ikkalasi | 59 000 so'm/oy | Hammasi + AI testlar limiti oshadi |
 | Markaz / universitet | 30 / 100 / 300 kishi paketlari | Guruhlar, jonli viktorina, o'qituvchilar AI limiti |
 
 Mualliflar: sifatli va ko'p ishlangan test uchun Premium kunlar (masalan, oyiga ≥ 100 ishlanish va ★ ≥ 4 bo'lsa —
@@ -344,8 +355,8 @@ Mualliflar: sifatli va ko'p ishlangan test uchun Premium kunlar (masalan, oyiga 
 | 1 | **Birinchi versiya juda katta** (4 qism, 12–14 hafta) | Kechikish, charchash, bozor kutmaydi | Har qism tayyor bo'lishi bilan yopiq beta; qonun bazasi va katalog birinchi |
 | 2 | **lex.uz importi** — sayt tuzilishi o'zgarishi, foydalanish shartlari, kirill/lotin | Baza eskiradi yoki import buziladi | Rasmiy ochiq manba, lekin shartlarni tekshirish; import testlar bilan, haftalik qayta import; importdan keyin qo'lda tekshirish |
 | 3 | **Barcha sohalar uchun rasmiy kontent** — minglab savol va ekspert kerak | A sohalar sifatli bo'lmasa, ishonch tushadi | A/B/C; AI qoralama + ekspert; foydalanuvchi savollarini promote qilish |
-| 4 | **AI xarajati** (haftasiga 10 ta test × 50 savolgacha × bepul foydalanuvchilar, AI ustoz suhbatlari) | Bepul foydalanuvchilar zarar keltiradi | Bepul testda savollar soni chegarasi (taklif: ≤ 20), keshlash (bir xil modda + sozlama), `ai_usage` kunlik monitoring |
-| 5 | **Ism har doim ko'rinadi** (18) — shaxsiy ma'lumot, voyaga yetmaganlar | Shikoyat, qonunchilik talablari | Oldindan ogohlantirish; ommaviy testlarda qisqartma (ziddiyat 3) |
+| 4 | **AI xarajati** (bepul: haftasiga 10 test × 10 savol + AI ustoz 10 savol; pullik: 50 savolgacha) | Bepul foydalanuvchilar zarar keltiradi | Bepul testda ≤ 10 savol, keshlash (bir xil modda + sozlama), `ai_usage` kunlik monitoring |
+| 5 | **Ism har doim ko'rinadi** (18) — shaxsiy ma'lumot, voyaga yetmaganlar | Shikoyat, qonunchilik talablari | Majburiy ogohlantirish; ko'rinadigan ismni foydalanuvchi o'zi tahrirlaydi |
 | 6 | **Natijalarni qayta hisoblash** (21) | Guruh vazifasida baho o'zgaradi, nizolar | Faqat javob kaliti o'zgarganda, tarix saqlanadi, muallif tasdiqlaydi |
 | 7 | **AI ustoz yuridik maslahat sifatida qabul qilinishi** | Huquqiy javobgarlik | Faqat ta'lim, har javobda ogohlantirish, manba moddalar, shaxsiy ish uchun yurist tavsiyasi |
 | 8 | **Nomaqbul yoki maxfiy kontent** (sizib chiqqan imtihon savollari) | DTM/BMBA bilan muammo | AI filtr + shikoyat + shartlarda taqiq + blok |
@@ -353,13 +364,15 @@ Mualliflar: sifatli va ko'p ishlangan test uchun Premium kunlar (masalan, oyiga 
 | 10 | **Nusxalash yo'q** — o'qituvchilar bir-birining testidan foydalana olmaydi | UGC sekinroq o'sadi | Katalogdagi testni guruhga vazifa sifatida berish mumkin (nusxasiz) |
 | 11 | **Telegram'ga qaramlik** | Telegram cheklansa trafik tushadi | Sayt + PWA + Google orqali kirish |
 
-## 8. Tasdiqlashingiz kerak bo'lgan qarorlar
+## 8. Aniqlashtirishdan keyin qo'shilgan xavflar
 
-1. 2-bo'limdagi 7 ta ziddiyat bo'yicha tavsiyalar.
-2. Ikkala tarif birga — 59 000 so'm bo'ladimi?
-3. Bepul foydalanuvchining AI testida savollar chegarasi — 20 ta bo'ladimi?
-4. A sohalar ro'yxati (3.2-bo'limdagi jadval).
-5. A sohalar uchun ekspert(lar) kim?
+| Xavf | Chora |
+|---|---|
+| **Admin — tor joy**: trust 1, trust 3, rasmiy bank va katalog — hammasi admin qo'lida | Admin panelida navbatlar (nomzodlar, promote, shikoyatlar), kunlik Telegram xulosasi; keyinchalik 2-admin |
+| **To'liq ism har doim ko'rinadi** — voyaga yetmaganlar va katalogdagi begona mualliflar | Majburiy ogohlantirish; foydalanuvchi profilda ko'rinadigan ismni o'zi tahrirlay oladi |
+| **Jimgina qayta hisoblash** — ishlovchi bali nega o'zgarganini bilmaydi | Natija sahifasida "Muallif X-savol javobini o'zgartirdi" yozuvi (xabar yubormasdan) |
+| **Onlayn proktoring** — kamera/ekran yozuvi shaxsiy ma'lumot, murakkab texnologiya | Birinchi versiyada faqat tasodifiy suratlar + tab almashtirishni qayd qilish; roziligi olinadi; yozuvlar 30 kunda o'chadi |
+| **Pullik test 50% komissiya** | Muallif daromadini to'lash tartibi (YaTT, o'zini o'zi band qilgan) huquqiy maslahat bilan hal qilinadi |
 
 ## Ilova: xuddi shu savollarni auditoriyaga berish
 

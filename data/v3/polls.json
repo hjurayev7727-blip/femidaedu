@@ -547,6 +547,272 @@
       ],
       "owner": "Hammasi avtomatik saqlanadi",
       "decision": "Shu baza ustida evolyutsiya: obuna, streak, natijalar joyida qoladi."
+    },
+    {
+      "id": 42,
+      "block": "I. Aniqlashtirish: ziddiyatlar",
+      "q": "O'z PDF/ma'ruzasidan tuzilgan, moddaga bog'lanmagan savollar?",
+      "multi": false,
+      "options": [
+        "Belgi bilan qoladi",
+        "Rad etiladi",
+        "Cheklovsiz"
+      ],
+      "owner": "Belgi bilan qoladi",
+      "decision": "\"Foydalanuvchi materiali\" belgisi; private/link/group da ishlaydi, ommaviy katalogga chiqmaydi."
+    },
+    {
+      "id": 43,
+      "block": "I. Aniqlashtirish: ziddiyatlar",
+      "q": "Ommaviy katalog testida muallif ishlovchining ismini qanday ko'radi?",
+      "multi": false,
+      "options": [
+        "Qisqartma: \"Ali V.\"",
+        "Har doim to'liq ism",
+        "Ishlovchi o'zi tanlaydi"
+      ],
+      "owner": "Har doim to'liq ism",
+      "decision": "Hamma testda to'liq ism. Har test boshida majburiy ogohlantirish; ogohlantirishni ko'rmasdan boshlab bo'lmaydi."
+    },
+    {
+      "id": 44,
+      "block": "I. Aniqlashtirish: ziddiyatlar",
+      "q": "Javob kaliti o'zgarsa, qayta hisoblash tartibi?",
+      "multi": false,
+      "options": [
+        "Avtomatik + xabar",
+        "Faqat muallif tasdiqlasa",
+        "Jimgina avtomatik"
+      ],
+      "owner": "Jimgina avtomatik",
+      "decision": "Avtomatik, xabarsiz. Eski ball baribir tarixda (audit) saqlanadi."
+    },
+    {
+      "id": 45,
+      "block": "I. Aniqlashtirish: ziddiyatlar",
+      "q": "Rasmiy bankka o'tgan yoki pullik test savolining mualliflik huquqi?",
+      "multi": false,
+      "options": [
+        "Shartlarda litsenziya",
+        "Har safar muallifdan ruxsat",
+        "Savol DOYSE mulki"
+      ],
+      "owner": "Shartlarda litsenziya",
+      "decision": "Foydalanish shartlariga band: muallif DOYSE'ga foydalanish huquqini beradi; rasmiy bankka o'tsa bonus."
+    },
+    {
+      "id": 46,
+      "block": "J. Aniqlashtirish: narx, sohalar, ekspertlar",
+      "q": "\"Sertifikat\" + \"Sohalar\" birga oyiga qancha?",
+      "multi": false,
+      "options": [
+        "59 000 so'm",
+        "69 000 so'm",
+        "78 000 so'm",
+        "49 000 so'm"
+      ],
+      "owner": "59 000 so'm",
+      "decision": "Sertifikat 39 000, Sohalar 39 000, ikkalasi 59 000."
+    },
+    {
+      "id": 47,
+      "block": "J. Aniqlashtirish: narx, sohalar, ekspertlar",
+      "q": "Bepul foydalanuvchi bitta AI testda nechta savol tuzadi?",
+      "multi": false,
+      "options": [
+        "20 tagacha",
+        "10 tagacha",
+        "50 tagacha"
+      ],
+      "owner": "10 tagacha",
+      "decision": "Bepul: haftasiga 10 ta test × 10 savolgacha. Pullik: 5–50."
+    },
+    {
+      "id": 48,
+      "block": "J. Aniqlashtirish: narx, sohalar, ekspertlar",
+      "q": "A darajali (eng chuqur) sohalar?",
+      "multi": true,
+      "options": [
+        "Konstitutsiyaviy + ma'muriy",
+        "Fuqarolik + oila",
+        "Jinoyat + JPK",
+        "Mehnat + soliq"
+      ],
+      "owner": "Fuqarolik + oila, Jinoyat + JPK, Mehnat + soliq",
+      "decision": "A: fuqarolik, oila, jinoyat, jinoyat-protsessual, mehnat, soliq. Konstitutsiyaviy va ma'muriy — B (Milliy sertifikatda baribir to'liq)."
+    },
+    {
+      "id": 49,
+      "block": "J. Aniqlashtirish: narx, sohalar, ekspertlar",
+      "q": "Rasmiy savollarni kim tekshiradi?",
+      "multi": false,
+      "options": [
+        "Men o'zim",
+        "Har sohaga alohida yurist",
+        "Trust 3 foydalanuvchilar",
+        "Aralash"
+      ],
+      "owner": "Trust 3 foydalanuvchilar",
+      "decision": "Jamoa ekspertlari (trust 3) tekshiradi."
+    },
+    {
+      "id": 50,
+      "block": "K. Aniqlashtirish: ishonch va ekspert tartibi",
+      "q": "Trust 3 (ekspert) darajasini kim beradi?",
+      "multi": false,
+      "options": [
+        "Admin qo'lda",
+        "Avtomatik mezon",
+        "Ikkalasi"
+      ],
+      "owner": "Admin qo'lda",
+      "decision": "Admin diplom/ish joyini tekshirib beradi."
+    },
+    {
+      "id": 51,
+      "block": "K. Aniqlashtirish: ishonch va ekspert tartibi",
+      "q": "Savol rasmiy bankka qo'shilishi uchun kim tasdiqlaydi?",
+      "multi": false,
+      "options": [
+        "1 ekspert",
+        "2 ekspert",
+        "1 ekspert + admin"
+      ],
+      "owner": "Admin",
+      "decision": "Ekspert tekshiradi va tavsiya qiladi, oxirgi tasdiq — admin."
+    },
+    {
+      "id": 52,
+      "block": "K. Aniqlashtirish: ishonch va ekspert tartibi",
+      "q": "Ekspertga nima beriladi?",
+      "multi": true,
+      "options": [
+        "Bepul Premium",
+        "Har tasdiqlangan savol uchun pul",
+        "Profilda \"Ekspert\" belgisi",
+        "Mualliflar reytingida yuqorida"
+      ],
+      "owner": "Hammasi",
+      "decision": "Bepul Premium, har tasdiqlangan savol uchun to'lov, belgi, reytingda ustunlik."
+    },
+    {
+      "id": 53,
+      "block": "K. Aniqlashtirish: ishonch va ekspert tartibi",
+      "q": "Trust 1 (katalogga chiqish) qanday olinadi?",
+      "multi": false,
+      "options": [
+        "3 nashr + 30 kun shikoyatsiz",
+        "Telefon/Telegram tasdig'i",
+        "Premium bo'lsa darhol",
+        "Admin qo'lda"
+      ],
+      "owner": "Admin qo'lda",
+      "decision": "Admin muallifni ko'rib, trust 1 beradi. Admin panelida 'nomzodlar' navbati (≥ 3 nashr qilingan test) bo'ladi."
+    },
+    {
+      "id": 54,
+      "block": "L. Aniqlashtirish: o'rganish",
+      "q": "Bepul foydalanuvchi \"Huquq sohalari\"dan qancha foydalanadi?",
+      "multi": false,
+      "options": [
+        "Har sohaning 1-bobi + C sohalar",
+        "Kuniga 20 savol, istalgan soha",
+        "Faqat konspektlar bepul",
+        "Hammasi bepul, AI ustoz pullik"
+      ],
+      "owner": "Har sohaning 1-bobi + C sohalar",
+      "decision": "Har sohaning 1-bobi va barcha C sohalar bepul, qolgani 'Sohalar' tarifida."
+    },
+    {
+      "id": 55,
+      "block": "L. Aniqlashtirish: o'rganish",
+      "q": "AI ustoz bepul foydalanuvchiga?",
+      "multi": false,
+      "options": [
+        "Kuniga 3 savol",
+        "Yo'q, faqat Premium",
+        "Haftasiga 10 savol"
+      ],
+      "owner": "Haftasiga 10 savol",
+      "decision": "Bepul: haftasiga 10 savol."
+    },
+    {
+      "id": 56,
+      "block": "L. Aniqlashtirish: o'rganish",
+      "q": "Konspektlarni kim yozadi?",
+      "multi": false,
+      "options": [
+        "AI yozadi, ekspert tekshiradi",
+        "Faqat ekspertlar",
+        "AI, tekshiruvsiz"
+      ],
+      "owner": "AI yozadi, ekspert tekshiradi",
+      "decision": "AI qoralama → ekspert tekshiradi → nashr."
+    },
+    {
+      "id": 57,
+      "block": "L. Aniqlashtirish: o'rganish",
+      "q": "Soha sertifikati qiymati?",
+      "multi": false,
+      "options": [
+        "Ichki DOYSE sertifikati",
+        "Nazoratli imtihon bilan",
+        "Keyinroq hal qilamiz"
+      ],
+      "owner": "Nazoratli imtihon bilan",
+      "decision": "Sertifikat faqat nazoratli imtihondan keyin beriladi."
+    },
+    {
+      "id": 58,
+      "block": "M. Aniqlashtirish: viktorina, sertifikat, ishga tushirish",
+      "q": "Jonli viktorina bepul o'qituvchiga?",
+      "multi": false,
+      "options": [
+        "Ha, 30 kishigacha",
+        "Faqat Premium o'qituvchi",
+        "Hammaga cheksiz"
+      ],
+      "owner": "Ha, 30 kishigacha",
+      "decision": "Bepul — 30 kishigacha; katta xonalar — Premium/markaz."
+    },
+    {
+      "id": 59,
+      "block": "M. Aniqlashtirish: viktorina, sertifikat, ishga tushirish",
+      "q": "Pullik testdan DOYSE qancha foiz oladi?",
+      "multi": false,
+      "options": [
+        "30%",
+        "20%",
+        "50%"
+      ],
+      "owner": "50%",
+      "decision": "DOYSE 50%, muallif 50%."
+    },
+    {
+      "id": 60,
+      "block": "M. Aniqlashtirish: viktorina, sertifikat, ishga tushirish",
+      "q": "Nazoratli sertifikat imtihoni qanday?",
+      "multi": false,
+      "options": [
+        "Onlayn, kamera + ekran nazorati",
+        "Oflayn, hamkor markazda",
+        "Ikkalasi"
+      ],
+      "owner": "Onlayn, kamera + ekran nazorati",
+      "decision": "Onlayn proktoring: kamera + ekran."
+    },
+    {
+      "id": 61,
+      "block": "M. Aniqlashtirish: viktorina, sertifikat, ishga tushirish",
+      "q": "V3 ni qanday ishga tushiramiz?",
+      "multi": false,
+      "options": [
+        "Yopiq beta → hammaga",
+        "Birdaniga hammaga",
+        "Qism-qism hammaga"
+      ],
+      "owner": "Avval to'liq sinovdan o'tkazamiz, mukammal bo'lgach production",
+      "decision": "Hamma qism alohida sinov muhitida (preview + alohida Supabase) to'liq sinovdan o'tkaziladi; egasi qabul qilgach bir marta production'ga chiqariladi."
     }
   ]
 }
