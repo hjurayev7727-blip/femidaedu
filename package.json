@@ -15,7 +15,8 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:calibrate": "tsx scripts/calibrate.ts",
     "v3:polls": "tsx scripts/v3-polls.ts",
-    "brand:check": "tsx scripts/brand-check.ts"
+    "brand:check": "tsx scripts/brand-check.ts",
+    "lex:import": "tsx scripts/lex-import.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.129.0",
