@@ -25,7 +25,7 @@ const publish = (test: number, visibility: string, settings: J = {}, group: numb
 const start = (code: string, user: string | null, guestName: string | null = null, guest: string | null = null) =>
   one<{ ok: boolean; attempt_id?: string; reason?: string; resumed?: boolean }>(`select public.start_test_attempt($1, $2, $3, $4) as r`, [code, user, guestName, guest]);
 const answer = (attempt: string, user: string | null, guest: string | null, itemId: number, correct: boolean) =>
-  one<{ ok: boolean; reason?: string }>(`select public.save_test_answer($1, $2, $3, $4, '{"index":0}'::jsonb, $5) as r`, [attempt, user, guest, itemId, correct]);
+  one<{ ok: boolean; reason?: string }>(`select public.save_test_answer($1, $2, $3, $4, '{"index":0}'::jsonb, $5, (select key_version from test_items where id = $4)) as r`, [attempt, user, guest, itemId, correct]);
 const finish = (attempt: string, user: string | null, guest: string | null = null) =>
   one<{ ok: boolean; score: number; correct: number; total: number }>(`select public.finish_test_attempt($1, $2, $3) as r`, [attempt, user, guest]);
 const itemIds = async (test: number) => (await db.query<{ id: number }>(`select id from test_items where test_id = $1 order by pos`, [test])).rows.map((r) => Number(r.id));
@@ -239,5 +239,48 @@ describe("reyting, ishonch va katalog", () => {
     await answer(s.attempt_id!, STUDENT, null, id, true);
     const p = (await db.query<{ seen: number; correct: number }>(`select seen, correct from article_progress where user_id = $1 and article_id = $2`, [STUDENT, artId])).rows[0];
     expect(p).toEqual({ seen: 1, correct: 1 });
+  });
+});
+
+describe("xavfsizlik tuzatishlari", () => {
+  it("urinishlar cheklangan test — mehmonga yopiq (tokenni yangilab limitni chetlab o'tolmaydi)", async () => {
+    const t = await createTest([item(301)]);
+    await publish(t.id, "link", { max_attempts: 1 });
+    expect(await start(t.share_code, null, "Mehmon", "g-limit")).toEqual({ ok: false, reason: "login_required" });
+  });
+
+  it("eski kalit bilan baholangan javob rad etiladi (stale_key)", async () => {
+    const t = await createTest([item(302)]);
+    await publish(t.id, "link", {});
+    const [id] = await itemIds(t.id);
+    const s = await start(t.share_code, STUDENT);
+    await db.query(`update test_items set key_version = key_version + 1 where id = $1`, [id]);
+    const r = await one(`select public.save_test_answer($1, $2, null, $3, '{"index":0}'::jsonb, true, 1) as r`, [s.attempt_id, STUDENT, id]);
+    expect(r).toEqual({ ok: false, reason: "stale_key" });
+  });
+
+  it("qayta baholashda o'tkazib yuborilgan javob bo'lsa — butunlay qaytariladi (regrade_retry)", async () => {
+    const t = await createTest([item(303)]);
+    await publish(t.id, "link", {});
+    const [id] = await itemIds(t.id);
+    const s = await start(t.share_code, STUDENT);
+    await answer(s.attempt_id!, STUDENT, null, id, true);
+    await expect(db.query(`select public.save_test_item($1, $2, $3, $4::jsonb, '[]'::jsonb)`, [OWNER, t.id, id, JSON.stringify(item(303, { answer: { index: 3 } }))]))
+      .rejects.toThrow(/regrade_retry/);
+    expect((await db.query<{ key_version: number }>(`select key_version from test_items where id = $1`, [id])).rows[0].key_version).toBe(1);
+  });
+
+  it("ochiq test tahrirlansa — moderatsiya qaytadan; modda bog'lanishini almashtirib bo'lmaydi", async () => {
+    const t = await createTest([item(304)]);
+    await publish(t.id, "public", {});
+    await db.query(`select public.set_test_moderation($1, 'ok', null)`, [t.id]);
+    const [id] = await itemIds(t.id);
+    const artId = (await db.query<{ id: number }>(`select id from articles limit 1`)).rows[0]?.id ?? null;
+    await one(`select public.save_test_item($1, $2, $3, $4::jsonb) as r`, [OWNER, t.id, id, JSON.stringify(item(304, { stem: "Tahrirlangan savol", article_id: artId }))]);
+    const row = (await db.query<{ moderation: string; article_id: number | null }>(`select t.moderation, i.article_id from tests t join test_items i on i.test_id = t.id where t.id = $1`, [t.id])).rows[0];
+    expect(row).toEqual({ moderation: "pending", article_id: null });
+    await db.query(`select public.set_test_moderation($1, 'ok', null)`, [t.id]);
+    await db.query(`select public.update_test_meta($1, $2, '{"title":"Yangi nom","description":"","field":""}'::jsonb)`, [OWNER, t.id]);
+    expect((await db.query<{ moderation: string }>(`select moderation from tests where id = $1`, [t.id])).rows[0].moderation).toBe("pending");
   });
 });

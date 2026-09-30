@@ -23,7 +23,7 @@ function usageOf(res: { model: string; usage: { input_tokens: number; output_tok
 }
 
 /** Teg ichidagi matndan yopuvchi teg soxtalashtirilishining oldini olish */
-const tag = (name: string, text: string | null | undefined) => `<${name}>\n${String(text ?? "").replace(/<\/?[a-z_]+>/gi, "")}\n</${name}>`;
+const tag = (name: string, text: string | null | undefined) => `<${name}>\n${String(text ?? "").replace(/<\s*\/?\s*[a-z_]+[^>]*>/gi, "")}\n</${name}>`;
 
 async function parseStructured<S extends z.ZodType>(
   client: Anthropic,
