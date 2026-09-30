@@ -33,14 +33,20 @@ export default async function ArticlePage({ params, searchParams }: PageProps<"/
   const list = nav ?? [];
   const i = list.findIndex((x) => x.id === a.id);
   const locked = !free && !premium;
+  const aiTest = (
+    <Link href={`/app/testlar/yangi?hujjat=${doc.id}&moddalar=${encodeURIComponent(a.number)}`} className="btn-ghost">🤖 AI bilan test</Link>
+  );
   const action = locked ? (
-    <Link href="/app/premium" className="btn-gold">Premium bilan ochish</Link>
+    <div className="flex flex-wrap gap-2">{aiTest}<Link href="/app/premium" className="btn-gold">Premium bilan ochish</Link></div>
   ) : (
-    <form action={startArticlePractice}>
-      <input type="hidden" name="article" value={a.id} />
-      <input type="hidden" name="back" value={`/app/sohalar/${field.slug}/${a.id}`} />
-      <button className="btn-primary" disabled={!count}>Testni boshlash</button>
-    </form>
+    <div className="flex flex-wrap gap-2">
+      {aiTest}
+      <form action={startArticlePractice}>
+        <input type="hidden" name="article" value={a.id} />
+        <input type="hidden" name="back" value={`/app/sohalar/${field.slug}/${a.id}`} />
+        <button className="btn-primary" disabled={!count}>Testni boshlash</button>
+      </form>
+    </div>
   );
 
   return (

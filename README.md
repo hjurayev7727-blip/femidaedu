@@ -32,6 +32,20 @@ Next.js 16 + Supabase + Telegram. YURISTIM TEAM MChJ mahsuloti.
 - Modda progressi javob yozilganda trigger bilan yangilanadi; o'zlashtirish — kamida 2 to'g'ri va ≥ 2/3.
 - Supabase'siz ko'rish: `npm run dev` → `/dev/sohalar` (namuna ma'lumot).
 
+## V3 — 4-qism: AI bilan test yaratish va ulashish ✅ (kod)
+
+- `/app/testlar` — mening testlarim, guruhga berilgan testlar, kod bilan ochish, haftalik AI limiti.
+- `/app/testlar/yangi` — manba: bazadagi moddalar (raqamlar yoki bob), matn, PDF/rasm; 5–50 savol (bepul: haftasiga 10 test × 10 savol).
+  AI 10 talik bo'laklarda tuzadi, savollar `article_ref` bo'yicha bazadagi moddaga bog'lanadi (topilmasa — "o'z materiali").
+- `/app/testlar/<id>` — har savolni tahrirlash; javob kaliti o'zgarsa `key_version++` va barcha natijalar jimgina qayta hisoblanadi
+  (eski ball `score_history` da); nashr: faqat men / havola / guruh / ochiq katalog; taymer, muddat, urinishlar, aralashtirish,
+  javob ko'rsatish (har savoldan keyin / oxirida / muddat tugagach), mehmonlar; natijalar va har savol bo'yicha to'g'ri %.
+- Ulashish: `/t/<KOD>` (6 belgi, 0/O/1/I yo'q), `t.me/<bot>?startapp=t_<KOD>` (Mini App), bot `/start t_<KOD>`, Telegram share.
+- Ishlovchi: kartada "natijangiz va ismingiz muallifga ko'rinadi"; mehmon — ism + httpOnly token (keyin kirsa urinishlar akkauntga o'tadi).
+- Ochiq katalog `/t`: public + ishonch darajasi ≥ 1 (admin beradi) + AI moderatsiya + bazaga bog'langan + ≥ 5 savol + izohli ≥ 50%.
+- Javob kaliti klientga hech qachon berilmaydi — barcha amallar service_role funksiyalari orqali.
+- Supabase'siz ko'rish: `npm run dev` → `/dev/testlar?sahifa=bosh|yangi|tahrir|karta|ishlash`.
+
 ---
 
 ## A+ Huquq 2.0 dan meros (holat)

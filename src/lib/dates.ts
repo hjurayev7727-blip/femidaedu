@@ -26,3 +26,18 @@ export function effectiveStreak(streakDays: number, lastActiveOn: string | null,
   const today = Date.parse(now.toLocaleDateString("en-CA", { timeZone: "Asia/Tashkent" }));
   return (today - Date.parse(lastActiveOn)) / 86_400_000 <= 1 ? streakDays : 0;
 }
+
+const UZ_MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
+const UZ_MONTHS_SHORT = ["yan", "fev", "mar", "apr", "may", "iyn", "iyl", "avg", "sen", "okt", "noy", "dek"];
+
+/**
+ * "15-oktabr, 23:00" — Toshkent vaqti (UTC+5, yozgi vaqt yo'q). Intl lokal ma'lumotiga bog'liq emas:
+ * server va brauzerda bir xil natija (klient komponentlarida gidratatsiya mos kelishi uchun).
+ */
+export function fmtUz(iso: string, opts: { time?: boolean; short?: boolean } = {}): string {
+  const d = new Date(new Date(iso).getTime() + 5 * 3600_000);
+  const month = (opts.short ? UZ_MONTHS_SHORT : UZ_MONTHS)[d.getUTCMonth()];
+  const date = `${d.getUTCDate()}-${month}`;
+  if (opts.time === false) return date;
+  return `${date}, ${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}`;
+}
