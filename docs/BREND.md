@@ -22,6 +22,9 @@ yuqori o'ngda kichik EDU (Montserrat). Shu uslubdagi 9 variant (P1–P9), 6 rang
 (sayt sarlavhasi, Telegram avatari, favicon, vizitka, soha sertifikati) — `public/brand/final/`,
 `docs/brand-w10.png`, qayta yaratish: `scripts/brand-w10.mjs`.
 
+**Keyingi qadam:** P7 (oltin "i" nuqtasi), EDU pastga — 4 joylashuv (Q1–Q4, `docs/brand-p7-edu-past.png`,
+`scripts/brand-p7.mjs`).
+
 Belgili variantlar (A–N) rad etildi.
 10 ta matnli variant — `public/brand/wordmarks/` (W1–W10), hammasi bir xil ranglarda, farq faqat tipografiyada;
 avatar/favicon uchun har birining qisqa shakli (F, FE, f/ …) bor. Qayta yaratish: `scripts/brand-wordmarks.mjs`.
