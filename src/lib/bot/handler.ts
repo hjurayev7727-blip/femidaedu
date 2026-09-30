@@ -138,6 +138,16 @@ export async function handleUpdate(u: Update, d: BotDeps): Promise<void> {
     return;
   }
 
+  // Jonli viktorina: /start j_<PIN>
+  const live = cmd === "/start" ? /^j_(\d{6})$/.exec(arg) : null;
+  if (live) {
+    await d.setBotEnabled(tgId, true);
+    await d.api.sendMessage(chat, `🎮 Jonli viktorina — PIN <b>${live[1]}</b>. Ismingiz va natijangiz o'qituvchi ekranida ko'rinadi.`, {
+      reply_markup: { inline_keyboard: openApp(d.siteUrl, "Qo'shilish", `/jonli?pin=${live[1]}`) },
+    });
+    return;
+  }
+
   switch (cmd) {
     case "/start": {
       const linked = await d.setBotEnabled(tgId, true);

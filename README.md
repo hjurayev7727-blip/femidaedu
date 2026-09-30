@@ -57,6 +57,17 @@ Next.js 16 + Supabase + Telegram. YURISTIM TEAM MChJ mahsuloti.
 - Limit: bepul — haftasiga 10 ta savol (reja ham 1 ta), Premium — 200; AI xatosida qaytariladi.
 - Supabase'siz ko'rish: `/dev/ustoz?sahifa=bosh|suhbat|reja`.
 
+## V3 — 6-qism: jonli viktorina ✅ (kod)
+
+- Muallif sahifasida "🎮 Jonli viktorina" → xona: 6 raqamli PIN + QR (Telegram Mini App `startapp=j_<PIN>`), har savolga 10–60 s,
+  ixtiyoriy guruh. Bepul — 30 ishtirokchigacha, Premium — 200. Bir hostda bitta faol xona.
+- `/jonli` — PIN va ism bilan qo'shilish (kirmaganlar ham, httpOnly token); bot `/start j_<PIN>`.
+- `/jonli/host/<xona>` — proyektor uchun ekran: ishtirokchilar, savol va taymer, javob berganlar soni, variantlar taqsimoti,
+  to'g'ri javob, top-5, yakuniy natijalar. `/jonli/<xona>` — o'quvchi ekrani (tanlov turida bir bosishda javob).
+- Holat har 1,5 soniyada `/api/jonli/<xona>` orqali olinadi; vaqt server soati bo'yicha; javob kaliti faqat "reveal" bosqichida.
+  Ball: to'g'ri — 500 + 500 × qolgan vaqt ulushi.
+- Supabase'siz ko'rish: `/dev/jonli?kim=host|oquvchi|kirish&holat=lobby|question|reveal|finished`.
+
 ---
 
 ## A+ Huquq 2.0 dan meros (holat)

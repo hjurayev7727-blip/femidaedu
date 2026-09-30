@@ -18,6 +18,7 @@ type Actions = {
   removeItem: (testId: number, itemId: number) => Promise<FormState>;
   publish: (prev: FormState, form: FormData) => Promise<FormState>;
   setStatus?: (form: FormData) => Promise<void>;
+  startLive?: (form: FormData) => Promise<void>;
 };
 
 const field = "mt-1 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-brand";
@@ -34,6 +35,8 @@ export function TestEditor(props: {
   results: ResultRow[];
   links: { web: string; telegram: string | null };
   created?: number;
+  liveError?: string;
+  liveMax?: number;
   actions: Actions;
 }) {
   const { test: t, items, actions } = props;
@@ -83,6 +86,36 @@ export function TestEditor(props: {
         groups={props.groups} trust={props.trust} moderation={t.moderation} action={actions.publish} />
 
       {t.status === "published" && <SharePanel code={t.share_code} web={props.links.web} telegram={props.links.telegram} title={t.title} />}
+
+      {actions.startLive && items.length > 0 && (
+        <form action={actions.startLive} className="card space-y-3">
+          <input type="hidden" name="test" value={t.id} />
+          <div>
+            <h2 className="text-xl font-bold">🎮 Jonli viktorina</h2>
+            <p className="text-sm text-mute">
+              Sinfda proyektorga chiqaring: o&apos;quvchilar PIN yoki QR bilan telefondan qo&apos;shiladi, har savoldan keyin top-5.
+              {props.liveMax ? ` ${props.liveMax} ishtirokchigacha.` : ""}
+            </p>
+          </div>
+          <div className="flex flex-wrap items-end gap-3">
+            <label className="text-sm font-bold">Har savolga
+              <select name="seconds" defaultValue={20} className={field}>
+                {[10, 20, 30, 60].map((n) => <option key={n} value={n}>{n} soniya</option>)}
+              </select>
+            </label>
+            {props.groups.length > 0 && (
+              <label className="text-sm font-bold">Guruh (natija uchun)
+                <select name="group" defaultValue="" className={field}>
+                  <option value="">—</option>
+                  {props.groups.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
+                </select>
+              </label>
+            )}
+            <button className="btn-gold">▶ Xona ochish</button>
+          </div>
+          {props.liveError && <p role="alert" className="text-sm font-semibold text-no">{props.liveError}</p>}
+        </form>
+      )}
 
       <section className="card space-y-3">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
