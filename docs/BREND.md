@@ -3,7 +3,7 @@
 > Holat: **qaror qabul qilingan, ro'yxatdan o'tkazilmagan.** Domen, bot va tovar belgisi hali olinmagan.
 > So'rovnoma: `data/v3/polls.json`, 62–69.
 
-![Matnli logolar](brand-wordmarks.png)
+![W10 uslubi](brand-w10.png)
 
 ## Nom
 
@@ -17,7 +17,12 @@
 
 ## Logo va ranglar
 
-**Qaror: logo belgisiz, faqat matnli (wordmark).** Belgili variantlar (A–N) rad etildi.
+**Qaror: logo belgisiz, faqat matnli (wordmark). Tanlangan uslub — W10:** Playfair Display'da "Femida",
+yuqori o'ngda kichik EDU (Montserrat). Shu uslubdagi 9 variant (P1–P9), 6 rang va qo'llanish namunalari
+(sayt sarlavhasi, Telegram avatari, favicon, vizitka, soha sertifikati) — `public/brand/final/`,
+`docs/brand-w10.png`, qayta yaratish: `scripts/brand-w10.mjs`.
+
+Belgili variantlar (A–N) rad etildi.
 10 ta matnli variant — `public/brand/wordmarks/` (W1–W10), hammasi bir xil ranglarda, farq faqat tipografiyada;
 avatar/favicon uchun har birining qisqa shakli (F, FE, f/ …) bor. Qayta yaratish: `scripts/brand-wordmarks.mjs`.
 
