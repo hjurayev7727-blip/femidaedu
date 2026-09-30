@@ -61,10 +61,11 @@ describe("jonli viktorina", () => {
     expect(await answer(room.room_id, P1, null, items[0], true)).toEqual({ ok: true });
     expect(await answer(room.room_id, P1, null, items[0], true)).toEqual({ ok: false, reason: "duplicate" });
     expect(await answer(room.room_id, null, "g1", items[0], false)).toEqual({ ok: true });
-    const me = (await state(room.room_id, P1, null)).me as { score: number; rank: number; answered: boolean };
+    const me = (await state(room.room_id, P1, null)).me as { score: number; rank: number; answered: boolean; last: unknown };
     expect(me.score).toBeGreaterThan(900);
     expect(me.rank).toBe(1);
     expect(me.answered).toBe(true);
+    expect(me.last).toBeNull(); // to'g'ri/xato savol yopilguncha ko'rinmaydi
 
     // host muddatidan oldin yopadi → javob kaliti va top chiqadi, yangi javob qabul qilinmaydi
     expect(await one(`select public.live_control($1, $2, 'reveal') as r`, [OTHER, room.room_id])).toBe(false);
@@ -85,6 +86,9 @@ describe("jonli viktorina", () => {
     const room = await create();
     await join(room.pin, P1, null, "Ali");
     await one(`select public.live_next($1, $2) as r`, [HOST, room.room_id]);
+    // vaqt tugadi, lekin 1 s zaxira ichida — kalit hali ochilmaydi
+    await db.query(`update live_rooms set question_ends_at = now() - interval '0.5 seconds' where id = $1`, [room.room_id]);
+    expect(await state(room.room_id, P1, null)).toMatchObject({ status: "question", answer: null });
     await db.query(`update live_rooms set question_ends_at = now() - interval '5 seconds' where id = $1`, [room.room_id]);
     expect((await state(room.room_id, P1, null)).status).toBe("reveal");
     expect(await answer(room.room_id, P1, null, items[0], true)).toEqual({ ok: false, reason: "closed" });

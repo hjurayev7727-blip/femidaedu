@@ -56,10 +56,11 @@ create policy live_rooms_host on public.live_rooms for select to authenticated u
 grant select on public.live_rooms to authenticated;
 grant all on public.live_rooms, public.live_players, public.live_answers to service_role;
 
--- Savol vaqti tugaganmi (host "ko'rsatish"ni bosmasa ham): samarali holat
+-- Savol vaqti tugaganmi (host "ko'rsatish"ni bosmasa ham): samarali holat.
+-- Javob kaliti live_answer qabul qiladigan 1 soniyalik zaxira ham tugagachgina ochiladi (aks holda kalitni ko'rib javob berish mumkin)
 create or replace function public.live_effective_status(r live_rooms) returns text
 language sql stable as $$
-  select case when r.status = 'question' and now() > r.question_ends_at then 'reveal' else r.status end
+  select case when r.status = 'question' and now() > r.question_ends_at + interval '1 second' then 'reveal' else r.status end
 $$;
 
 /** Xona ochish: faqat test egasi, testda savol bo'lsa. Qaytaradi: { ok, room_id, pin } */
@@ -222,7 +223,9 @@ begin
       'name', v_player.name, 'score', v_player.score, 'correct', v_player.correct,
       'rank', (select count(*) + 1 from live_players where room_id = p_room and (score > v_player.score or (score = v_player.score and joined_at < v_player.joined_at))),
       'answered', exists (select 1 from live_answers where player_id = v_player.id and item_id = v_item.id),
-      'last', (select jsonb_build_object('correct', is_correct, 'points', points) from live_answers where player_id = v_player.id and item_id = v_item.id)) end
+      -- to'g'ri/xato faqat savol yopilgach (aks holda qo'shimcha mehmon hisoblari bilan variantlarni sinab ko'rish mumkin)
+      'last', case when v_status in ('reveal', 'finished') then
+        (select jsonb_build_object('correct', is_correct, 'points', points) from live_answers where player_id = v_player.id and item_id = v_item.id) end) end
   );
 end $$;
 
