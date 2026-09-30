@@ -29,7 +29,20 @@ hammasida matn vektor yo'lga aylantirilgan (shrift o'rnatilmagan qurilmada ham b
 | E | Tarozi, yumaloq kvadrat | Cinzel + Montserrat |
 | F — Qalqon | Qalqon ichida F | Cinzel (belgi) + Cormorant Garamond |
 
-Har variant: oq fon, to'q fon, Telegram avatari (doira) va 32 px. Qayta yaratish: `scripts/brand-logos.mjs`
+**2-to'plam (G–N)** — A–F ham rad etildi, butunlay boshqa uslublar (`docs/brand-variants-2.png`):
+
+| | G'oya | Shrift | Ranglar |
+|---|---|---|---|
+| G | § — paragraf belgisi | Bodoni Moda | bordo + qaymoq |
+| H | FEMIDA so'zidagi "I" — antik ustun | Marcellus | qora + oltin |
+| I | Muvozanat: ikki teng chiziq + tayanch | Space Grotesk | zumrad + yalpiz |
+| J | Ko'zi bog'liq adolat (abstrakt) | Prata | siyohrang + oltin |
+| K | Ochiq kitob + tarozi | Josefin Sans | qirollik ko'k + amber |
+| L | Imzo (qo'lyozma) | Great Vibes | qora + oltin, qaymoq fon |
+| M | Zamonaviy edtech, "i" nuqtasi — romb | Unbounded | indigo + laym |
+| N | FE monogramma, ramkada | Playfair Display | qora + oltin |
+
+Har variant: oq fon, to'q fon, Telegram avatari (doira) va 32 px. Qayta yaratish: `scripts/brand-logos.mjs` (A–F), `scripts/brand-logos-2.mjs` (G–N)
 (opentype.js va @fontsource shriftlari bilan). Tanlangan variantni dizayner yakuniy vektorga keltiradi.
 Shriftlar SIL Open Font License ostida — logoda erkin ishlatish mumkin.
 

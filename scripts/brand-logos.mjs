@@ -7,7 +7,7 @@ const cinzel = F("cinzel/files/cinzel-latin-600-normal.woff");
 const corm = F("cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff");
 const mont = F("montserrat/files/montserrat-latin-600-normal.woff");
 const montM = F("montserrat/files/montserrat-latin-500-normal.woff");
-const NAVY = "#0E2340", GOLD = "#B8923A", GREY = "#5B6676";
+const NAVY = "#0E2340", GOLD = "#B8923A";
 
 const n = (v) => Math.round(v * 100) / 100;
 // opentype toPathData ba'zi glyphlarda NaN beradi — buyruqlardan o'zimiz yig'amiz
