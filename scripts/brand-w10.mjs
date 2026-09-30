@@ -73,4 +73,4 @@ fs.writeFileSync("app-favicon.svg", svg(512, 512, fav, DARK.bg));
   fs.writeFileSync("app-cert.svg", svg(1000, 700, `<rect x="24" y="24" width="952" height="652" fill="none" stroke="${NAVY.gold}" stroke-width="2"/><rect x="34" y="34" width="932" height="632" fill="none" stroke="${NAVY.gold}" stroke-width="0.8"/>` +
     `<g transform="translate(${500 - d.w / 2} ${130 - d.top - 40})">${d.body}</g>` + c("SERTIFIKAT", 270, SC, 40, NAVY.ink, 8) + c("MEHNAT HUQUQI", 330, tenor, 20, NAVY.gold, 6) +
     c("Ali Valiyev", 430, P6i, 56) + `<rect x="330" y="455" width="340" height="1.2" fill="${NAVY.gold}"/>` + c("nazoratli imtihonni 86% natija bilan topshirdi", 500, montM, 17, "#4B5B70", 0.3) +
-    c("№ FE-2026-000142  ·  femidaedu.uz/c/000142", 610, montM, 13, "#8A93A3", 0.5), "#FFFFFF")); }
+    c("No. FE-2026-000142  ·  femidaedu.uz/c/000142", 610, montM, 13, "#8A93A3", 0.5), "#FFFFFF")); }
