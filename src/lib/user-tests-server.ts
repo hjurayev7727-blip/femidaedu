@@ -139,7 +139,8 @@ export async function createAiTest(userId: string, premium: boolean, input: Crea
     }
   }
   if (!results.some((r) => r.ok)) {
-    await refund();
+    // Limit faqat texnik xatoda qaytariladi; model javob bergan (rad etgan/bo'sh) holatlar limitdan olinadi
+    if (results.every((r) => !r.ok && r.reason === "error")) await refund();
     const refusal = results.some((r) => !r.ok && r.reason === "refusal");
     return { ok: false, message: refusal ? "AI bu material bo'yicha test tuzmadi." : "AI javob bera olmadi. Birozdan keyin urinib ko'ring." };
   }
@@ -157,7 +158,6 @@ export async function createAiTest(userId: string, premium: boolean, input: Crea
     items.push(conv.item);
   }
   if (!items.length) {
-    await refund();
     return { ok: false, message: "Materialdan huquqiy test tuzib bo'lmadi. Boshqa matn yoki moddalarni tanlang." };
   }
 
@@ -181,7 +181,15 @@ type StoredItem = { id: number; type: QuestionType; payload: Payload; answer: An
 export async function saveTestItem(userId: string, testId: number, itemId: number | null, raw: unknown): Promise<AiResult<{ id: number; regraded: boolean }>> {
   const conv = inputToRow(raw);
   if (!conv.ok) return { ok: false, message: conv.message };
-  const row = conv.row;
+  // Qayta baholash paytida yangi javob kelsa, SQL butunlay qaytaradi (regrade_retry) — javoblarni qayta o'qib urinamiz
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const r = await saveTestItemOnce(userId, testId, itemId, conv.row);
+    if (r !== "retry") return r;
+  }
+  return { ok: false, message: "Saqlab bo'lmadi — test hozir ishlanmoqda. Birozdan keyin urinib ko'ring." };
+}
+
+async function saveTestItemOnce(userId: string, testId: number, itemId: number | null, row: ItemRow): Promise<AiResult<{ id: number; regraded: boolean }> | "retry"> {
   const admin = createSupabaseAdmin();
 
   let regrade: { attempt_id: string; correct: boolean }[] = [];
@@ -195,6 +203,7 @@ export async function saveTestItem(userId: string, testId: number, itemId: numbe
     }
   }
   const { data, error } = await admin.rpc("save_test_item", { p_user: userId, p_test: testId, p_item: itemId, p: row, p_regrade: regrade });
+  if (error?.message.includes("regrade_retry")) return "retry";
   const r = data as { ok: boolean; reason?: string; id?: number; regraded?: boolean } | null;
   if (error || !r?.ok) {
     const msg: Record<string, string> = { type_locked: "Javob berilgan savolning turini o'zgartirib bo'lmaydi.", items_count: `Testda ${MAX_ITEMS} tagacha savol.` };
@@ -217,29 +226,41 @@ export async function publishTest(
     return { ok: false, message: msg[r?.reason ?? ""] ?? "Nashr qilib bo'lmadi." };
   }
   if (visibility !== "public") return { ok: true, value: { code: r.share_code!, moderation: null, note: null } };
+  const m = await moderatePublicTest(userId, testId);
+  return { ok: true, value: { code: r.share_code!, ...m } };
+}
 
-  // Ochiq katalog: AI moderatsiya (AI ulanmagan bo'lsa — navbatda qoladi)
+/**
+ * Ochiq katalog: AI moderatsiya. Nashrda va ochiq test tahrirlanganda (SQL moderation='pending' qiladi) chaqiriladi.
+ * AI ulanmagan yoki xato bo'lsa — navbatda qoladi.
+ */
+export async function moderatePublicTest(userId: string, testId: number): Promise<{ moderation: "ok" | "pending" | "rejected"; note: string | null }> {
+  const admin = createSupabaseAdmin();
+  const { data: cur } = await admin.from("tests").select("visibility, moderation, owner_id").eq("id", testId).maybeSingle<{ visibility: string; moderation: string | null; owner_id: string }>();
+  if (!cur || cur.owner_id !== userId || cur.visibility !== "public" || cur.moderation !== "pending") {
+    return { moderation: (cur?.moderation as "ok" | "rejected" | null) ?? "pending", note: null };
+  }
   const c = aiClient();
-  if (!c) return { ok: true, value: { code: r.share_code!, moderation: "pending", note: null } };
+  if (!c) return { moderation: "pending", note: null };
   const [{ data: t }, { data: items }] = await Promise.all([
     admin.from("tests").select("title, description").eq("id", testId).single<{ title: string; description: string | null }>(),
     admin.from("test_items").select("stem, context, payload").eq("test_id", testId).eq("status", "active").order("pos").returns<{ stem: string; context: string | null; payload: Payload }[]>(),
   ]);
-  const m = await moderateTest(c, {
+  const mod = await moderateTest(c, {
     title: t?.title ?? "", description: t?.description ?? null,
     items: (items ?? []).map((i) => ({ stem: i.stem, context: i.context, options: "options" in i.payload ? i.payload.options : [] })),
   });
-  if (!m.ok) return { ok: true, value: { code: r.share_code!, moderation: "pending", note: null } };
-  await logUsage(userId, "ugc_moderation", m.usage);
-  await admin.rpc("set_test_moderation", { p_test: testId, p_status: m.data.verdict, p_note: m.data.reason });
-  return { ok: true, value: { code: r.share_code!, moderation: m.data.verdict, note: m.data.reason } };
+  if (!mod.ok) return { moderation: "pending", note: null };
+  await logUsage(userId, "ugc_moderation", mod.usage);
+  await admin.rpc("set_test_moderation", { p_test: testId, p_status: mod.data.verdict, p_note: mod.data.reason });
+  return { moderation: mod.data.verdict, note: mod.data.reason };
 }
 
 // ─────────────────────────── Ishlash ───────────────────────────
 
 export type RunnerTest = { id: number; code: string; title: string; reveal: Reveal; closesAt: string | null; ownerId: string };
 export type RunnerAttempt = { id: string; itemIds: number[]; deadlineAt: string | null; finishedAt: string | null; score: number | null; correct: number | null; total: number | null };
-export type RunnerItem = ClientQuestion & { explanation: string | null; answer: Answer; articleId: number | null };
+export type RunnerItem = ClientQuestion & { explanation: string | null; answer: Answer; articleId: number | null; keyVersion: number };
 
 type AttemptRow = {
   id: string; test_id: number; user_id: string | null; guest_token_hash: string | null; item_ids: number[];
@@ -257,15 +278,15 @@ export async function loadAttempt(attemptId: string, actor: Actor) {
   if (!a || !mine) return null;
   const ids = a.item_ids.map(Number);
   const [{ data: items }, { data: answers }] = await Promise.all([
-    admin.from("test_items").select("id, type, stem, context, payload, difficulty, explanation, answer, article_id, status").in("id", ids)
-      .returns<{ id: number; type: QuestionType; stem: string; context: string | null; payload: Payload; difficulty: number; explanation: string | null; answer: Answer; article_id: number | null; status: string }[]>(),
+    admin.from("test_items").select("id, type, stem, context, payload, difficulty, explanation, answer, article_id, status, key_version").in("id", ids)
+      .returns<{ id: number; type: QuestionType; stem: string; context: string | null; payload: Payload; difficulty: number; explanation: string | null; answer: Answer; article_id: number | null; status: string; key_version: number }[]>(),
     admin.from("test_answers").select("item_id, response, is_correct").eq("attempt_id", attemptId).returns<{ item_id: number; response: Response; is_correct: boolean }[]>(),
   ]);
   const byId = new Map((items ?? []).map((i) => [Number(i.id), i]));
   const ordered: RunnerItem[] = ids.flatMap((id) => {
     const i = byId.get(id);
     return i && i.status === "active"
-      ? [{ id, type: i.type, stem: i.stem, context: i.context, payload: i.payload, difficulty: i.difficulty, explanation: i.explanation, answer: i.answer, articleId: i.article_id }]
+      ? [{ id, type: i.type, stem: i.stem, context: i.context, payload: i.payload, difficulty: i.difficulty, explanation: i.explanation, answer: i.answer, articleId: i.article_id, keyVersion: i.key_version }]
       : [];
   });
   return {
@@ -291,17 +312,26 @@ const ANSWER_ERR: Record<string, string> = {
 
 export async function answerTestItem(attemptId: string, itemId: number, response: Response): Promise<TestAnswerResult> {
   const actor = await currentActor();
-  const loaded = await loadAttempt(attemptId, actor);
-  const item = loaded?.items.find((i) => i.id === itemId);
-  if (!loaded || !item) return { ok: false, message: ANSWER_ERR.not_found };
-  const g = gradeResponse(item.type, item.payload, item.answer, response);
-  const { data } = await createSupabaseAdmin().rpc("save_test_answer", {
-    p_attempt: attemptId, p_user: actor.userId, p_guest: actor.guest, p_item: itemId, p_response: response, p_correct: g.correct,
-  });
-  const r = data as { ok: boolean; reason?: string; reveal?: Reveal } | null;
+  // Muallif shu orada javob kalitini o'zgartirsa (stale_key) — yangi kalit bilan bir marta qayta baholanadi
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const loaded = await loadAttempt(attemptId, actor);
+    const item = loaded?.items.find((i) => i.id === itemId);
+    if (!loaded || !item) return { ok: false, message: ANSWER_ERR.not_found };
+    const g = gradeResponse(item.type, item.payload, item.answer, response);
+    const { data } = await createSupabaseAdmin().rpc("save_test_answer", {
+      p_attempt: attemptId, p_user: actor.userId, p_guest: actor.guest, p_item: itemId, p_response: response, p_correct: g.correct, p_key: item.keyVersion,
+    });
+    const r = data as { ok: boolean; reason?: string; reveal?: Reveal } | null;
+    if (r?.reason === "stale_key") continue;
+    return answerResult(r, g.correct, item);
+  }
+  return { ok: false, message: "Javobni saqlab bo'lmadi. Qayta urinib ko'ring." };
+}
+
+function answerResult(r: { ok: boolean; reason?: string; reveal?: Reveal } | null, correct: boolean, item: RunnerItem): TestAnswerResult {
   if (!r?.ok) return { ok: false, message: ANSWER_ERR[r?.reason ?? ""] ?? "Javobni saqlab bo'lmadi." };
   if (r.reveal !== "each") return { ok: true, revealed: false };
-  return { ok: true, revealed: true, correct: g.correct, answer: item.answer, explanation: item.explanation };
+  return { ok: true, revealed: true, correct, answer: item.answer, explanation: item.explanation };
 }
 
 export async function finishTestAttempt(attemptId: string) {

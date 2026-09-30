@@ -6,7 +6,7 @@ import type { Attachment } from "@/lib/ai";
 import { requireUser } from "@/lib/auth";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 import { MAX_ITEMS, normalizeCode, parseArticleRange, SHARE_CODE_RE, type Visibility } from "@/lib/user-tests";
-import { createAiTest, publishTest, saveTestItem, type TestSource } from "@/lib/user-tests-server";
+import { createAiTest, moderatePublicTest, publishTest, saveTestItem, type TestSource } from "@/lib/user-tests-server";
 
 export type FormState = { ok: false; message: string } | { ok: true; message: string } | null;
 
@@ -77,7 +77,10 @@ export async function saveMeta(form: FormData) {
   const id = ownTestId(form.get("test"));
   const p = z.object({ title: z.string().trim().min(3).max(120), description: z.string().trim().max(600), field: z.string().max(40) })
     .safeParse({ title: form.get("title"), description: form.get("description") ?? "", field: form.get("field") ?? "" });
-  if (p.success) await createSupabaseAdmin().rpc("update_test_meta", { p_user: userId, p_test: id, p: p.data });
+  if (p.success) {
+    await createSupabaseAdmin().rpc("update_test_meta", { p_user: userId, p_test: id, p: p.data });
+    await moderatePublicTest(userId, id); // ochiq test tahrirlansa — qayta moderatsiya
+  }
   revalidatePath(`/app/testlar/${id}`);
 }
 
@@ -86,6 +89,7 @@ export async function saveItem(testId: number, itemId: number | null, input: unk
   const { userId } = await requireUser();
   const r = await saveTestItem(userId, testId, itemId, input);
   if (!r.ok) return r;
+  await moderatePublicTest(userId, testId);
   revalidatePath(`/app/testlar/${testId}`);
   return { ok: true, message: r.value.regraded ? "Saqlandi. Javob kaliti o'zgardi — natijalar qayta hisoblandi." : "Saqlandi." };
 }
@@ -93,6 +97,7 @@ export async function saveItem(testId: number, itemId: number | null, input: unk
 export async function removeItem(testId: number, itemId: number): Promise<FormState> {
   const { userId } = await requireUser();
   const { data } = await createSupabaseAdmin().rpc("remove_test_item", { p_user: userId, p_item: itemId });
+  await moderatePublicTest(userId, testId);
   revalidatePath(`/app/testlar/${testId}`);
   return (data as { ok: boolean } | null)?.ok ? { ok: true, message: "Olib tashlandi." } : { ok: false, message: "Olib tashlab bo'lmadi." };
 }
