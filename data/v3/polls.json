@@ -813,6 +813,117 @@
       ],
       "owner": "Avval to'liq sinovdan o'tkazamiz, mukammal bo'lgach production",
       "decision": "Hamma qism alohida sinov muhitida (preview + alohida Supabase) to'liq sinovdan o'tkaziladi; egasi qabul qilgach bir marta production'ga chiqariladi."
+    },
+    {
+      "id": 62,
+      "block": "N. Brend: Femida Edu",
+      "q": "Nom qanday yozilsin?",
+      "multi": false,
+      "options": [
+        "FEMIDA EDU",
+        "Femida Edu",
+        "FemidaEdu",
+        "femida.edu"
+      ],
+      "owner": "Claude tanlasin",
+      "decision": "Matnda \"Femida Edu\", logoda \"FEMIDA EDU\", domen/botda \"femidaedu\"."
+    },
+    {
+      "id": 63,
+      "block": "N. Brend: Femida Edu",
+      "q": "A+ Huquq nomi nima bo'ladi?",
+      "multi": false,
+      "options": [
+        "\"Femida Edu — Sertifikat\"",
+        "A+ butunlay o'chiriladi",
+        "A+ alohida brend qoladi"
+      ],
+      "owner": "\"Femida Edu — Sertifikat\"",
+      "decision": "A+ Huquq — Sertifikat yo'nalishining nomi, asta Femida Edu ga o'tadi."
+    },
+    {
+      "id": 64,
+      "block": "N. Brend: Femida Edu",
+      "q": "Logo g'oyasi?",
+      "multi": false,
+      "options": [
+        "\"F\" + tarozi-belgi",
+        "Ko'zi bog'langan Femida siluet",
+        "Faqat so'z (wordmark)",
+        "Kitob + tarozi"
+      ],
+      "owner": "\"F\" + tarozi-belgi",
+      "decision": "F: tepa chiziq — tarozi shayini (ikki palla), o'rta chiziq — to'g'ri javob belgisi (eskiz: public/brand)."
+    },
+    {
+      "id": 65,
+      "block": "N. Brend: Femida Edu",
+      "q": "Brend ranglari?",
+      "multi": false,
+      "options": [
+        "Grafit + firuza (hozirgi)",
+        "To'q ko'k + oltin",
+        "Bordo + oq",
+        "Qora + oltin"
+      ],
+      "owner": "Claude tavsiya qilsin",
+      "decision": "To'q ko'k #0F2A4A + oltin #D4AF37; firuza #2DD4BF — to'g'ri javob/muvaffaqiyat rangi."
+    },
+    {
+      "id": 66,
+      "block": "N. Brend: Femida Edu",
+      "q": "Asosiy domen?",
+      "multi": false,
+      "options": [
+        "femidaedu.uz",
+        "femida.edu.uz",
+        "femidaedu.com",
+        "femida.uz"
+      ],
+      "owner": "femidaedu.uz",
+      "decision": "femidaedu.uz (DNS'da yozuv yo'q — registratorda tasdiqlash kerak). femida.uz band."
+    },
+    {
+      "id": 67,
+      "block": "N. Brend: Femida Edu",
+      "q": "Zaxira domenlar?",
+      "multi": false,
+      "options": [
+        ".com",
+        ".app",
+        "femida-edu.uz",
+        "Kerak emas"
+      ],
+      "owner": "Kerak emas",
+      "decision": "Faqat femidaedu.uz."
+    },
+    {
+      "id": 68,
+      "block": "N. Brend: Femida Edu",
+      "q": "Telegram bot nomi?",
+      "multi": false,
+      "options": [
+        "@FemidaEduBot",
+        "@FemidaUzBot",
+        "@FemidaEdu_bot",
+        "Hozirgi botni qayta nomlash"
+      ],
+      "owner": "@FemidaEduBot",
+      "decision": "@FemidaEduBot — BotFather'da band emasligini tekshirish kerak."
+    },
+    {
+      "id": 69,
+      "block": "N. Brend: Femida Edu",
+      "q": "Shior?",
+      "multi": false,
+      "options": [
+        "\"Huquqni bil — kuchli bo'l\"",
+        "\"Qonun — tushunarli\"",
+        "\"Huquq bo'yicha hammasi bir joyda\"",
+        "\"Adolatni o'rgan\""
+      ],
+      "owner": "\"Huquq bo'yicha hammasi bir joyda\"",
+      "decision": "Shior: \"Huquq bo'yicha hammasi bir joyda\"."
     }
   ]
 }

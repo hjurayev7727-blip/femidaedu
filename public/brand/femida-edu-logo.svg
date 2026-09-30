@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" role="img" aria-label="Femida Edu (eskiz)">
+  <rect width="1200" height="320" fill="#ffffff"/>
+  <g transform="translate(24 24) scale(0.53)">
+    <rect width="512" height="512" rx="112" fill="#0F2A4A"/>
+    <path d="M176 120v272" stroke="#D4AF37" stroke-width="40" stroke-linecap="round"/>
+    <path d="M176 128h210" stroke="#D4AF37" stroke-width="32" stroke-linecap="round"/>
+    <circle cx="303" cy="96" r="12" fill="none" stroke="#D4AF37" stroke-width="8"/>
+    <path d="M250 144l-22 50h44z M356 144l-22 50h44z" fill="none" stroke="#D4AF37" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M222 194q28 24 56 0 M328 194q28 24 56 0" fill="none" stroke="#D4AF37" stroke-width="11" stroke-linecap="round"/>
+    <path d="M176 290h70l34 38 80-96" fill="none" stroke="#2DD4BF" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="330" y="170" font-family="Manrope, Inter, Arial, sans-serif" font-size="112" font-weight="800" letter-spacing="6" fill="#0F2A4A">FEMIDA<tspan fill="#D4AF37" dx="28">EDU</tspan></text>
+  <text x="334" y="238" font-family="Manrope, Inter, Arial, sans-serif" font-size="40" font-weight="500" fill="#4B5B70">Huquq bo'yicha hammasi bir joyda</text>
+</svg>
