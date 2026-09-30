@@ -1,4 +1,5 @@
 // Femida Edu — R3 (EDU oltin nishonchada) 4 shriftda: S1–S4. O'rnatish: brand-w10.mjs va brand-wordmarks.mjs dagi paketlar.
+/* eslint-disable @typescript-eslint/no-unused-vars -- generatorlar umumiy shrift/yordamchi sarlavhasini bo'lishadi */
 // Femida Edu — W10 uslubi (Playfair Display + yuqori o'ngda kichik EDU): variantlar, ranglar va qo'llanish.
 import opentype from "opentype.js";
 import fs from "node:fs";

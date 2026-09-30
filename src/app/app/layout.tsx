@@ -5,6 +5,7 @@ import { requireUser } from "@/lib/auth";
 const NAV = [
   { href: "/app", label: "Bosh sahifa", short: "Bosh", icon: "🏠" },
   { href: "/app/mashq", label: "Mashq", short: "Mashq", icon: "🎯" },
+  { href: "/app/sohalar", label: "Sohalar", short: "Sohalar", icon: "⚖️" },
   { href: "/app/imtihon", label: "Imtihon", short: "Imtihon", icon: "⏱️" },
   { href: "/app/takrorlash", label: "Takrorlash", short: "Xatolar", icon: "🔁" },
   { href: "/app/profil", label: "Profil", short: "Profil", icon: "👤" },
@@ -57,7 +58,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
 
       {/* Mobil: pastki panel */}
       <nav aria-label="Asosiy (mobil)" className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
-        <ul className="grid grid-cols-5">
+        <ul className="grid grid-cols-6">
           {NAV.map((n) => (
             <li key={n.href}>
               <Link href={n.href} className="flex flex-col items-center gap-0.5 py-2 text-[11px] font-bold text-mute hover:text-brand-2">
