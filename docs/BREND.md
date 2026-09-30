@@ -3,7 +3,7 @@
 > Holat: **qaror qabul qilingan, ro'yxatdan o'tkazilmagan.** Domen, bot va tovar belgisi hali olinmagan.
 > So'rovnoma: `data/v3/polls.json`, 62–69.
 
-![Logo variantlari](brand-variants.png)
+![Matnli logolar](brand-wordmarks.png)
 
 ## Nom
 
@@ -16,6 +16,13 @@
 | Shior | "Huquq bo'yicha hammasi bir joyda" |
 
 ## Logo va ranglar
+
+**Qaror: logo belgisiz, faqat matnli (wordmark).** Belgili variantlar (A–N) rad etildi.
+10 ta matnli variant — `public/brand/wordmarks/` (W1–W10), hammasi bir xil ranglarda, farq faqat tipografiyada;
+avatar/favicon uchun har birining qisqa shakli (F, FE, f/ …) bor. Qayta yaratish: `scripts/brand-wordmarks.mjs`.
+
+<details><summary>Rad etilgan belgili variantlar (tarix)</summary>
+
 
 Birinchi eskiz ("F" + ✓, yumaloq shrift) rad etildi — o'yinchoq ko'rinish. Yangi 6 variant (`public/brand/variants/`),
 hammasida matn vektor yo'lga aylantirilgan (shrift o'rnatilmagan qurilmada ham bir xil ko'rinadi):
@@ -51,6 +58,8 @@ Shriftlar SIL Open Font License ostida — logoda erkin ishlatish mumkin.
 | `--brand` | `#0E2340` to'q ko'k | fon, sarlavhalar |
 | `--accent` | `#B8923A` oltin (to'q fonda `#C9A24A`) | belgi, "EDU", Premium |
 | `--success` | `#2DD4BF` firuza | to'g'ri javob, progress |
+
+</details>
 
 ## Domen va Telegram
 
