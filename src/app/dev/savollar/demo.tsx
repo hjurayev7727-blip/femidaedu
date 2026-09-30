@@ -26,7 +26,7 @@ function One({ item }: { item: Item }) {
       {grade && (
         <div className="mt-4 space-y-2">
           <p className={`font-extrabold ${grade.correct ? "text-ok" : "text-no"}`}>{grade.correct ? "To'g'ri! ✓" : "Xato ✕"}</p>
-          {item.explanation && <p className="rounded-r-xl border-l-4 border-cyan bg-cyan-soft px-4 py-3 text-[15px]">{item.explanation}</p>}
+          {item.explanation && <p className="rounded-r-xl border-l-4 border-brand bg-brand-soft px-4 py-3 text-[15px]">{item.explanation}</p>}
           {item.sourceNote && <p className="text-xs text-mute">📖 {item.sourceNote}</p>}
         </div>
       )}

@@ -2,15 +2,15 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "A+ Huquq — milliy sertifikatga tayyorgarlik",
-    short_name: "A+ Huquq",
-    description: "Huquq fanidan milliy sertifikat: mashq, sinov imtihoni, izoh va qonun moddalari.",
+    name: "Femida Edu — huquq bo'yicha hammasi bir joyda",
+    short_name: "Femida Edu",
+    description: "Milliy sertifikat va huquq sohalari: mashq, sinov imtihoni, qonun moddalari bilan izoh, AI testlar.",
     start_url: "/app",
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#0f172a",
-    theme_color: "#1e293b",
+    background_color: "#081628",
+    theme_color: "#0e2340",
     lang: "uz",
     categories: ["education"],
     icons: [

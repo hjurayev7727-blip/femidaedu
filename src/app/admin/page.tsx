@@ -39,7 +39,7 @@ export default async function AdminHome() {
             </>
           );
           return c.href ? (
-            <Link key={c.label} href={c.href} className="card hover:border-cyan">{body}</Link>
+            <Link key={c.label} href={c.href} className="card hover:border-brand">{body}</Link>
           ) : (
             <div key={c.label} className="card">{body}</div>
           );

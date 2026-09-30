@@ -25,7 +25,7 @@ export function AiPanel({ attemptId, questionId, canRegrade, premium, enabled, o
     return (
       <p className="rounded-xl bg-bg px-4 py-3 text-sm">
         🤖 <b>AI ustoz</b> — tushunmagan savolingizni so&apos;rang, yozma javobingizni qayta tekshirtiring.{" "}
-        <Link href="/app/premium" className="font-bold text-cyan-2 underline-offset-2 hover:underline">Premium</Link>
+        <Link href="/app/premium" className="font-bold text-brand-2 underline-offset-2 hover:underline">Premium</Link>
       </p>
     );
   }
@@ -82,15 +82,15 @@ export function AiPanel({ attemptId, questionId, canRegrade, premium, enabled, o
             rows={2}
             maxLength={500}
             placeholder="Nimani tushunmadingiz? (bo'sh qoldirsangiz — nega shu javob to'g'riligini tushuntiradi)"
-            className="w-full rounded-xl border-2 border-line bg-card px-3 py-2 text-sm outline-none focus:border-cyan"
+            className="w-full rounded-xl border-2 border-line bg-card px-3 py-2 text-sm outline-none focus:border-brand"
           />
           <button disabled={pending} className="btn-primary px-4! py-2! text-sm!">{pending ? "AI o'ylamoqda…" : "So'rash"}</button>
         </form>
       )}
 
       {answer && (
-        <div role="status" className={`whitespace-pre-line rounded-xl border-l-4 px-4 py-3 text-[15px] leading-relaxed ${answer.ok ? "border-cyan bg-card" : "border-no bg-no-soft text-no"}`}>
-          {answer.ok && <p className="mb-1 text-xs font-extrabold uppercase tracking-wider text-cyan-2">AI ustoz</p>}
+        <div role="status" className={`whitespace-pre-line rounded-xl border-l-4 px-4 py-3 text-[15px] leading-relaxed ${answer.ok ? "border-brand bg-card" : "border-no bg-no-soft text-no"}`}>
+          {answer.ok && <p className="mb-1 text-xs font-extrabold uppercase tracking-wider text-brand-2">AI ustoz</p>}
           {answer.text}
         </div>
       )}

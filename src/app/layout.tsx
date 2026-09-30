@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { Manrope, Playfair_Display } from "next/font/google";
 import { ServiceWorkerRegister } from "@/components/sw-register";
 import "./globals.css";
 
@@ -9,24 +9,30 @@ const manrope = Manrope({
   weight: ["500", "600", "700", "800"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin", "cyrillic"],
+  weight: ["600", "700"],
+});
+
 export const metadata: Metadata = {
-  applicationName: "A+ Huquq",
-  appleWebApp: { capable: true, title: "A+ Huquq", statusBarStyle: "black-translucent" },
-  title: { default: "A+ Huquq — milliy sertifikatga tayyorgarlik", template: "%s · A+ Huquq" },
+  applicationName: "Femida Edu",
+  appleWebApp: { capable: true, title: "Femida Edu", statusBarStyle: "black-translucent" },
+  title: { default: "Femida Edu — huquq bo'yicha hammasi bir joyda", template: "%s · Femida Edu" },
   description:
-    "Huquq fanidan milliy sertifikat imtihoniga tayyorgarlik: mavzu bo'yicha mashq, to'liq sinov imtihoni, xatolar ustida ishlash va qonun moddalari bilan izohlar.",
+    "Huquq bo'yicha hammasi bir joyda: milliy sertifikatga tayyorgarlik, istalgan huquq sohasini mustaqil o'rganish, qonun moddalari bilan izohlar va AI yordamida testlar.",
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#1e293b" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1220" },
+    { media: "(prefers-color-scheme: light)", color: "#0e2340" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a1426" },
   ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="uz" className={`${manrope.variable} h-full`}>
+    <html lang="uz" className={`${manrope.variable} ${playfair.variable} h-full`}>
       <body className="flex min-h-full flex-col font-sans">
         {children}
         <ServiceWorkerRegister />

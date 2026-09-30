@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0E2340"/>
+  <g transform="translate(46 38) scale(0.84)">
+  <g fill="#CFAB5E" stroke="#0E2340" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <!-- poydevor -->
+    <rect x="170" y="440" width="172" height="30" rx="3"/>
+    <rect x="192" y="424" width="128" height="18" rx="2"/>
+    <!-- libos -->
+    <path d="M226 188 Q256 178 288 188 L300 250 Q318 330 336 424 L176 424 Q196 330 212 250 Z"/>
+    <!-- bosh, soch, bo'yin -->
+    <rect x="247" y="160" width="18" height="24" stroke="none"/>
+    <circle cx="256" cy="140" r="26"/>
+    <circle cx="279" cy="124" r="11"/>
+    <!-- chap (tomoshabin uchun) qo'l — tarozini ko'taradi -->
+    <path d="M232 196 L196 170 L150 104" fill="none" stroke="#0E2340" stroke-width="28"/>
+    <path d="M232 196 L196 170 L150 104" fill="none" stroke="#CFAB5E" stroke-width="18"/>
+    <!-- o'ng qo'l — qilich -->
+    <path d="M282 198 L312 246 L334 288" fill="none" stroke="#0E2340" stroke-width="28"/>
+    <path d="M282 198 L312 246 L334 288" fill="none" stroke="#CFAB5E" stroke-width="18"/>
+  </g>
+  <!-- ko'z bog'ichi -->
+  <path d="M229 132 H283 V144 H229 Z" fill="#0E2340"/>
+  <path d="M283 136 Q300 140 306 156 M283 141 Q296 150 298 166" fill="none" stroke="#CFAB5E" stroke-width="4" stroke-linecap="round"/>
+  <!-- libos burmalari va kamar -->
+  <g fill="none" stroke="#0E2340" stroke-width="4" stroke-linecap="round">
+    <path d="M212 252 Q256 262 300 252"/>
+    <path d="M240 262 Q232 340 222 422 M258 264 Q258 340 256 422 M276 262 Q284 340 292 422"/>
+    <path d="M226 190 Q244 214 256 206 Q268 214 288 190"/>
+  </g>
+  <!-- qilich -->
+  <g stroke="#0E2340" stroke-width="4" stroke-linejoin="round">
+    <path d="M346 300 L372 424 L362 440 L354 426 L330 304 Z" fill="#CFAB5E"/>
+    <path d="M314 306 L362 296 L365 309 L317 319 Z" fill="#CFAB5E"/>
+    <path d="M338 300 L331 266" stroke="#CFAB5E" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="330" cy="259" r="8" fill="#CFAB5E"/>
+  </g>
+  <!-- tarozi -->
+  <g stroke="#CFAB5E" fill="none" stroke-linecap="round">
+    <path d="M146 100 V52" stroke-width="7"/>
+    <circle cx="146" cy="46" r="6" fill="#CFAB5E" stroke="none"/>
+    <path d="M88 56 H204" stroke-width="7"/>
+    <path d="M88 56 L70 112 M88 56 L106 112 M204 56 L186 112 M204 56 L222 112" stroke-width="2.5"/>
+  </g>
+  <g fill="#CFAB5E">
+    <path d="M64 112 H112 Q110 130 88 132 Q66 130 64 112 Z"/>
+    <path d="M180 112 H228 Q226 130 204 132 Q182 130 180 112 Z"/>
+  </g>
+  </g>
+</svg>

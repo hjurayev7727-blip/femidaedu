@@ -5,13 +5,13 @@ describe("paymeCheckoutUrl", () => {
   it("checkout.paycom.uz/<base64>: kassa, buyurtma, summa tiyinda, qaytish manzili", () => {
     const url = paymeCheckoutUrl(
       { PAYME_MERCHANT_ID: "6abc02ca4bc1ce551a2c21a6", PAYME_CHECKOUT_URL: "https://checkout.paycom.uz" },
-      { code: "AABCDEFGH2", amountUzs: 49000 },
-      "https://aplushuquq.vercel.app/app/premium?payme=AABCDEFGH2",
+      { code: "FABCDEFGH2", amountUzs: 49000 },
+      "https://femidaedu.vercel.app/app/premium?payme=FABCDEFGH2",
     );
     const [base, b64] = url.split(/\/(?=[^/]+$)/);
     expect(base).toBe("https://checkout.paycom.uz");
     expect(Buffer.from(b64, "base64").toString()).toBe(
-      "m=6abc02ca4bc1ce551a2c21a6;ac.order_id=AABCDEFGH2;a=4900000;c=https://aplushuquq.vercel.app/app/premium?payme=AABCDEFGH2;l=uz",
+      "m=6abc02ca4bc1ce551a2c21a6;ac.order_id=FABCDEFGH2;a=4900000;c=https://femidaedu.vercel.app/app/premium?payme=FABCDEFGH2;l=uz",
     );
   });
 });

@@ -35,7 +35,7 @@ export default async function JoinGroup({ params, searchParams }: PageProps<"/ap
         <h1 className="text-xl font-extrabold">{info.name}</h1>
         <p className="text-sm text-mute">O&apos;qituvchi: {info.teacher_name} · {info.members} o&apos;quvchi</p>
       </div>
-      {info.grants_premium && <p className="rounded-xl bg-cyan-soft px-4 py-2 text-sm font-semibold">Guruh a&apos;zolari Premium oladi ✨</p>}
+      {info.grants_premium && <p className="rounded-xl bg-brand-soft px-4 py-2 text-sm font-semibold">Guruh a&apos;zolari Premium oladi ✨</p>}
       <p className="text-sm text-mute">Qo&apos;shilsangiz, o&apos;qituvchi mashq natijalaringizni ko&apos;radi va sizga vazifa bera oladi.</p>
       {sp.xato === "own" && <p className="text-sm font-semibold text-no">Bu sizning guruhingiz.</p>}
       {sp.xato && sp.xato !== "own" && <p className="text-sm font-semibold text-no">Qo&apos;shilib bo&apos;lmadi. Qayta urinib ko&apos;ring.</p>}

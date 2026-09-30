@@ -151,11 +151,11 @@ export default async function GroupPage({ params, searchParams }: PageProps<"/ap
           <label className="text-sm font-bold sm:col-span-2">
             Nomi
             <input name="title" required maxLength={100} placeholder="Masalan: Saylov kodeksi — takrorlash"
-              className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-cyan" />
+              className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-brand" />
           </label>
           <label className="text-sm font-bold sm:col-span-2">
             Mavzu
-            <select name="topic" required defaultValue="" className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-cyan">
+            <select name="topic" required defaultValue="" className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-brand">
               <option value="" disabled>Tanlang…</option>
               {modules.map((m) => (
                 <optgroup key={m.id} label={m.title}>
@@ -170,11 +170,11 @@ export default async function GroupPage({ params, searchParams }: PageProps<"/ap
           <label className="text-sm font-bold">
             Savollar soni
             <input name="count" type="number" min={5} max={50} defaultValue={15}
-              className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-cyan" />
+              className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-brand" />
           </label>
           <label className="text-sm font-bold">
             Muddat (ixtiyoriy)
-            <input name="due" type="date" className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-cyan" />
+            <input name="due" type="date" className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-brand" />
           </label>
           <button className="btn-primary sm:col-span-2">Vazifa berish</button>
         </form>
@@ -183,7 +183,7 @@ export default async function GroupPage({ params, searchParams }: PageProps<"/ap
           <ul className="divide-y divide-line">
             {assignments!.map((a) => (
               <li key={a.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
-                <Link href={`/app/ustoz/${group.id}/vazifa/${a.id}`} className="min-w-0 flex-1 hover:text-cyan-2">
+                <Link href={`/app/ustoz/${group.id}/vazifa/${a.id}`} className="min-w-0 flex-1 hover:text-brand-2">
                   <span className="block font-bold">{a.title}</span>
                   <span className="text-sm text-mute">
                     {a.topics?.title} · {a.question_count} savol{a.due_at && ` · muddat ${fmtDate(a.due_at)}`}

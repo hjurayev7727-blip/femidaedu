@@ -39,7 +39,7 @@ async function main() {
     ],
   });
   await api.call("setChatMenuButton", {
-    menu_button: { type: "web_app", text: "A+ Huquq", web_app: { url: `${site}/tg` } },
+    menu_button: { type: "web_app", text: "Femida Edu", web_app: { url: `${site}/tg` } },
   });
   await api.call("setMyDescription", {
     description: "Huquq fanidan milliy sertifikatga tayyorgarlik: 3 000+ savol, sinov imtihoni, izoh va qonun moddalari. Start bosing!",

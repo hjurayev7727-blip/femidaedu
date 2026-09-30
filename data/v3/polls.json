@@ -924,6 +924,305 @@
       ],
       "owner": "\"Huquq bo'yicha hammasi bir joyda\"",
       "decision": "Shior: \"Huquq bo'yicha hammasi bir joyda\"."
+    },
+    {
+      "id": 70,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "\"Hamma narsani S1 ga o'tkazish\" nimalarni o'z ichiga oladi?",
+      "multi": true,
+      "options": [
+        "Logo, nom, favicon, ikonkalar",
+        "Butun sayt ranglari",
+        "Bot xabarlari",
+        "Huquqiy sahifalar va README"
+      ],
+      "owner": "Hammasi; A+ Huquq hozirgidek ishlayversin, Femida Edu mustaqil brend — yangi mahsulot sifatida production",
+      "decision": "A+ Huquq o'zgarmaydi. Femida Edu — alohida mahsulot, hamma brend elementlari S1 ga."
+    },
+    {
+      "id": 71,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Butun sayt rang tizimi?",
+      "multi": false,
+      "options": [
+        "To'liq to'q ko'k + oltin",
+        "Aralash",
+        "Faqat logo"
+      ],
+      "owner": "To'liq to'q ko'k + oltin",
+      "decision": "Tokenlar: to'q ko'k #0E2340 (asosiy), oltin #B08A3A (aksent/Premium)."
+    },
+    {
+      "id": 72,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Saytdagi shriftlar?",
+      "multi": false,
+      "options": [
+        "Sarlavhalar Playfair, matn Manrope",
+        "Hammasi Manrope",
+        "Sarlavhalar Playfair, matn Montserrat"
+      ],
+      "owner": "Sarlavhalar Playfair, matn Manrope",
+      "decision": "Playfair Display — sarlavhalar va logo; Manrope — matn."
+    },
+    {
+      "id": 73,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Tungi rejim?",
+      "multi": false,
+      "options": [
+        "Saqlansin, to'q ko'k asosida",
+        "Olib tashlansin"
+      ],
+      "owner": "Saqlansin, to'q ko'k asosida",
+      "decision": "Tungi rejim to'q ko'k palitrada."
+    },
+    {
+      "id": 74,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Femida Edu kodi qayerda?",
+      "multi": false,
+      "options": [
+        "Yangi repo (A+ nusxasidan)",
+        "Shu repo, ikki brend",
+        "Noldan yozish"
+      ],
+      "owner": "Yangi repo (A+ nusxasidan)",
+      "decision": "hjurayev7727-blip/femidaedu — A+ kodidan boshlanadi."
+    },
+    {
+      "id": 75,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Ma'lumotlar bazasi?",
+      "multi": false,
+      "options": [
+        "Alohida Supabase loyiha",
+        "Umumiy baza"
+      ],
+      "owner": "Alohida Supabase loyiha",
+      "decision": "Alohida Supabase; foydalanuvchilar alohida ro'yxatdan o'tadi."
+    },
+    {
+      "id": 76,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "A+ savollari (3 023 ta) Femida Edu ga o'tsinmi?",
+      "multi": false,
+      "options": [
+        "Ha, nusxa ko'chiriladi",
+        "Yo'q, noldan"
+      ],
+      "owner": "Ha, nusxa ko'chiriladi",
+      "decision": "data/v1/bundle.json importi bilan Sertifikat yo'nalishi boshlanadi."
+    },
+    {
+      "id": 77,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "A+ foydalanuvchilari va obunachilari?",
+      "multi": false,
+      "options": [
+        "A+ da qoladi, Femida Edu ga taklif qilinadi",
+        "Ikkalasi butunlay alohida",
+        "Keyinchalik ko'chiramiz"
+      ],
+      "owner": "A+ da qoladi, Femida Edu ga taklif qilinadi",
+      "decision": "A+ bot orqali taklif (pastda: 50% chegirma)."
+    },
+    {
+      "id": 78,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Yangi repo nomi va ko'rinishi?",
+      "multi": false,
+      "options": [
+        "femidaedu, private",
+        "femida-edu, private",
+        "O'zim yarataman"
+      ],
+      "owner": "femidaedu, private",
+      "decision": "Claude'da repo yaratish huquqi yo'q (403) — egasi ochadi."
+    },
+    {
+      "id": 79,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Supabase va Vercel loyihalarini kim ochadi?",
+      "multi": false,
+      "options": [
+        "Egasi ochib, kalitlarni beradi",
+        "Hozircha kerak emas"
+      ],
+      "owner": "Egasi ochib, kalitlarni beradi",
+      "decision": "Claude sozlash qo'llanmasi va migratsiyalarni tayyorlaydi."
+    },
+    {
+      "id": 80,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Birinchi versiya nimadan iborat?",
+      "multi": false,
+      "options": [
+        "A+ nusxasi + yangi brend",
+        "Darhol to'liq V3"
+      ],
+      "owner": "Darhol to'liq V3",
+      "decision": "Production — to'liq V3 tayyor bo'lgach."
+    },
+    {
+      "id": 81,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Reja PR'i va kod?",
+      "multi": false,
+      "options": [
+        "Reja PR shu repoda qoladi, kod yangi repoda",
+        "Hammasini yangi repoga ko'chirish"
+      ],
+      "owner": "Hammasini yangi repoga ko'chirish",
+      "decision": "Hujjatlar, brend va skriptlar yangi repoga; A+ dagi PR yopiladi."
+    },
+    {
+      "id": 82,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Asosiy tugmalar rangi?",
+      "multi": false,
+      "options": [
+        "To'q ko'k",
+        "Oltin"
+      ],
+      "owner": "To'q ko'k",
+      "decision": "Asosiy harakat — to'q ko'k; oltin — Premium va aksent."
+    },
+    {
+      "id": 83,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "To'g'ri / xato javob ranglari?",
+      "multi": false,
+      "options": [
+        "Yashil / qizil qolsin",
+        "Brend ranglari"
+      ],
+      "owner": "Yashil / qizil qolsin",
+      "decision": "ok/no tokenlari o'zgarmaydi."
+    },
+    {
+      "id": 84,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Bosh sahifa ko'rinishi?",
+      "multi": false,
+      "options": [
+        "To'q ko'k fon + katta logo + shior",
+        "Oq fon, minimal",
+        "Ikki yo'nalish kartalari"
+      ],
+      "owner": "To'q ko'k fon + katta logo + shior",
+      "decision": "Hero: to'q ko'k, katta logo, \"Huquq bo'yicha hammasi bir joyda\"."
+    },
+    {
+      "id": 85,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Telegram avatar va favicon?",
+      "multi": false,
+      "options": [
+        "F + EDU nishoncha",
+        "Faqat F",
+        "FE"
+      ],
+      "owner": "Femida haykali, tarozi tutgan",
+      "decision": "Avatar/ilova ikonkasi — tarozi tutgan Femida haykali."
+    },
+    {
+      "id": 86,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Femida haykali uslubi?",
+      "multi": false,
+      "options": [
+        "Oltin siluet, to'q ko'k fonda",
+        "Chiziqli oltin",
+        "Byust + tarozi"
+      ],
+      "owner": "Oltin siluet, to'q ko'k fonda",
+      "decision": "Butun gavda, ko'zi bog'liq, tarozi va qilich; tekis oltin."
+    },
+    {
+      "id": 87,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "16–32 px favicon?",
+      "multi": false,
+      "options": [
+        "Katta joyda haykal, kichikda F",
+        "Hamma joyda haykal"
+      ],
+      "owner": "Katta joyda haykal, kichikda F",
+      "decision": "Brauzer tab — oltin nuqtali F; 180 px+ — haykal."
+    },
+    {
+      "id": 88,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "V3 qismlari tartibi?",
+      "multi": false,
+      "options": [
+        "Rejadagi tartib",
+        "Avval AI test + ulashish"
+      ],
+      "owner": "Rejadagi tartib",
+      "decision": "Repo + brend → qonun bazasi → sohalar → AI test + ulashish → AI ustoz → jonli viktorina."
+    },
+    {
+      "id": 89,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Har qism qanday sinovdan o'tadi?",
+      "multi": false,
+      "options": [
+        "Vercel preview + egasi tasdiqlaydi",
+        "Faqat avtomatik testlar"
+      ],
+      "owner": "Vercel preview + egasi tasdiqlaydi",
+      "decision": "Har qism alohida PR; testlar + skrinshotlar; production — hammasi tayyor bo'lgach."
+    },
+    {
+      "id": 90,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Sayt sarlavhasi?",
+      "multi": false,
+      "options": [
+        "Femida Edu — huquq bo'yicha hammasi bir joyda",
+        "Femida Edu — milliy sertifikat va huquq sohalari"
+      ],
+      "owner": "Femida Edu — huquq bo'yicha hammasi bir joyda",
+      "decision": "title va manifest."
+    },
+    {
+      "id": 91,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "A+ Premium egalariga taklif?",
+      "multi": false,
+      "options": [
+        "Birinchi oy 50% chegirma",
+        "1 oy bepul",
+        "Taklif yo'q"
+      ],
+      "owner": "Birinchi oy 50% chegirma",
+      "decision": "A+ bot orqali shaxsiy promo-kod."
+    },
+    {
+      "id": 92,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "Huquqiy sahifalarda kim ko'rsatiladi?",
+      "multi": false,
+      "options": [
+        "Femida Edu — YURISTIM TEAM MChJ mahsuloti",
+        "Yangi yuridik shaxs"
+      ],
+      "owner": "Femida Edu — YURISTIM TEAM MChJ mahsuloti",
+      "decision": "Maxfiylik va shartlarda."
+    },
+    {
+      "id": 93,
+      "block": "O. Femida Edu — alohida mahsulot",
+      "q": "To'lov (Payme)?",
+      "multi": false,
+      "options": [
+        "DOYSE kassasi orqali, yangi prefiks",
+        "Alohida Payme kassasi"
+      ],
+      "owner": "DOYSE kassasi orqali, yangi prefiks",
+      "decision": "Buyurtma kodi \"F…\"; DOYSE F-buyurtmalarni Femida Edu ga uzatadi."
     }
   ]
 }

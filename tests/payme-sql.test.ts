@@ -29,7 +29,7 @@ describe("create_payme_order", () => {
     const u = await newUser();
     const a = await order(u);
     expect(a).toMatchObject({ ok: true, amount_uzs: 49000 });
-    expect(a.code).toMatch(/^A[A-Z0-9]{9}$/);
+    expect(a.code).toMatch(/^F[A-Z0-9]{9}$/);
     expect((await order(u)).code).toBe(a.code);
     expect((await order(u, "oy3")).amount_uzs).toBe(129000);
     expect(await order(u, "yoq")).toMatchObject({ ok: false, reason: "plan" });
@@ -40,7 +40,7 @@ describe("payme_rpc", () => {
   it("CheckPerformTransaction: topilmadi / noto'g'ri summa / ruxsat", async () => {
     const u = await newUser();
     const { code } = await order(u);
-    expect((await rpc("CheckPerformTransaction", { amount: 4900000, account: { order_id: "AZZZZZZZZZ" } })).error).toMatchObject({ code: -31050, data: "order_id" });
+    expect((await rpc("CheckPerformTransaction", { amount: 4900000, account: { order_id: "FZZZZZZZZZ" } })).error).toMatchObject({ code: -31050, data: "order_id" });
     expect((await rpc("CheckPerformTransaction", { amount: 100, account: { order_id: code } })).error?.code).toBe(-31001);
     expect((await rpc("CheckPerformTransaction", { amount: 4900000, account: { order_id: code } })).result).toEqual({ allow: true });
   });
@@ -115,7 +115,7 @@ describe("payme_rpc", () => {
     const s = await rpc("GetStatement", { from: now() - 3600e3, to: now() + 1000 });
     const txs = s.result!.transactions as { id: string; account: { order_id: string } }[];
     expect(txs.map((t) => t.id)).toContain("tx-1");
-    expect(txs[0].account.order_id).toMatch(/^A/);
+    expect(txs[0].account.order_id).toMatch(/^F/);
     expect((await rpc("GetStatement", { from: 0, to: 1 })).result).toEqual({ transactions: [] });
     expect((await rpc("ChangePassword", { password: "xxxxxxxx" })).error?.code).toBe(-32601);
   });

@@ -3,6 +3,14 @@
 > Holat: **loyiha hujjati (reja)**, kod hali yozilmagan. Asos: hozirgi A+ Huquq 2.0 kodi (shu repo).
 > Qarorlar: loyiha egasi bilan 41 + 20 savollik so'rovnoma (2026-09-30), `data/v3/polls.json`.
 
+## Yangilanish (so'rovnoma 70–93): Femida Edu — alohida mahsulot
+
+- A+ Huquq **o'zgarmaydi** va ishlashda davom etadi. Femida Edu — alohida repo (`femidaedu`), alohida Supabase, alohida bot,
+  DOYSE kassasi orqali `F…` buyurtmalar. A+ savollari (3 023) nusxa ko'chiriladi; A+ Premium egalariga birinchi oy 50% chegirma.
+- Production — **to'liq V3 tayyor bo'lgach**. Tartib: repo + brend → qonun bazasi (lex.uz) → sohalar katalogi → AI test + ulashish →
+  AI ustoz → jonli viktorina. Har qism alohida PR, Vercel preview'da egasi tasdiqlaydi.
+- Quyidagi "shu tizimning evolyutsiyasi" degan joylar endi "A+ kodidan boshlangan yangi mahsulot" deb o'qilsin.
+
 ## 0. Qisqa xulosa
 
 1. **Faqat huquq, ikki yo'nalish.**

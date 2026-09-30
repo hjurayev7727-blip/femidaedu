@@ -88,7 +88,7 @@ export function QuestionView({ question: q, response, onChange, reveal, disabled
         )}
         {q.type === "open" && (
           <input
-            className="w-full rounded-[14px] border-2 border-line bg-card px-4 py-3.5 text-[15px] font-semibold outline-none focus:border-cyan"
+            className="w-full rounded-[14px] border-2 border-line bg-card px-4 py-3.5 text-[15px] font-semibold outline-none focus:border-brand"
             placeholder={(q.payload as OpenPayload).kind === "article" ? "Modda raqami…" : (q.payload as OpenPayload).kind === "number" ? "Raqam…" : "Javobingiz…"}
             value={response && "text" in response ? response.text : ""}
             onChange={(e) => onChange({ text: e.target.value })}
@@ -110,7 +110,7 @@ function Choice({ payload, value, onPick, correct, disabled }: {
       {payload.statements && (
         <ol className="mb-4 space-y-1.5 rounded-xl bg-bg px-4 py-3 text-[15px]">
           {payload.statements.map((s, i) => (
-            <li key={i}><b className="text-cyan-2">{i + 1}.</b> {s}</li>
+            <li key={i}><b className="text-brand-2">{i + 1}.</b> {s}</li>
           ))}
         </ol>
       )}
@@ -128,10 +128,10 @@ function Choice({ payload, value, onPick, correct, disabled }: {
               onClick={() => onPick(i)}
               className={`flex items-center gap-3 rounded-[14px] border-2 px-4 py-3.5 text-left text-[15px] font-semibold transition
                 ${state === "ok" ? "border-ok bg-ok-soft" : state === "no" ? "border-no bg-no-soft"
-                  : state === "picked" ? "border-cyan bg-cyan-soft" : "border-line bg-card enabled:hover:border-cyan enabled:hover:bg-cyan-soft"}`}
+                  : state === "picked" ? "border-brand bg-brand-soft" : "border-line bg-card enabled:hover:border-brand enabled:hover:bg-brand-soft"}`}
             >
               <span className={`flex h-[26px] min-w-[26px] items-center justify-center rounded-lg text-[12.5px] font-extrabold text-white
-                ${state === "ok" ? "bg-ok" : state === "no" ? "bg-no" : state === "picked" ? "bg-cyan-2" : "bg-graf-3"}`}>
+                ${state === "ok" ? "bg-ok" : state === "no" ? "bg-no" : state === "picked" ? "bg-brand-2" : "bg-navy-3"}`}>
                 {LETTERS[i]}
               </span>
               <span className="flex-1">{opt}</span>
@@ -158,7 +158,7 @@ function Matching({ payload, value, onChange, reveal, disabled }: {
             <p className="text-[15px] font-bold">{l}</p>
             <select
               aria-label={`${l} uchun moslik`}
-              className="mt-2 w-full rounded-xl border-2 border-line bg-card px-3 py-2.5 text-[14.5px] font-semibold outline-none focus:border-cyan"
+              className="mt-2 w-full rounded-xl border-2 border-line bg-card px-3 py-2.5 text-[14.5px] font-semibold outline-none focus:border-brand"
               value={v}
               disabled={disabled}
               onChange={(e) => onChange(payload.left.map((_, j) => (j === i ? Number(e.target.value) : value[j] ?? -1)))}
@@ -194,12 +194,12 @@ function Ordering({ payload, value, onChange, reveal, disabled }: {
         const state = reveal ? (reveal.order[pos] === itemIdx ? "ok" : "no") : "idle";
         return (
           <li key={itemIdx} className={`flex items-center gap-3 rounded-[14px] border-2 px-3 py-2.5 ${state === "ok" ? "border-ok bg-ok-soft" : state === "no" ? "border-no bg-no-soft" : "border-line bg-card"}`}>
-            <span className="flex h-[26px] min-w-[26px] items-center justify-center rounded-lg bg-graf-3 text-[12.5px] font-extrabold text-white">{pos + 1}</span>
+            <span className="flex h-[26px] min-w-[26px] items-center justify-center rounded-lg bg-navy-3 text-[12.5px] font-extrabold text-white">{pos + 1}</span>
             <span className="flex-1 text-[15px] font-semibold">{payload.items[itemIdx]}</span>
             {!disabled && (
               <span className="flex flex-col">
-                <button type="button" onClick={() => move(pos, -1)} disabled={pos === 0} aria-label="Yuqoriga" className="px-2 leading-none text-mute enabled:hover:text-cyan-2 disabled:opacity-30">▲</button>
-                <button type="button" onClick={() => move(pos, 1)} disabled={pos === value.length - 1} aria-label="Pastga" className="px-2 leading-none text-mute enabled:hover:text-cyan-2 disabled:opacity-30">▼</button>
+                <button type="button" onClick={() => move(pos, -1)} disabled={pos === 0} aria-label="Yuqoriga" className="px-2 leading-none text-mute enabled:hover:text-brand-2 disabled:opacity-30">▲</button>
+                <button type="button" onClick={() => move(pos, 1)} disabled={pos === value.length - 1} aria-label="Pastga" className="px-2 leading-none text-mute enabled:hover:text-brand-2 disabled:opacity-30">▼</button>
               </span>
             )}
           </li>

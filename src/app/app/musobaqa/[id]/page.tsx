@@ -111,7 +111,7 @@ export default async function ContestPage({ params, searchParams }: PageProps<"/
           ) : (
             <ol className="mt-2 divide-y divide-line">
               {results.map((r) => (
-                <li key={`${r.rank}-${r.name}`} className={`flex items-center gap-3 px-5 py-2.5 ${r.is_me ? "bg-cyan-soft" : ""}`}>
+                <li key={`${r.rank}-${r.name}`} className={`flex items-center gap-3 px-5 py-2.5 ${r.is_me ? "bg-brand-soft" : ""}`}>
                   <span className="w-8 font-extrabold tabular-nums">{r.rank <= 3 ? ["🥇", "🥈", "🥉"][r.rank - 1] : r.rank}</span>
                   <span className="flex-1 font-semibold">{r.name}{r.is_me && " (siz)"}</span>
                   <span className="font-bold tabular-nums">{r.correct ?? 0}/{r.total}</span>

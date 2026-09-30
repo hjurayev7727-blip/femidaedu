@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { safeNext } from "@/lib/redirect";
+import { LogoMark } from "@/components/logo";
 import { MiniAppLogin } from "./mini-app-login";
 
 export const metadata: Metadata = { title: "Telegram orqali kirish" };
@@ -10,7 +11,7 @@ export default async function TelegramEntry({ searchParams }: PageProps<"/tg">) 
   const next = safeNext(Array.isArray(sp.keyin) ? sp.keyin[0] : sp.keyin);
   return (
     <main className="bg-hero flex flex-1 flex-col items-center justify-center px-4 text-center text-white">
-      <p className="bg-accent rounded-[14px] px-3 py-1.5 text-2xl font-extrabold">A+</p>
+      <LogoMark className="h-12 w-auto text-white" />
       <MiniAppLogin next={next} />
     </main>
   );

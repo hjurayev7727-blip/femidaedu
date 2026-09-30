@@ -1,4 +1,22 @@
-# A+ Huquq 2.0
+# Femida Edu
+
+**Huquq bo'yicha hammasi bir joyda** — milliy sertifikatga tayyorgarlik va istalgan huquq sohasini mustaqil o'rganish.
+Next.js 16 + Supabase + Telegram. YURISTIM TEAM MChJ mahsuloti.
+
+> Femida Edu — A+ Huquq 2.0 kodidan boshlangan **alohida mahsulot** (alohida repo, alohida Supabase, alohida bot).
+> A+ Huquq o'z holicha ishlashda davom etadi. Reja: [`docs/V3_REJA.md`](docs/V3_REJA.md), brend: [`docs/BREND.md`](docs/BREND.md),
+> qarorlar: [`data/v3/polls.json`](data/v3/polls.json) (93 ta).
+
+## Femida Edu uchun farqlar (A+ dan)
+
+- Brend: S1 logosi (`src/components/logo.tsx`), to'q ko'k + oltin ranglar, sarlavhalar Playfair Display.
+- Ikonkalar: 180 px+ — tarozi tutgan Femida haykali (`public/brand/femida-statue.svg`), favicon — oltin nuqtali F.
+- Payme: buyurtma kodi `F…` (DOYSE kassasi F-buyurtmalarni shu saytga uzatadi).
+- Telegram texnik email domeni: `telegram.femidaedu.uz`; bot: `@FemidaEduBot` (yaratilishi kerak).
+
+---
+
+## A+ Huquq 2.0 dan meros (holat)
 
 Huquq fanidan milliy sertifikat imtihoniga tayyorgarlik platformasi — **Next.js 16 + Supabase + Telegram**.
 Reja: `../HUQUQSHUNOSLIK KURSI/05_TEXNIK_ONLAYN_TIZIM/PLATFORMA_2.0_REJA.md`
@@ -76,7 +94,7 @@ Reja: `../HUQUQSHUNOSLIK KURSI/05_TEXNIK_ONLAYN_TIZIM/PLATFORMA_2.0_REJA.md`
 - [x] PWA: manifest, ikonkalar, service worker (faqat statik fayllar keshlanadi), offline sahifa, xavfsizlik sarlavhalari
 
 **Kurs o'quvchilarini ko'chirish:** v1 da akkaunt yo'q edi (ism + telefon), shuning uchun avtomatik ko'chirilmaydi.
-Tartib: o'zingizga admin panelda "O'qituvchi" rolini bering → `/app/ustoz` da "A+ kurs 2026" guruhini oching →
+Tartib: o'zingizga admin panelda "O'qituvchi" rolini bering → `/app/ustoz` da "Femida Edu kurs" guruhini oching →
 `/admin/guruhlar` da uni "Premium guruh" qiling → taklif havolasini kurs Telegram guruhiga tashlang.
 
 ## Ishga tushirish
@@ -106,7 +124,7 @@ export PATH="$HOME/.local/node/bin:$PATH"
 ### 2. Telegram bot
 
 1. [@BotFather](https://t.me/BotFather) → `/newbot` → token va username'ni `.env.local` ga yozing.
-2. `/setdomain` → saytning domeni (masalan `aplushuquq.uz`). **Widget localhost'da ishlamaydi** — sinash uchun
+2. `/setdomain` → saytning domeni (masalan `femidaedu.uz`). **Widget localhost'da ishlamaydi** — sinash uchun
    Vercel preview domeni yoki `ngrok` tunnelidan foydalaning va `NEXT_PUBLIC_SITE_URL` ni shunga moslang.
 
 3. Webhook va menyu (sayt HTTPS domenda ishga tushgach): `.env.local` ga `TELEGRAM_WEBHOOK_SECRET`

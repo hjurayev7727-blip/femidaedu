@@ -59,7 +59,7 @@ export default async function ContentPanel() {
         {(queue ?? []).map((q) => (
           <article key={q.id} className="card space-y-2">
             <QuestionPreview q={q} />
-            <Link href={`/app/kontent/savollar/${q.id}`} className="text-xs font-bold text-cyan-2">Tahrirlash →</Link>
+            <Link href={`/app/kontent/savollar/${q.id}`} className="text-xs font-bold text-brand-2">Tahrirlash →</Link>
             {canReview && (
               <div className="flex gap-2 pt-1">
                 <form action={reviewQuestion}>
@@ -88,7 +88,7 @@ export default async function ContentPanel() {
                 <b>{r.profiles?.full_name || "O'quvchi"}:</b> {r.message}
               </p>
               {r.questions && <QuestionPreview q={r.questions} />}
-              {r.questions && <Link href={`/app/kontent/savollar/${r.questions.id}`} className="text-xs font-bold text-cyan-2">Savolni tuzatish →</Link>}
+              {r.questions && <Link href={`/app/kontent/savollar/${r.questions.id}`} className="text-xs font-bold text-brand-2">Savolni tuzatish →</Link>}
               <div className="flex gap-2 pt-1">
                 <form action={resolveReport}>
                   <input type="hidden" name="id" value={r.id} />

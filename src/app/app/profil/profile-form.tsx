@@ -4,7 +4,7 @@ import type { Profile } from "@/lib/auth";
 import { saveProfile } from "./actions";
 import { REGIONS } from "./regions";
 
-const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-cyan";
+const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-brand";
 
 export function ProfileForm({ profile }: { profile: Profile }) {
   const [state, action, pending] = useActionState(saveProfile, null);
@@ -45,8 +45,8 @@ export function ProfileForm({ profile }: { profile: Profile }) {
             ["latin", "Lotin"],
             ["cyrillic", "Кирилл"],
           ].map(([v, l]) => (
-            <label key={v} className="flex flex-1 cursor-pointer items-center gap-2 rounded-xl border-2 border-line px-3.5 py-2.5 font-semibold has-[:checked]:border-cyan has-[:checked]:bg-cyan-soft">
-              <input type="radio" name="script" value={v} defaultChecked={profile.script === v} className="accent-cyan-600" />
+            <label key={v} className="flex flex-1 cursor-pointer items-center gap-2 rounded-xl border-2 border-line px-3.5 py-2.5 font-semibold has-[:checked]:border-brand has-[:checked]:bg-brand-soft">
+              <input type="radio" name="script" value={v} defaultChecked={profile.script === v} className="accent-brand" />
               {l}
             </label>
           ))}

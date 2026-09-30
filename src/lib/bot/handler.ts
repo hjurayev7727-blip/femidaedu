@@ -44,7 +44,7 @@ export function appUrl(siteUrl: string, path = "/app") {
 export const openApp = (siteUrl: string, text: string, path = "/app"): InlineButton[][] => [[{ text, web_app: { url: appUrl(siteUrl, path) } }]];
 
 export const HELP = [
-  "<b>A+ Huquq</b> — huquqdan milliy sertifikatga tayyorgarlik.",
+  "<b>Femida Edu</b> — huquq bo'yicha hammasi bir joyda.",
   "",
   "/kunlik — bugungi 10 ta savol",
   "/natija — streak, bugungi savollar, oxirgi sinov",
@@ -57,7 +57,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 export const LOGIN_ASK = [
   "🔐 <b>Saytga kirish</b>",
   "",
-  "A+ Huquq saytiga shu Telegram hisobi bilan kirishni tasdiqlaysizmi?",
+  "Femida Edu saytiga shu Telegram hisobi bilan kirishni tasdiqlaysizmi?",
   "",
   "⚠️ Agar hozir saytda o'zingiz «Telegram orqali kirish» tugmasini bosmagan bo'lsangiz — tasdiqlamang.",
 ].join("\n");
@@ -141,7 +141,7 @@ export async function handleUpdate(u: Update, d: BotDeps): Promise<void> {
       } else {
         await d.api.sendMessage(
           chat,
-          `${hello}\n\n<b>A+ Huquq</b> — huquqdan milliy sertifikatga tayyorgarlik: 3 000+ savol, sinov imtihoni, izoh va qonun moddalari.\n\nBoshlash uchun pastdagi tugmani bosing — Telegram orqali bir bosishda kirasiz.`,
+          `${hello}\n\n<b>Femida Edu</b> — huquq bo'yicha hammasi bir joyda: milliy sertifikat, huquq sohalari, 3 000+ savol, sinov imtihoni, izoh va qonun moddalari.\n\nBoshlash uchun pastdagi tugmani bosing — Telegram orqali bir bosishda kirasiz.`,
           { reply_markup: { inline_keyboard: openApp(d.siteUrl, "🚀 Boshlash") } },
         );
       }

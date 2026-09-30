@@ -12,7 +12,7 @@ export const maxDuration = 300;
 type Row = { id: number; title: string; starts_at: string; ends_at: string; is_premium: boolean; finalized: boolean; question_ids: number[]; contest_entries: { count: number }[] };
 type Topic = { slug: string; title: string; parent_id: number | null; id: number };
 
-const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-cyan";
+const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-brand";
 
 export default async function AdminContests({ searchParams }: PageProps<"/admin/musobaqalar">) {
   await requireRole("admin");
@@ -62,8 +62,8 @@ export default async function AdminContests({ searchParams }: PageProps<"/admin/
             ))}
           </select>
         </label>
-        <label className="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="premium" className="accent-cyan-600" /> Faqat Premium</label>
-        <label className="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="announce" defaultChecked className="accent-cyan-600" /> Botda e&apos;lon qilish</label>
+        <label className="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="premium" className="accent-brand" /> Faqat Premium</label>
+        <label className="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="announce" defaultChecked className="accent-brand" /> Botda e&apos;lon qilish</label>
         <button className="btn-primary sm:col-span-2">Yaratish</button>
       </form>
 
