@@ -1,191 +1,552 @@
 {
-  "about": "DOYSE V3 so'rovnomasi: 42 ta savol. 'sim' — modellashtirilgan panel natijasi (%), real ovoz emas. Real ovoz: npm run v3:polls -- <chat_id> --send",
-  "panel": {
-    "size": 400,
-    "segments": {
-      "abituriyent (11-sinf / bitiruvchi)": 30,
-      "maktab o'quvchisi (8–10-sinf)": 15,
-      "ota-ona": 10,
-      "maktab o'qituvchisi": 15,
-      "repetitor (xususiy)": 10,
-      "o'quv markazi rahbari": 8,
-      "ekspert / test muallifi": 7,
-      "DOYSE jamoasi (biznes, admin)": 5
-    }
-  },
+  "about": "DOYSE V3 so'rovnomasi. 'owner' — loyiha egasining javobi (2026-09-30, Claude Code sessiyasida). Xuddi shu savollarni auditoriyaga berish: npm run v3:polls -- <chat_id> --send",
   "polls": [
-    { "id": 1, "block": "A. Qamrov", "q": "V3 da qaysi fanlar birinchi bo'lib qo'shilsin?", "multi": true,
-      "options": ["Huquq (bor)", "Tarix", "Ona tili va adabiyot", "Matematika", "Ingliz tili", "Biologiya / kimyo"],
-      "sim": [71, 58, 49, 44, 37, 29],
-      "decision": "Yadro fanga bog'liq bo'lmaydi (subject jadvali). Rasmiy bank: Huquq → Tarix → Ona tili. Qolgan fanlar dastlab faqat foydalanuvchi testlari (UGC) orqali kiradi." },
-    { "id": 2, "block": "A. Qamrov", "q": "Platforma kim uchun bo'lishi kerak?", "multi": true,
-      "options": ["Imtihonga tayyorlanuvchi o'quvchi", "Maktab o'qituvchisi", "Repetitor / o'quv markazi", "Ota-ona (nazorat)", "Talaba / mutaxassis (qayta tayyorlash)"],
-      "sim": [88, 61, 54, 33, 21],
-      "decision": "Asosiy foydalanuvchi — o'quvchi; o'qituvchi/markaz — tarqatuvchi kanal. Ota-ona faqat o'qish huquqli hisobot (3-bosqich)." },
-    { "id": 3, "block": "A. Qamrov", "q": "Platformadan asosan qayerda foydalanasiz?", "multi": false,
-      "options": ["Telegram Mini App", "Telefon brauzeri", "Kompyuter brauzeri", "Alohida mobil ilova (Play/App Store)"],
-      "sim": [46, 27, 15, 12],
-      "decision": "Telegram-first: Mini App asosiy interfeys, sayt — o'sha kod. Alohida native ilova yo'q (PWA yetarli)." },
-    { "id": 4, "block": "A. Qamrov", "q": "Qaysi yozuv/tilda o'qiysiz?", "multi": false,
-      "options": ["O'zbek (lotin)", "O'zbek (kirill)", "Rus tili", "Ikkalasi ham (uz + ru)"],
-      "sim": [64, 9, 11, 16],
-      "decision": "Kontent lotinda saqlanadi, kirill — avtomatik o'girish (bor). Rus tili interfeysi 3-bosqichda; rus tilidagi testlar UGC orqali." },
-    { "id": 5, "block": "A. Qamrov", "q": "Bitta DOYSE hisobi bilan barcha fanlar/xizmatlarga kirish kerakmi?", "multi": false,
-      "options": ["Ha, bitta hisob va bitta obuna", "Bitta hisob, lekin har fan alohida to'lov", "Har fan alohida sayt bo'lsin", "Farqi yo'q"],
-      "sim": [52, 31, 6, 11],
-      "decision": "Bitta hisob (SSO), bitta hamyon. Obuna: 'DOYSE Premium' (hammasi) + arzonroq 'bitta fan' tarifi." },
-    { "id": 6, "block": "A. Qamrov", "q": "O'quv markazlari uchun alohida kabinet kerakmi (filiallar, o'qituvchilar, o'quvchilar ro'yxati)?", "multi": false,
-      "options": ["Ha, bu asosiy funksiya", "Ha, lekin keyinroq", "Yo'q, o'qituvchi guruhlari yetarli"],
-      "sim": [34, 41, 25],
-      "decision": "Tashkilot (organization) qatlami sxemaga hozirdan qo'shiladi, UI — 3-bosqichda. Hozirgi guruhlar tashkilotga bog'lanadi." },
-
-    { "id": 7, "block": "B. AI bilan test yaratish", "q": "AI testni nimadan tuzishini xohlaysiz?", "multi": true,
-      "options": ["Mavzu nomidan (\"Konstitutsiya 5-bob\")", "O'zim joylagan matndan", "PDF / darslik sahifasidan", "Rasmdan (daftar, doska)", "Mavjud testlarimdan o'xshashini"],
-      "sim": [67, 48, 44, 31, 26],
-      "decision": "Manba: matn va PDF (1-bosqich), rasm (2-bosqich). 'Faqat mavzu nomi' — faqat rasmiy bank + rasmiy hujjat bazasiga tayangan holda (RAG), erkin 'o'ylab topish' yo'q." },
-    { "id": 8, "block": "B. AI bilan test yaratish", "q": "AI faqat mavzu nomidan (manbasiz) test tuzsa, xato bo'lish xavfi bor. Nima qilamiz?", "multi": false,
-      "options": ["Faqat manbadan tuzsin (xavfsiz)", "Mavzudan ham tuzsin, lekin 'tekshirilmagan' belgisi bilan", "Mavzudan ham tuzsin, farqi yo'q"],
-      "sim": [29, 58, 13],
-      "decision": "Manbasiz generatsiya ruxsat, lekin test ustida doimiy 'AI tuzgan, tekshirilmagan' belgisi va har savolda 'xato bor' tugmasi. Rasmiy bankka hech qachon avtomatik tushmaydi." },
-    { "id": 9, "block": "B. AI bilan test yaratish", "q": "Qaysi savol turlari kerak?", "multi": true,
-      "options": ["Bitta to'g'ri javobli (A/B/C/D)", "Bir nechta to'g'ri javobli", "Moslashtirish", "Qisqa yozma javob", "Kazus (vaziyatli masala)", "To'g'ri / noto'g'ri"],
-      "sim": [92, 41, 38, 45, 36, 33],
-      "decision": "Mavjud 7 tur qayta ishlatiladi + 'true_false' qo'shiladi. AI generatsiyasi: single, multi, fill_blank, open, case, true_false." },
-    { "id": 10, "block": "B. AI bilan test yaratish", "q": "Bitta AI testda nechta savol bo'lsin?", "multi": false,
-      "options": ["10", "20", "30", "50 va undan ko'p"],
-      "sim": [22, 39, 24, 15],
-      "decision": "Bepul: 10 tagacha. Premium: standart 20 ta (ko'pchilik tanlovi), 50 tagacha (10 talik bo'laklarda generatsiya — kesilish va narx nazorati uchun)." },
-    { "id": 11, "block": "B. AI bilan test yaratish", "q": "AI tuzgan testni ulashishdan oldin tahrirlash imkoni kerakmi?", "multi": false,
-      "options": ["Ha, har savolni tahrirlay olishim kerak", "Faqat o'chirish / qayta yaratish yetarli", "Kerak emas"],
-      "sim": [73, 21, 6],
-      "decision": "Qoralama → tahrirlagich (mavjud savol tahrirlagichidan) → nashr. Tahrirdan so'ng savol 'muallif tekshirgan' deb belgilanadi." },
-    { "id": 12, "block": "B. AI bilan test yaratish", "q": "Kim AI bilan test yarata olsin?", "multi": false,
-      "options": ["Hamma (bepul limit bilan)", "Faqat Premium", "Faqat o'qituvchilar", "Faqat tasdiqlangan mualliflar"],
-      "sim": [57, 18, 16, 9],
-      "decision": "Hamma — kuniga kichik bepul limit; Premium va o'qituvchilarda katta limit. Ommaviy katalogga chiqarish — faqat ishonch darajasi yetganlarda." },
-    { "id": 13, "block": "B. AI bilan test yaratish", "q": "Bepul foydalanuvchiga kuniga nechta AI test?", "multi": false,
-      "options": ["1 ta", "3 ta", "5 ta", "Cheksiz (reklama bilan)"],
-      "sim": [24, 43, 19, 14],
-      "decision": "Kredit tizimi: bepul — kuniga 30 savol (≈3 ta 10 talik test); Premium — kuniga 300; o'qituvchi — 500. Kredit = savol soni, test soni emas." },
-    { "id": 14, "block": "B. AI bilan test yaratish", "q": "Qiyinlikni kim belgilaydi?", "multi": false,
-      "options": ["Men tanlayman (oson/o'rta/qiyin)", "AI o'zi aralash qiladi", "Natijalarga qarab tizim o'zi aniqlasin"],
-      "sim": [44, 17, 39],
-      "decision": "Muallif so'raydi → AI belgilaydi → 30+ urinishdan keyin haqiqiy qiyinlik (p-qiymat) ko'rsatiladi. Rasch — faqat rasmiy bankda." },
-    { "id": 15, "block": "B. AI bilan test yaratish", "q": "Har savolga izoh (nega shu javob to'g'ri) kerakmi?", "multi": false,
-      "options": ["Ha, har doim", "Faqat xato qilgan savollarimga", "Kerak emas"],
-      "sim": [61, 34, 5],
-      "decision": "AI har savolga izoh + manba bo'lagini yozadi (majburiy maydon). Izohi yo'q savol nashr qilinmaydi." },
-    { "id": 16, "block": "B. AI bilan test yaratish", "q": "Yuklangan fayl (PDF, rasm) keyin saqlansinmi?", "multi": false,
-      "options": ["Ha, qayta foydalanish uchun", "Yo'q, test tuzilgach o'chirilsin", "O'zim tanlay"],
-      "sim": [28, 22, 50],
-      "decision": "Standart: manba 30 kundan keyin o'chiriladi; 'Manbalarim' ga saqlash — tanlov (Premium). Mualliflik huquqi masalasi kamayadi." },
-
-    { "id": 17, "block": "C. Ulashish", "q": "Testni qanday ulashasiz?", "multi": true,
-      "options": ["Havola (link)", "Telegram'da tugma bilan", "Qisqa kod (masalan K7Q2)", "QR kod", "Guruhimga vazifa qilib"],
-      "sim": [58, 71, 26, 18, 39],
-      "decision": "Har testga havola + 6 belgili kod; Telegram inline rejim (@bot test nomi) va 'Ulashish' tugmasi; guruhga vazifa — mavjud assignments orqali." },
-    { "id": 18, "block": "C. Ulashish", "q": "Test ko'rinishi qanday darajalarda bo'lsin?", "multi": true,
-      "options": ["Faqat men", "Havolasi borlar", "Guruhim", "Hamma (ommaviy katalog)"],
-      "sim": [37, 69, 48, 45],
-      "decision": "visibility: private | link | group | public. Standart — link. public faqat moderatsiya/ishonch darajasidan keyin." },
-    { "id": 19, "block": "C. Ulashish", "q": "Boshqa birovning testini nusxalab, o'zgartirib ishlatish mumkinmi?", "multi": false,
-      "options": ["Ha, muallif ko'rsatilsa", "Faqat muallif ruxsat bersa", "Yo'q"],
-      "sim": [41, 46, 13],
-      "decision": "Muallif 'nusxalashga ruxsat' belgisini qo'yadi (standart — o'chiq). Nusxada 'asl muallif' havolasi saqlanadi (fork_of)." },
-    { "id": 20, "block": "C. Ulashish", "q": "Testni ishlagan odamning natijasini muallif ko'rishi kerakmi?", "multi": false,
-      "options": ["Ha, ism bilan", "Faqat umumiy statistika (ismsiz)", "Ishlovchi o'zi tanlasin"],
-      "sim": [36, 27, 37],
-      "decision": "Guruh/vazifa testlari — ism bilan. Havola orqali ochiq test — ishlovchi 'natijamni muallifga ko'rsat' ni tanlaydi; aks holda faqat anonim statistika." },
-    { "id": 21, "block": "C. Ulashish", "q": "Ro'yxatdan o'tmasdan ulashilgan testni ishlash mumkin bo'lsinmi?", "multi": false,
-      "options": ["Ha, ism kiritib", "Ha, lekin natijani saqlash uchun kirish kerak", "Yo'q, faqat kirganlar"],
-      "sim": [26, 55, 19],
-      "decision": "Mehmon ishlay oladi (javoblar tekshiriladi), natijani saqlash/izoh ko'rish uchun Telegram orqali bir bosishda kirish. Bu — asosiy o'sish kanali." },
-    { "id": 22, "block": "C. Ulashish", "q": "Ulashilgan testga qanday cheklovlar kerak?", "multi": true,
-      "options": ["Vaqt chegarasi (taymer)", "Ochilish/yopilish muddati", "Faqat 1 marta ishlash", "Savol/variant tartibini aralashtirish", "Parol"],
-      "sim": [63, 49, 44, 58, 17],
-      "decision": "Test sozlamalari: taymer, muddat, urinishlar soni, aralashtirish, javoblarni qachon ko'rsatish (darhol / tugagach / muddat o'tgach). Parol — kod o'zi yetarli." },
-    { "id": 23, "block": "C. Ulashish", "q": "To'g'ri javoblar qachon ko'rsatilsin?", "multi": false,
-      "options": ["Har savoldan keyin darhol", "Test tugagach", "Muallif belgilagan vaqtda", "Hech qachon"],
-      "sim": [31, 38, 27, 4],
-      "decision": "Muallif tanlaydi. Javob kaliti hech qachon brauzerga oldindan yuborilmaydi (hozirgi 'answer' maxfiyligi saqlanadi)." },
-    { "id": 24, "block": "C. Ulashish", "q": "Ulashilgan test muallifi o'zgarsa (savol tuzatilsa), oldin ishlaganlarning natijasi-chi?", "multi": false,
-      "options": ["Eski natija o'zgarmasin", "Qayta hisoblansin", "Farqi yo'q"],
-      "sim": [47, 33, 20],
-      "decision": "Test versiyalanadi: urinish aniq versiyaga bog'lanadi (test_version). Muallif 'xato savolni bekor qilish' ni tanlasa — o'sha savol hamma uchun hisobdan chiqariladi." },
-
-    { "id": 25, "block": "D. Sifat va moderatsiya", "q": "Ommaviy katalogdagi testlar sifatini qanday nazorat qilamiz?", "multi": true,
-      "options": ["Foydalanuvchilar bahosi (yulduzcha)", "\"Xato bor\" shikoyati", "Ekspert tekshiruvi", "AI qayta tekshiruvi", "Statistika (ko'pchilik xato qilgan savol)"],
-      "sim": [52, 66, 47, 39, 35],
-      "decision": "Sifat balli = shikoyatlar + statistika + baho + AI audit. Past ballli test katalogdan avtomatik yashiriladi. Ekspert — faqat 'rasmiy'ga ko'tarishda." },
-    { "id": 26, "block": "D. Sifat va moderatsiya", "q": "Yaxshi foydalanuvchi testi rasmiy bankka (sinov imtihoniga) o'tishi mumkinmi?", "multi": false,
-      "options": ["Ha, ekspert tasdiqlasa", "Yo'q, rasmiy bank alohida qolsin", "Ha, statistika yaxshi bo'lsa avtomatik"],
-      "sim": [62, 27, 11],
-      "decision": "Promote oqimi: yuqori sifatli savol → ekspert navbati → rasmiy bankka nusxa (source='community'). Avtomatik o'tish yo'q." },
-    { "id": 27, "block": "D. Sifat va moderatsiya", "q": "Haqiqiy imtihon savollarini (sizib chiqqan) yuklash holatlarida nima qilamiz?", "multi": false,
-      "options": ["Taqiqlash va o'chirish", "Faqat ogohlantirish", "Aralashmaslik"],
-      "sim": [58, 24, 18],
-      "decision": "Foydalanish shartlarida taqiq, shikoyat turi 'maxfiy material', tasdiqlansa — test o'chiriladi, takrorlansa hisob bloklanadi." },
-    { "id": 28, "block": "D. Sifat va moderatsiya", "q": "Muallifning ishonch darajasi (reputatsiya) kerakmi?", "multi": false,
-      "options": ["Ha — yaxshi testlar ko'proq imkoniyat bersin", "Faqat 'tasdiqlangan o'qituvchi' belgisi", "Kerak emas"],
-      "sim": [49, 38, 13],
-      "decision": "trust_level 0–3: 0 — yangi (katalogga chiqmaydi), 1 — 3+ test, shikoyatsiz, 2 — tasdiqlangan o'qituvchi, 3 — ekspert. Belgi profilda va test kartasida." },
-    { "id": 29, "block": "D. Sifat va moderatsiya", "q": "Haqoratli / siyosiy / reklama kontentini qanday to'xtatamiz?", "multi": false,
-      "options": ["Nashrdan oldin avtomatik AI filtr", "Faqat shikoyatdan keyin", "Ikkalasi ham"],
-      "sim": [21, 12, 67],
-      "decision": "public qilishda avtomatik AI moderatsiya (arzon, qisqa so'rov) + shikoyat. link/private testlar — faqat shikoyat bo'yicha." },
-    { "id": 30, "block": "D. Sifat va moderatsiya", "q": "Bir xil test katalogda ko'p marta takrorlansa?", "multi": false,
-      "options": ["Dublikatlarni birlashtirish", "Faqat eng yaxshisini ko'rsatish", "Hammasini qoldirish"],
-      "sim": [29, 54, 17],
-      "decision": "Savol barmoq izi (fingerprint, bor) bo'yicha o'xshashlik; katalogda o'xshash testlar guruhlanadi, eng yuqori sifatli birinchi." },
-
-    { "id": 31, "block": "E. Monetizatsiya", "q": "Qaysi to'lov modeli sizga qulay?", "multi": false,
-      "options": ["Oylik obuna", "3/12 oylik obuna (chegirma)", "Faqat ishlatganimga (kredit paketlar)", "Bepul + reklama"],
-      "sim": [34, 29, 17, 20],
-      "decision": "Asos — obuna (oylik + 3 oylik), qo'shimcha — AI kredit paketlari (o'qituvchilar uchun). Reklama yo'q (ta'lim + ishonch)." },
-    { "id": 32, "block": "E. Monetizatsiya", "q": "Bitta fan Premium uchun oyiga qancha to'lashga tayyorsiz?", "multi": false,
-      "options": ["20 000 so'mgacha", "20–50 000 so'm", "50–100 000 so'm", "100 000 so'mdan ko'p"],
-      "sim": [31, 44, 19, 6],
-      "decision": "Hozirgi 49 000 so'm — 'barcha fanlar' tarifi uchun qoladi; 'bitta fan' — 29 000 so'm atrofida sinab ko'riladi (A/B)." },
-    { "id": 33, "block": "E. Monetizatsiya", "q": "Mualliflar testlaridan daromad olishi kerakmi?", "multi": false,
-      "options": ["Ha, pullik testlar sotsin", "Ha, mashhurlik uchun bonus (Premium kun)", "Yo'q, hammasi bepul ulashilsin"],
-      "sim": [23, 48, 29],
-      "decision": "1–2-bosqich: pul yo'q, bonus — Premium kunlar/kreditlar (ishlanganlik va sifatga qarab). Pullik testlar — soliq/huquqiy masala hal bo'lgach (4-bosqich)." },
-    { "id": 34, "block": "E. Monetizatsiya", "q": "O'quv markazi uchun narx qanday bo'lsin?", "multi": false,
-      "options": ["O'quvchi boshiga oylik", "Qat'iy oylik (o'quvchi soni bo'yicha paket)", "Yillik shartnoma"],
-      "sim": [37, 45, 18],
-      "decision": "Paketlar: 30 / 100 / 300 o'quvchi, oylik; ichida o'qituvchi AI kreditlari. Hisob-faktura — MChJ orqali (DOYSE kassasi mavjud)." },
-    { "id": 35, "block": "E. Monetizatsiya", "q": "Qaysi to'lov usuli qulay?", "multi": true,
-      "options": ["Payme", "Click", "Uzum", "Karta o'tkazma (chek)", "Telegram Stars"],
-      "sim": [63, 58, 22, 18, 7],
-      "decision": "Payme (bor) → Click (keyingi) → qo'lda chek (zaxira). Hamma provayder bitta 'orders' jadvaliga yoziladi." },
-    { "id": 36, "block": "E. Monetizatsiya", "q": "Do'st taklif qilsa nima berilsin?", "multi": false,
-      "options": ["Ikkalasiga 7 kun Premium", "AI kredit", "Hech narsa"],
-      "sim": [66, 22, 12],
-      "decision": "Referal: taklif qilingan birinchi to'lov qilsa — ikkalasiga 7 kun. Ulashilgan test orqali kelgan ham referal hisoblanadi." },
-
-    { "id": 37, "block": "F. Motivatsiya va texnik", "q": "Foydalanuvchi testlari reytingga ta'sir qilsinmi?", "multi": false,
-      "options": ["Ha", "Yo'q, faqat rasmiy savollar hisoblansin", "Alohida 'mualliflar reytingi' bo'lsin"],
-      "sim": [18, 47, 35],
-      "decision": "O'quvchi reytingi — faqat rasmiy bank (aldashga chidamli). Alohida 'mualliflar reytingi' — test ishlanganligi × sifat." },
-    { "id": 38, "block": "F. Motivatsiya va texnik", "q": "O'qituvchi o'z testi bilan jonli viktorina (Kahoot kabi) o'tkaza olsinmi?", "multi": false,
-      "options": ["Ha, dars paytida juda kerak", "Ha, lekin keyinroq", "Kerak emas"],
-      "sim": [42, 39, 19],
-      "decision": "Jonli rejim 3-bosqichda (mavjud musobaqa mexanizmi asosida, Supabase Realtime). Sxema hozirdan mos." },
-    { "id": 39, "block": "F. Motivatsiya va texnik", "q": "Ota-onaga qanday hisobot kerak?", "multi": false,
-      "options": ["Haftalik Telegram xabari", "Kabinet (istalgan vaqtda ko'rish)", "Faqat sinov imtihoni natijasi", "Kerak emas"],
-      "sim": [51, 18, 17, 14],
-      "decision": "Ota-ona — Telegram orqali bog'lanadi (o'quvchi ruxsati bilan), haftalik xabar. Alohida kabinet yo'q." },
-    { "id": 40, "block": "F. Motivatsiya va texnik", "q": "Internet yomon joyda test ishlash (offline) kerakmi?", "multi": false,
-      "options": ["Ha, juda kerak", "Ba'zan", "Yo'q"],
-      "sim": [23, 41, 36],
-      "decision": "Ochiq amaliyot testlari uchun yengil offline (savollar keshlanadi, javoblar keyin yuboriladi). Sinov imtihoni/musobaqa — faqat onlayn (javob kaliti maxfiyligi)." },
-    { "id": 41, "block": "F. Motivatsiya va texnik", "q": "Test natijasidan keyin AI nima qilsin?", "multi": true,
-      "options": ["Zaif mavzularimni aytsin", "Xatolarim bo'yicha yangi test tuzsin", "Qisqa konspekt bersin", "Keyingi haftaga reja tuzsin"],
-      "sim": [71, 64, 38, 29],
-      "decision": "Natija sahifasida: zaif mavzular (bor) + 'xatolarimdan test yarat' tugmasi (UGC generator xatolar navbatidan). Reja — 3-bosqich." },
-    { "id": 42, "block": "F. Motivatsiya va texnik", "q": "Hozirgi A+ Huquq foydalanuvchilari uchun V3 ga o'tish qanday bo'lsin?", "multi": false,
-      "options": ["Avtomatik, hamma narsa saqlansin", "Yangi saytga qayta ro'yxatdan o'tish", "Farqi yo'q"],
-      "sim": [81, 4, 15],
-      "decision": "Katta portlash yo'q: V3 shu repo va shu baza ustida evolyutsiya. Obuna, streak, natijalar joyida qoladi; A+ Huquq — DOYSE ichidagi birinchi 'fan'." }
+    {
+      "id": 1,
+      "block": "A. Qamrov va auditoriya",
+      "q": "V3 qamrovi qanday bo'lsin?",
+      "multi": false,
+      "options": [
+        "Faqat huquq",
+        "Huquq + boshqa fanlar",
+        "Barcha fanlar"
+      ],
+      "owner": "Faqat huquq: Milliy sertifikat yoki istalgan huquq sohasini mustaqil o'rganish",
+      "decision": "Ikki yo'nalish: 'Milliy sertifikat' (hozirgi A+) va 'Huquq sohalari'. Boshqa fanlar yo'q — 'subject' qatlami kerak emas, o'rniga 'track' (yo'nalish) va 'field' (soha)."
+    },
+    {
+      "id": 2,
+      "block": "A. Qamrov va auditoriya",
+      "q": "\"Huquq sohalari\" yo'nalishi kim uchun?",
+      "multi": true,
+      "options": [
+        "Yuridik fakultet talabalari",
+        "Amaliyotchi yuristlar",
+        "Oddiy fuqarolar",
+        "Davlat xizmatchilari"
+      ],
+      "owner": "Hammasi; turli sohalar qiziq va chiroyli bo'lsin",
+      "decision": "To'rt auditoriya. Profilda 'maqsad' kengayadi (abituriyent / talaba / yurist / fuqaro / davlat xizmatchisi) va bosh sahifa shunga moslashadi. Dizayn: har sohaning o'z rangi va ikonkasi."
+    },
+    {
+      "id": 3,
+      "block": "A. Qamrov va auditoriya",
+      "q": "Birinchi navbatda qaysi huquq sohalari?",
+      "multi": true,
+      "options": [
+        "Konstitutsiyaviy + ma'muriy",
+        "Fuqarolik + oila",
+        "Jinoyat + jinoyat-protsessual",
+        "Mehnat + soliq"
+      ],
+      "owner": "Barcha huquq sohalari; muhimlariga ko'proq, kam mashhurlarga kamroq e'tibor",
+      "decision": "Barcha sohalar katalogda bor, hajmi A/B/C ustuvorlik bilan (27-savol)."
+    },
+    {
+      "id": 4,
+      "block": "A. Qamrov va auditoriya",
+      "q": "Mustaqil o'rganish qanday bo'lsin?",
+      "multi": true,
+      "options": [
+        "Modda → test",
+        "Mavzu konspekti + test",
+        "AI ustoz (savol-javob)",
+        "Kazuslar"
+      ],
+      "owner": "Hammasi",
+      "decision": "Soha sahifasida 4 rejim: modda→test, konspekt+test, AI ustoz, kazuslar."
+    },
+    {
+      "id": 5,
+      "block": "A. Qamrov va auditoriya",
+      "q": "Asosiy kanal qaysi bo'lsin?",
+      "multi": false,
+      "options": [
+        "Telegram Mini App",
+        "Sayt (web)",
+        "Mobil ilova"
+      ],
+      "owner": "Telegram Mini App",
+      "decision": "Telegram-first. Sayt — o'sha kod, PWA. Native ilova yo'q."
+    },
+    {
+      "id": 6,
+      "block": "B. AI bilan test yaratish",
+      "q": "Foydalanuvchi AI bilan testni nimadan tuzsin?",
+      "multi": true,
+      "options": [
+        "Soha/mavzu tanlab",
+        "Modda raqamidan",
+        "O'zi joylagan matn/PDF",
+        "Rasmdan"
+      ],
+      "owner": "Hammasi",
+      "decision": "To'rt manba. Mavzu va modda — bazadan; matn/PDF/rasm — foydalanuvchi materiali, lekin har savol bazadagi moddaga bog'lanishi shart (7-savol)."
+    },
+    {
+      "id": 7,
+      "block": "B. AI bilan test yaratish",
+      "q": "AI testlari qonun matniga qanchalik bog'liq bo'lsin?",
+      "multi": false,
+      "options": [
+        "Faqat bazadagi rasmiy matndan",
+        "Aralash",
+        "Erkin"
+      ],
+      "owner": "Faqat bazadagi rasmiy matndan",
+      "decision": "Har savolda article_id majburiy. Bazadagi moddaga bog'lab bo'lmagan savol rad etiladi. Shuning uchun lex.uz importi (39) birinchi ish."
+    },
+    {
+      "id": 8,
+      "block": "B. AI bilan test yaratish",
+      "q": "Qaysi savol turlari?",
+      "multi": true,
+      "options": [
+        "Test (A/B/C/D)",
+        "Kazus",
+        "Qisqa yozma javob",
+        "Moslashtirish / to'g'ri-noto'g'ri"
+      ],
+      "owner": "Hammasi",
+      "decision": "Mavjud turlar + true_false. AI hammasini yarata oladi."
+    },
+    {
+      "id": 9,
+      "block": "B. AI bilan test yaratish",
+      "q": "Bitta AI testda nechta savol?",
+      "multi": false,
+      "options": [
+        "10",
+        "20",
+        "30",
+        "Foydalanuvchi tanlaydi (5–50)"
+      ],
+      "owner": "Foydalanuvchi tanlaydi (5–50)",
+      "decision": "5–50, AI 10 talik bo'laklarda yaratadi."
+    },
+    {
+      "id": 10,
+      "block": "B. AI bilan test yaratish",
+      "q": "Kim AI bilan test yarata olsin?",
+      "multi": false,
+      "options": [
+        "Hamma, bepul limit bilan",
+        "Faqat Premium",
+        "Faqat o'qituvchi/ekspert"
+      ],
+      "owner": "Hamma, bepul limit bilan",
+      "decision": "Hamma yaratadi; limit tarifga bog'liq."
+    },
+    {
+      "id": 11,
+      "block": "B. AI bilan test yaratish",
+      "q": "Bepul foydalanuvchiga AI limiti?",
+      "multi": false,
+      "options": [
+        "Kuniga 10 savol",
+        "Kuniga 30 savol",
+        "Kuniga 50 savol",
+        "Haftasiga 10 ta test"
+      ],
+      "owner": "Haftasiga 10 ta test",
+      "decision": "Bepul: haftasiga 10 ta test (dushanbadan yangilanadi, Toshkent vaqti)."
+    },
+    {
+      "id": 12,
+      "block": "B. AI bilan test yaratish",
+      "q": "AI tuzgan testni ulashishdan oldin tahrirlash?",
+      "multi": false,
+      "options": [
+        "Ha, har savolni tahrirlash",
+        "Faqat o'chirish/qayta yaratish",
+        "Tahrirsiz"
+      ],
+      "owner": "Ha, har savolni tahrirlash",
+      "decision": "Qoralama → to'liq tahrirlagich → nashr."
+    },
+    {
+      "id": 13,
+      "block": "B. AI bilan test yaratish",
+      "q": "Har savolga izoh va modda havolasi?",
+      "multi": false,
+      "options": [
+        "Majburiy: izoh + modda",
+        "Faqat izoh",
+        "Ixtiyoriy"
+      ],
+      "owner": "Ixtiyoriy",
+      "decision": "Izoh ixtiyoriy. Modda havolasi baribir avtomatik (7-savol) — ishlovchi har doim moddani ochib ko'ra oladi."
+    },
+    {
+      "id": 14,
+      "block": "C. Ulashish",
+      "q": "Testni qanday ulashish mumkin bo'lsin?",
+      "multi": true,
+      "options": [
+        "Havola",
+        "Telegram tugmasi",
+        "Qisqa kod",
+        "Guruhga vazifa"
+      ],
+      "owner": "Hammasi",
+      "decision": "Havola, Telegram tugmasi (startapp), 6 belgili kod, guruhga vazifa."
+    },
+    {
+      "id": 15,
+      "block": "C. Ulashish",
+      "q": "Test ko'rinish darajalari?",
+      "multi": true,
+      "options": [
+        "Faqat men",
+        "Havolasi borlar",
+        "Guruhim",
+        "Hamma (ommaviy katalog)"
+      ],
+      "owner": "Hammasi",
+      "decision": "visibility: private | link | group | public."
+    },
+    {
+      "id": 16,
+      "block": "C. Ulashish",
+      "q": "Boshqaning testini nusxalab o'zgartirish?",
+      "multi": false,
+      "options": [
+        "Muallif ruxsat bersa",
+        "Ha, muallif ko'rsatilsa",
+        "Yo'q"
+      ],
+      "owner": "Yo'q",
+      "decision": "Nusxa (fork) yo'q. Test faqat muallifniki."
+    },
+    {
+      "id": 17,
+      "block": "C. Ulashish",
+      "q": "Ro'yxatdan o'tmagan odam ulashilgan testni ishlay oladimi?",
+      "multi": false,
+      "options": [
+        "Ha, saqlash uchun kirish",
+        "Ha, to'liq",
+        "Yo'q"
+      ],
+      "owner": "Ha, saqlash uchun kirish",
+      "decision": "Mehmon ishlaydi; natija va izoh uchun Telegram bilan kiradi."
+    },
+    {
+      "id": 18,
+      "block": "C. Ulashish",
+      "q": "Test ishlaganlarning natijasini muallif ko'radimi?",
+      "multi": false,
+      "options": [
+        "Guruhda ism bilan, ochiqda ismsiz",
+        "Har doim ism bilan",
+        "Faqat umumiy statistika"
+      ],
+      "owner": "Har doim ism bilan",
+      "decision": "Muallif hamma natijani ism bilan ko'radi. Test boshida ogohlantirish: 'Natijangiz va ismingiz muallifga ko'rinadi'. Mehmondan ism so'raladi."
+    },
+    {
+      "id": 19,
+      "block": "C. Ulashish",
+      "q": "Ulashilgan testga qanday sozlamalar kerak?",
+      "multi": true,
+      "options": [
+        "Taymer",
+        "Ochilish/yopilish muddati",
+        "Urinishlar soni",
+        "Aralashtirish"
+      ],
+      "owner": "Hammasi",
+      "decision": "settings: taymer, muddat, urinishlar soni, aralashtirish."
+    },
+    {
+      "id": 20,
+      "block": "C. Ulashish",
+      "q": "To'g'ri javoblar qachon ko'rsatilsin?",
+      "multi": false,
+      "options": [
+        "Muallif tanlaydi",
+        "Har savoldan keyin",
+        "Test tugagach"
+      ],
+      "owner": "Uchala variant ham (muallif tanlaydi)",
+      "decision": "Muallif tanlaydi: har savoldan keyin / tugagach / muddat o'tgach."
+    },
+    {
+      "id": 21,
+      "block": "C. Ulashish",
+      "q": "Muallif testni o'zgartirsa, eski natijalar?",
+      "multi": false,
+      "options": [
+        "Eski natija saqlanadi",
+        "Qayta hisoblansin",
+        "Ishlangan testni o'zgartirib bo'lmaydi"
+      ],
+      "owner": "Qayta hisoblansin",
+      "decision": "Javob kaliti o'zgarsa, hamma urinishlar yangi kalit bilan qayta hisoblanadi, ishlaganlarga xabar boradi. Savol matni o'zgarsa, eski javoblar saqlanadi, savol 'o'zgartirilgan' deb belgilanadi."
+    },
+    {
+      "id": 22,
+      "block": "D. Sifat va moderatsiya",
+      "q": "Ommaviy katalogdagi testlar sifati qanday nazorat qilinsin?",
+      "multi": true,
+      "options": [
+        "Yulduzcha baho",
+        "\"Xato bor\" shikoyati",
+        "AI qayta tekshiruvi",
+        "Ekspert tekshiruvi"
+      ],
+      "owner": "Hammasi",
+      "decision": "Sifat balli = baho + shikoyat + AI audit; ekspert — tanlangan testlar va rasmiyga ko'tarish."
+    },
+    {
+      "id": 23,
+      "block": "D. Sifat va moderatsiya",
+      "q": "Yaxshi foydalanuvchi savoli rasmiy bankka o'tsinmi?",
+      "multi": false,
+      "options": [
+        "Ha, ekspert tasdiqlasa",
+        "Yo'q, alohida qolsin",
+        "Statistika yaxshi bo'lsa avtomatik"
+      ],
+      "owner": "Ha, ekspert tasdiqlasa",
+      "decision": "Promote: ekspert navbati → rasmiy bankka nusxa (source='community'). Shartlarda muallifdan litsenziya."
+    },
+    {
+      "id": 24,
+      "block": "D. Sifat va moderatsiya",
+      "q": "Muallif ishonch darajasi kerakmi?",
+      "multi": false,
+      "options": [
+        "Ha, 0–3 daraja",
+        "Faqat \"tasdiqlangan\" belgisi",
+        "Kerak emas"
+      ],
+      "owner": "Ha, 0–3 daraja",
+      "decision": "trust_level 0–3; katalogga 1-darajadan."
+    },
+    {
+      "id": 25,
+      "block": "D. Sifat va moderatsiya",
+      "q": "Nomaqbul kontent qanday to'xtatilsin?",
+      "multi": false,
+      "options": [
+        "AI filtr + shikoyat",
+        "Faqat shikoyatdan keyin",
+        "Hammasini admin ko'radi"
+      ],
+      "owner": "AI filtr + shikoyat",
+      "decision": "Katalogga chiqishda AI filtr; qolganlari — shikoyat bo'yicha."
+    },
+    {
+      "id": 26,
+      "block": "E. Huquq sohalari",
+      "q": "Sohalar katalogi qanday tuzilsin?",
+      "multi": false,
+      "options": [
+        "Soha → kodeks → bob → modda",
+        "Soha → hayotiy mavzular",
+        "Ikkalasi ham"
+      ],
+      "owner": "Ikkalasi ham",
+      "decision": "Ikki ko'rinish: 'Kodeks bo'yicha' (talaba/yurist) va 'Hayotiy mavzular' (fuqaro). Ikkalasi ham bir xil moddalarga bog'lanadi."
+    },
+    {
+      "id": 27,
+      "block": "E. Huquq sohalari",
+      "q": "Muhim sohalarga ustuvorlik qanday belgilansin?",
+      "multi": false,
+      "options": [
+        "A/B/C darajalar",
+        "Foydalanuvchi qiziqishiga qarab",
+        "Hammasi teng"
+      ],
+      "owner": "A/B/C darajalar",
+      "decision": "A — modda-modda test + konspekt + kazus; B — asosiy boblar; C — umumiy tanishuv (20–50 savol)."
+    },
+    {
+      "id": 28,
+      "block": "E. Huquq sohalari",
+      "q": "Qonunlar o'zgarsa nima bo'ladi?",
+      "multi": false,
+      "options": [
+        "Eski savollar avtomatik belgilanadi",
+        "Qo'lda kuzatamiz",
+        "Foydalanuvchi shikoyati bilan"
+      ],
+      "owner": "Eski savollar avtomatik belgilanadi",
+      "decision": "lex.uz qayta importida modda matni o'zgarsa, unga bog'langan rasmiy va foydalanuvchi savollari 'tekshiruvda' holatiga o'tadi."
+    },
+    {
+      "id": 29,
+      "block": "E. Huquq sohalari",
+      "q": "Sohani o'rganishda progress qanday ko'rinsin?",
+      "multi": true,
+      "options": [
+        "Soha bo'yicha foiz",
+        "Moddalar xaritasi",
+        "Sertifikat",
+        "Nishonlar"
+      ],
+      "owner": "Hammasi",
+      "decision": "Foiz, moddalar xaritasi, soha nishonlari, yakunda PDF sertifikat (tekshirish havolasi bilan)."
+    },
+    {
+      "id": 30,
+      "block": "F. To'lov",
+      "q": "To'lov modeli?",
+      "multi": false,
+      "options": [
+        "Bitta Premium (hammasi)",
+        "Ikki tarif",
+        "Premium + AI paketlar"
+      ],
+      "owner": "Ikki tarif",
+      "decision": "'Sertifikat' va 'Sohalar' — alohida tariflar, ikkalasi birga chegirma bilan."
+    },
+    {
+      "id": 31,
+      "block": "F. To'lov",
+      "q": "Premium narxi (oyiga)?",
+      "multi": false,
+      "options": [
+        "49 000 so'm",
+        "39 000 so'm",
+        "69 000 so'm",
+        "Talaba/fuqaro uchun alohida"
+      ],
+      "owner": "39 000 so'm",
+      "decision": "Har tarif 39 000 so'm/oy. Ikkalasi birga — taklif 59 000 (tasdiqlash kerak)."
+    },
+    {
+      "id": 32,
+      "block": "F. To'lov",
+      "q": "Mualliflar testlaridan foyda ko'rsinmi?",
+      "multi": true,
+      "options": [
+        "Bonus: Premium kunlar",
+        "Pullik testlar sotish",
+        "Yo'q"
+      ],
+      "owner": "Bonus va pullik testlar",
+      "decision": "Bonus Premium kunlar + pullik testlar (DOYSE foiz oladi). Pullik testlar muallifga to'lov huquqiy masalasi hal bo'lgach."
+    },
+    {
+      "id": 33,
+      "block": "F. To'lov",
+      "q": "O'quv markazi/universitet uchun tarif?",
+      "multi": false,
+      "options": [
+        "Paketlar (30/100/300 kishi)",
+        "Kishi boshiga",
+        "Hozircha kerak emas"
+      ],
+      "owner": "Paketlar (30/100/300 kishi)",
+      "decision": "Oylik paketlar, ichida o'qituvchilar AI limiti."
+    },
+    {
+      "id": 34,
+      "block": "G. Motivatsiya va AI ustoz",
+      "q": "Reytingga qaysi natijalar kirsin?",
+      "multi": false,
+      "options": [
+        "Faqat rasmiy savollar",
+        "Hammasi",
+        "Har soha bo'yicha alohida"
+      ],
+      "owner": "Faqat rasmiy savollar",
+      "decision": "O'quvchi reytingi faqat rasmiy bankdan; mualliflar reytingi alohida."
+    },
+    {
+      "id": 35,
+      "block": "G. Motivatsiya va AI ustoz",
+      "q": "O'qituvchi jonli viktorina o'tkaza olsinmi?",
+      "multi": false,
+      "options": [
+        "Ha, birinchi versiyada",
+        "Ha, keyinroq",
+        "Kerak emas"
+      ],
+      "owner": "Ha, birinchi versiyada",
+      "decision": "Jonli viktorina birinchi versiyada (Supabase Realtime, mavjud musobaqa mexanizmi asosida)."
+    },
+    {
+      "id": 36,
+      "block": "G. Motivatsiya va AI ustoz",
+      "q": "AI ustoz nimalarni qila olsin?",
+      "multi": true,
+      "options": [
+        "Modda/tushunchani tushuntirish",
+        "Kazus tahlili",
+        "Xatolarimdan test tuzish",
+        "O'quv reja"
+      ],
+      "owner": "Hammasi",
+      "decision": "To'rt funksiya; javoblar bazadagi moddalarga tayanadi va manbani ko'rsatadi."
+    },
+    {
+      "id": 37,
+      "block": "G. Motivatsiya va AI ustoz",
+      "q": "AI ustoz fuqaroga shaxsiy huquqiy maslahat bersinmi?",
+      "multi": false,
+      "options": [
+        "Yo'q, faqat ta'lim",
+        "Ha, ogohlantirish bilan",
+        "Yuristga ulash (pullik)"
+      ],
+      "owner": "Yo'q, faqat ta'lim",
+      "decision": "Faqat ta'lim: 'Bu yuridik maslahat emas' + yuristga murojaat tavsiyasi. Kazus tahlili — o'quv masalasi sifatida."
+    },
+    {
+      "id": 38,
+      "block": "H. Birinchi versiya va o'tish",
+      "q": "Birinchi versiyada eng muhim narsalar?",
+      "multi": true,
+      "options": [
+        "AI test yaratish + ulashish",
+        "Huquq sohalari katalogi (A)",
+        "AI ustoz",
+        "Jonli viktorina"
+      ],
+      "owner": "Hammasi (to'rttasi ham)",
+      "decision": "To'rttasi ham birinchi versiyada; muddat 12–14 haftaga cho'ziladi. Tartib: qonun bazasi → katalog → AI test + ulashish → AI ustoz → jonli viktorina."
+    },
+    {
+      "id": 39,
+      "block": "H. Birinchi versiya va o'tish",
+      "q": "Kodeks/qonun matnlari bazaga qanday kiritilsin?",
+      "multi": false,
+      "options": [
+        "lex.uz dan import",
+        "Qo'lda (jamoa)",
+        "Foydalanuvchilar yuklaydi"
+      ],
+      "owner": "lex.uz dan import",
+      "decision": "lex.uz dan modda-modda import, tahrir sanasi bilan; qayta import o'zgarishni aniqlaydi (28)."
+    },
+    {
+      "id": 40,
+      "block": "H. Birinchi versiya va o'tish",
+      "q": "Ota-onaga hisobot kerakmi?",
+      "multi": false,
+      "options": [
+        "Haftalik Telegram xabari",
+        "Kerak emas",
+        "Faqat sinov imtihoni natijasi"
+      ],
+      "owner": "Kerak emas",
+      "decision": "Ota-ona funksiyasi yo'q."
+    },
+    {
+      "id": 41,
+      "block": "H. Birinchi versiya va o'tish",
+      "q": "Hozirgi A+ Huquq foydalanuvchilari?",
+      "multi": false,
+      "options": [
+        "Hammasi avtomatik saqlanadi",
+        "Yangi tizim, qayta ro'yxat"
+      ],
+      "owner": "Hammasi avtomatik saqlanadi",
+      "decision": "Shu baza ustida evolyutsiya: obuna, streak, natijalar joyida qoladi."
+    }
   ]
 }

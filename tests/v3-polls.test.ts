@@ -1,4 +1,4 @@
-// data/v3/polls.json: Telegram cheklovlari va modellashtirilgan natijalar izchilligi.
+// data/v3/polls.json: Telegram cheklovlari, har savolda egasining javobi va qarori.
 import { describe, expect, it } from "vitest";
 import { loadPolls, sendPollParams } from "../scripts/v3/polls";
 
@@ -10,10 +10,10 @@ describe("V3 so'rovnomasi", () => {
     expect(polls.map((p) => p.id)).toEqual(polls.map((_, i) => i + 1));
   });
 
-  it("har variantga natija bor; bitta tanlovli so'rovnomalar 100% ga teng", () => {
+  it("har savolda javob va qaror bor", () => {
     for (const p of polls) {
-      expect(p.sim, `#${p.id}`).toHaveLength(p.options.length);
-      if (!p.multi) expect(p.sim.reduce((a, b) => a + b, 0), `#${p.id}`).toBe(100);
+      expect(p.owner.trim(), `#${p.id}`).not.toBe("");
+      expect(p.decision.trim(), `#${p.id}`).not.toBe("");
     }
   });
 

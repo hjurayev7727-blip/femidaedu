@@ -10,7 +10,7 @@ export const PollSchema = z.object({
   q: z.string().min(1).max(300),
   multi: z.boolean(),
   options: z.array(z.string().min(1).max(100)).min(2).max(10),
-  sim: z.array(z.number().min(0).max(100)),
+  owner: z.string().min(1), // loyiha egasining javobi
   decision: z.string().min(1),
 });
 export type Poll = z.infer<typeof PollSchema>;
