@@ -13,7 +13,8 @@
     "db:import": "tsx scripts/import/load.ts",
     "bot:setup": "tsx scripts/bot-setup.ts",
     "db:migrate": "tsx scripts/migrate.ts",
-    "db:calibrate": "tsx scripts/calibrate.ts"
+    "db:calibrate": "tsx scripts/calibrate.ts",
+    "v3:polls": "tsx scripts/v3-polls.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.129.0",
