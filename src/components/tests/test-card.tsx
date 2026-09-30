@@ -28,7 +28,7 @@ export function TestCard({ card: c, signedIn, action, loginHref, now }: {
   const notOpen = s.opens_at && new Date(s.opens_at).getTime() > now;
   const closed = s.closes_at && new Date(s.closes_at).getTime() <= now;
   const noAttempts = !c.is_owner && s.max_attempts != null && c.my_finished >= s.max_attempts && !c.open_attempt;
-  const guestsAllowed = s.guests ?? true;
+  const guestsAllowed = (s.guests ?? true) && s.max_attempts == null; // urinishlar cheklangan bo'lsa — faqat kirganlar
 
   return (
     <div className="space-y-4">

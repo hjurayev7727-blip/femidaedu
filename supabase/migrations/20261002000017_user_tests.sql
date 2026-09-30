@@ -161,7 +161,8 @@ create or replace function public.test_accessible(t tests, p_user uuid) returns 
 language sql stable security definer set search_path = public as $$
   select t.status = 'published' and (
     (p_user is not null and t.owner_id = p_user)
-    or (t.visibility in ('link', 'public') and (p_user is not null or coalesce((t.settings->>'guests')::boolean, true)))
+    or (t.visibility in ('link', 'public') and (p_user is not null
+        or (coalesce((t.settings->>'guests')::boolean, true) and (t.settings->>'max_attempts') is null)))
     or (t.visibility = 'group' and p_user is not null
         and exists (select 1 from group_members m where m.group_id = t.group_id and m.user_id = p_user))
   )
@@ -231,8 +232,10 @@ end $$;
 -- Test sarlavhasi, tavsifi, sohasi
 create or replace function public.update_test_meta(p_user uuid, p_test bigint, p jsonb) returns boolean
 language sql volatile security definer set search_path = public as $$
+  -- Ochiq testni tahrirlash — katalog uchun qayta moderatsiya
   update tests set title = p->>'title', description = nullif(p->>'description', ''),
-    field_id = (select id from fields where slug = p->>'field')
+    field_id = (select id from fields where slug = p->>'field'),
+    moderation = case when visibility = 'public' then 'pending' else moderation end
   where id = p_test and owner_id = p_user and status <> 'removed'
   returning true
 $$;
@@ -259,11 +262,11 @@ begin
     if (select count(*) from test_items where test_id = p_test and status = 'active') >= 50 then
       return jsonb_build_object('ok', false, 'reason', 'items_count');
     end if;
+    -- Qo'lda qo'shilgan savol bazaga bog'lanmaydi (moddani faqat AI generatori manbadan bog'laydi)
     insert into test_items (test_id, pos, type, stem, context, payload, answer, explanation, article_id, difficulty)
     values (p_test, coalesce((select max(pos) from test_items where test_id = p_test), 0) + 1,
             (p->>'type')::question_type, p->>'stem', nullif(p->>'context', ''), p->'payload', p->'answer',
-            nullif(p->>'explanation', ''), (select id from articles where id = (p->>'article_id')::bigint),
-            coalesce((p->>'difficulty')::smallint, 2))
+            nullif(p->>'explanation', ''), null, coalesce((p->>'difficulty')::smallint, 2))
     returning id into v_id;
   else
     select * into v_old from test_items where id = p_item and test_id = p_test and status = 'active' for update;
@@ -274,7 +277,8 @@ begin
     v_key_changed := v_old.answer is distinct from p->'answer' or v_old.payload is distinct from p->'payload';
     update test_items set type = (p->>'type')::question_type, stem = p->>'stem', context = nullif(p->>'context', ''),
       payload = p->'payload', answer = p->'answer', explanation = nullif(p->>'explanation', ''),
-      article_id = (select id from articles where id = (p->>'article_id')::bigint),
+      -- modda bog'lanishini faqat olib tashlash mumkin, boshqa moddaga almashtirib bo'lmaydi
+      article_id = case when (p->>'article_id')::bigint is not distinct from v_old.article_id then v_old.article_id end,
       difficulty = coalesce((p->>'difficulty')::smallint, difficulty),
       key_version = key_version + v_key_changed::int, fingerprint = null
     where id = p_item returning id into v_id;
@@ -283,11 +287,16 @@ begin
       update test_answers ans set is_correct = (x->>'correct')::boolean, key_version = (select key_version from test_items where id = v_id)
       from jsonb_array_elements(coalesce(p_regrade, '[]')) x
       where ans.item_id = v_id and ans.attempt_id = (x->>'attempt_id')::uuid;
+      -- Server javoblarni o'qigandan keyin yozilgan javob qayta baholanmay qolmasin: bo'lsa — butunlay qaytariladi, server qayta urinadi
+      if exists (select 1 from test_answers where item_id = v_id and key_version <> (select key_version from test_items where id = v_id)) then
+        raise exception 'regrade_retry' using errcode = 'P0001';
+      end if;
       for r in select distinct attempt_id from test_answers where item_id = v_id loop
         perform public.recalc_test_attempt(r.attempt_id, 'key_change');
       end loop;
     end if;
   end if;
+  update tests set moderation = 'pending' where id = p_test and visibility = 'public' and moderation is not null;
 
   perform public.refresh_test_flags(p_test);
   return jsonb_build_object('ok', true, 'id', v_id, 'regraded', v_key_changed);
@@ -312,6 +321,7 @@ begin
     delete from test_items where id = p_item;
   end if;
   perform public.refresh_test_flags(v_test);
+  update tests set moderation = 'pending' where id = v_test and visibility = 'public' and moderation is not null;
   return jsonb_build_object('ok', true);
 end $$;
 
@@ -423,12 +433,16 @@ declare
   v_close timestamptz;
   v_id uuid;
 begin
-  select * into t from tests where share_code = upper(p_code) for share;
+  select * into t from tests where share_code = upper(p_code) for update;  -- parallel boshlashlar ketma-ket (urinishlar limiti)
   if not found or t.status <> 'published' then return jsonb_build_object('ok', false, 'reason', 'not_found'); end if;
   if not public.test_accessible(t, p_user) then
     return jsonb_build_object('ok', false, 'reason', case when p_user is null then 'login_required' else 'not_found' end);
   end if;
   if p_user is null and (coalesce(trim(p_guest_name), '') = '' or coalesce(p_guest, '') = '') then
+    return jsonb_build_object('ok', false, 'reason', 'login_required');
+  end if;
+  -- Urinishlar cheklangan testda mehmon tokenni yangilab limitni chetlab o'tmasin — faqat kirganlar
+  if p_user is null and (t.settings->>'max_attempts') is not null then
     return jsonb_build_object('ok', false, 'reason', 'login_required');
   end if;
   if (t.settings->>'opens_at') is not null and now() < (t.settings->>'opens_at')::timestamptz then
@@ -476,7 +490,7 @@ $$;
  * Javobni yozish (server javob kalitiga qarab p_correct ni hisoblaydi). reveal='each' — javob o'zgarmaydi,
  * boshqa rejimlarda yakunlaguncha o'zgartirish mumkin. Muddat server vaqtida (30 soniya tarmoq zaxirasi).
  */
-create or replace function public.save_test_answer(p_attempt uuid, p_user uuid, p_guest text, p_item bigint, p_response jsonb, p_correct boolean)
+create or replace function public.save_test_answer(p_attempt uuid, p_user uuid, p_guest text, p_item bigint, p_response jsonb, p_correct boolean, p_key int)
 returns jsonb
 language plpgsql volatile security definer set search_path = public as $$
 declare
@@ -490,8 +504,10 @@ begin
   if a.deadline_at is not null and now() > a.deadline_at + interval '30 seconds' then return jsonb_build_object('ok', false, 'reason', 'time_up'); end if;
   if not (p_item = any (a.item_ids)) then return jsonb_build_object('ok', false, 'reason', 'not_in_attempt'); end if;
   select * into t from tests where id = a.test_id;
-  select key_version into v_key from test_items where id = p_item and status = 'active';
+  select key_version into v_key from test_items where id = p_item and status = 'active' for share;
   if v_key is null then return jsonb_build_object('ok', false, 'reason', 'not_in_attempt'); end if;
+  -- Javob eski kalit bilan baholangan bo'lsa (muallif shu orada kalitni o'zgartirdi) — server qayta baholaydi
+  if p_key is distinct from v_key then return jsonb_build_object('ok', false, 'reason', 'stale_key'); end if;
 
   if public.test_reveal(t) = 'each' then
     insert into test_answers (attempt_id, item_id, response, is_correct, key_version) values (p_attempt, p_item, p_response, p_correct, v_key)
@@ -539,6 +555,7 @@ declare
   v_old smallint;
 begin
   if p_stars not between 1 and 5 then return false; end if;
+  perform 1 from tests where id = p_test for update;   -- parallel baholar ketma-ket (yig'indi ikki marta qo'shilmasin)
   if exists (select 1 from tests where id = p_test and owner_id = p_user) then return false; end if;
   if not exists (select 1 from test_attempts where test_id = p_test and user_id = p_user and finished_at is not null) then return false; end if;
   select stars into v_old from test_ratings where test_id = p_test and user_id = p_user;
@@ -641,7 +658,7 @@ begin
     'create_user_test(uuid, jsonb)', 'update_test_meta(uuid, bigint, jsonb)', 'save_test_item(uuid, bigint, bigint, jsonb, jsonb)',
     'remove_test_item(uuid, bigint)', 'publish_test(uuid, bigint, public.test_visibility, bigint, jsonb)',
     'set_test_status(uuid, bigint, text)', 'set_test_moderation(bigint, text, text)', 'admin_set_trust(uuid, uuid, int)',
-    'test_card(text, uuid, text)', 'start_test_attempt(text, uuid, text, text)', 'save_test_answer(uuid, uuid, text, bigint, jsonb, boolean)',
+    'test_card(text, uuid, text)', 'start_test_attempt(text, uuid, text, text)', 'save_test_answer(uuid, uuid, text, bigint, jsonb, boolean, int)',
     'finish_test_attempt(uuid, uuid, text)', 'claim_guest_attempts(uuid, text)', 'rate_test(uuid, bigint, int)',
     'test_results(uuid, bigint)', 'test_item_stats(uuid, bigint)', 'test_accessible(public.tests, uuid)', 'new_share_code()'
   ] loop
