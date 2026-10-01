@@ -52,3 +52,16 @@ export async function savePlan(_prev: SaveState, form: FormData): Promise<SaveSt
   revalidatePath("/app/premium");
   return { ok: true, message: "Saqlandi" };
 }
+
+/** Yuristlar bo'limi (katalog, profil sahifalari, menyu) — foydalanuvchilarga ochish yoki yopish */
+export async function saveLawyersEnabled(_prev: SaveState, form: FormData): Promise<SaveState> {
+  const { userId } = await requireRole("admin");
+  const enabled = form.get("enabled") === "on";
+  const { error } = await createSupabaseAdmin()
+    .from("app_settings")
+    .upsert({ key: "lawyers_enabled", value: enabled, updated_at: new Date().toISOString(), updated_by: userId });
+  if (error) return { ok: false, message: "Saqlab bo'lmadi" };
+  revalidatePath("/admin/sozlamalar");
+  revalidatePath("/app", "layout");
+  return { ok: true, message: enabled ? "Saqlandi — yuristlar bo'limi ochiq" : "Saqlandi — yuristlar bo'limi yopiq" };
+}

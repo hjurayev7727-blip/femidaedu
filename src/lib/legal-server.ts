@@ -150,7 +150,7 @@ export async function analyzeLegalDocument(
 ): Promise<AiResult<LegalReply>> {
   if (!uploadPathRe(userId).test(opts.path)) return { ok: false, message: "Fayl topilmadi." };
   const admin = createSupabaseAdmin();
-  const { data: issued } = await admin.from("legal_uploads").select("path").eq("path", opts.path).eq("user_id", userId).maybeSingle();
+  const { data: issued } = await admin.from("legal_uploads").select("path").eq("path", opts.path).eq("user_id", userId).eq("bucket", LEGAL_BUCKET).maybeSingle();
   if (!issued) return { ok: false, message: "Fayl topilmadi. Qayta yuklang." };
   try {
     const c = aiClient();
@@ -209,20 +209,27 @@ export async function analyzeLegalDocument(
   }
 }
 
-/** Cron: tahlil qilinmagan (tashlab ketilgan) fayllarni o'chirish */
+/** Cron: tahlil qilinmagan hujjatlar va topshirilmagan guvohnoma fayllarini (tashlab ketilganlarini) o'chirish */
 export async function cleanupLegalUploads(): Promise<number> {
   const admin = createSupabaseAdmin();
   const before = new Date(Date.now() - UPLOAD_TTL_MS).toISOString();
-  const { data } = await admin.from("legal_uploads").select("path").lt("created_at", before).limit(1000).returns<{ path: string }[]>();
-  const paths = (data ?? []).map((r) => r.path);
-  if (!paths.length) return 0;
-  await admin.storage.from(LEGAL_BUCKET).remove(paths);
-  await admin.from("legal_uploads").delete().in("path", paths);
-  return paths.length;
+  const { data } = await admin.from("legal_uploads").select("path, bucket").lt("created_at", before).limit(1000).returns<{ path: string; bucket: string }[]>();
+  const rows = data ?? [];
+  if (!rows.length) return 0;
+  for (const bucket of new Set(rows.map((r) => r.bucket))) {
+    await admin.storage.from(bucket).remove(rows.filter((r) => r.bucket === bucket).map((r) => r.path));
+  }
+  await admin.from("legal_uploads").delete().in("path", rows.map((r) => r.path));
+  return rows.length;
 }
 
 /** Yuristlar bo'limi (4–5-bosqich) yoqilganmi: app_settings.lawyers_enabled = true */
 export async function lawyersEnabled(): Promise<boolean> {
-  const { data } = await createSupabaseAdmin().from("app_settings").select("value").eq("key", "lawyers_enabled").maybeSingle<{ value: unknown }>();
-  return data?.value === true;
+  // Ilova menyusi ham shuni chaqiradi: kalit yo'q yoki baza javob bermasa — bo'lim yopiq, sahifa yiqilmaydi
+  try {
+    const { data } = await createSupabaseAdmin().from("app_settings").select("value").eq("key", "lawyers_enabled").maybeSingle<{ value: unknown }>();
+    return data?.value === true;
+  } catch {
+    return false;
+  }
 }

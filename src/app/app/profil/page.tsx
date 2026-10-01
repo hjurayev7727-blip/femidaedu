@@ -65,6 +65,14 @@ export default async function ProfilePage({ searchParams }: PageProps<"/app/prof
         <span className="font-bold text-brand-2">→</span>
       </Link>
 
+      <Link href="/app/yurist" className="card flex items-center justify-between gap-3 hover:border-brand">
+        <span>
+          <span className="block font-extrabold">⚖️ Yurist kabineti</span>
+          <span className="text-sm text-mute">Advokat yoki yuristmisiz? Katalogda bepul profil oching</span>
+        </span>
+        <span className="font-bold text-brand-2">→</span>
+      </Link>
+
       <section className="card space-y-3">
         <h2 className="font-extrabold">Kirish usullari</h2>
         {email && !isTechEmail && <p className="text-sm text-mute">Google: {email}</p>}

@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import { requireRole } from "@/lib/auth";
 import type { ManualPaymentSettings, Plan } from "@/lib/payments";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
-import { PaymentSettingsForm, PlanForm } from "./forms";
+import { LawyersToggleForm, PaymentSettingsForm, PlanForm } from "./forms";
 
 export const metadata: Metadata = { title: "Sozlamalar" };
 
 export default async function AdminSettings() {
   await requireRole("admin");
   const admin = createSupabaseAdmin();
-  const [{ data: plans }, { data: pay }] = await Promise.all([
+  const [{ data: plans }, { data: pay }, { data: lawyers }] = await Promise.all([
     admin.from("plans").select("code, title, months, price_uzs, sort, is_active").order("sort").returns<Plan[]>(),
     admin.from("app_settings").select("value").eq("key", "manual_payment").maybeSingle<{ value: ManualPaymentSettings }>(),
+    admin.from("app_settings").select("value").eq("key", "lawyers_enabled").maybeSingle<{ value: unknown }>(),
   ]);
 
   return (
@@ -29,6 +30,8 @@ export default async function AdminSettings() {
       </section>
 
       <PaymentSettingsForm value={pay?.value ?? { card: "", holder: "", note: "" }} />
+
+      <LawyersToggleForm enabled={lawyers?.value === true} />
     </div>
   );
 }

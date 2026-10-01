@@ -1,7 +1,7 @@
 "use client";
 import { useActionState } from "react";
 import type { ManualPaymentSettings, Plan } from "@/lib/payments";
-import { savePaymentSettings, savePlan, type SaveState } from "./actions";
+import { saveLawyersEnabled, savePaymentSettings, savePlan, type SaveState } from "./actions";
 
 const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-brand";
 
@@ -56,6 +56,26 @@ export function PlanForm({ plan }: { plan: Plan }) {
       </label>
       <button className="btn-ghost mb-0.5 px-4! py-2.5! text-sm!" disabled={pending}>Saqlash</button>
       <Status state={state} />
+    </form>
+  );
+}
+
+export function LawyersToggleForm({ enabled }: { enabled: boolean }) {
+  const [state, action, pending] = useActionState(saveLawyersEnabled, null);
+  return (
+    <form action={action} className="card space-y-3">
+      <h2 className="font-extrabold">Yuristlar bo&apos;limi</h2>
+      <p className="text-sm text-mute">
+        Yoqilganda katalog, yurist profillari, menyudagi &quot;Yuristlar&quot; va AI javobidagi &quot;Yuristga murojaat&quot; tugmasi hammaga ko&apos;rinadi.
+        O&apos;chiq paytda ham yuristlar /app/yurist orqali ro&apos;yxatdan o&apos;ta oladi, adminlar esa bo&apos;limni ko&apos;radi.
+      </p>
+      <label className="flex items-center gap-2 text-sm font-bold">
+        <input type="checkbox" name="enabled" defaultChecked={enabled} className="accent-brand" /> Bo&apos;lim foydalanuvchilarga ochiq
+      </label>
+      <div className="flex items-center gap-3">
+        <button className="btn-primary" disabled={pending}>Saqlash</button>
+        <Status state={state} />
+      </div>
     </form>
   );
 }

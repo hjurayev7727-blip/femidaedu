@@ -5,7 +5,7 @@ import { secretEquals } from "@/lib/secure-compare";
 
 export const maxDuration = 60;
 
-/** Vercel Cron (vercel.json, kunlik): tahlil qilinmay qolgan hujjat fayllarini o'chirish */
+/** Vercel Cron (vercel.json, kunlik): tahlil qilinmay qolgan hujjatlar va topshirilmagan guvohnoma fayllarini o'chirish */
 export async function GET(request: NextRequest) {
   const secret = cronSecret();
   if (!secret) return new NextResponse("sozlanmagan", { status: 503 });
