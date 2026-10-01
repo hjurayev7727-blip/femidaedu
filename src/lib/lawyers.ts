@@ -22,6 +22,13 @@ export const LawyerProfileSchema = z.object({
   payout_card: opt(z.string().transform((s) => s.replace(/\s/g, "")).pipe(z.string().regex(/^\d{16}$/, "Karta raqami 16 ta raqam"))),
   payout_holder: opt(z.string().trim().max(80)),
   hidden: z.boolean().default(false),
+}).superRefine((p, ctx) => {
+  // Ochiq matnda kontakt bo'lsa "kontaktlar to'lovdan keyin" qoidasini chetlab o'tish mumkin bo'ladi
+  for (const [key, label] of [["display_name", "Ism-familiya"], ["headline", "Qisqa tavsif"], ["bio", "O'zingiz haqingizda"]] as const) {
+    if (p[key] && maskContacts(p[key]).masked) {
+      ctx.addIssue({ code: "custom", path: [key], message: `${label}: telefon, Telegram yoki email yozmang — kontaktlar mijozga to'lovdan keyin ochiladi` });
+    }
+  }
 });
 export type LawyerProfileInput = z.infer<typeof LawyerProfileSchema>;
 
@@ -49,6 +56,14 @@ export function maskContacts(text: string): { text: string; masked: boolean } {
     .replace(/(?<![\w])@[A-Za-z0-9_]{4,32}\b/g, hit)
     .replace(/(?:\+|\b)(?:\d[\s().-]{0,2}){8,13}\d\b/g, hit);
   return { text: out, masked };
+}
+
+/**
+ * Guvohnoma bucket'idagi o'chiriladigan fayllar: ko'rib chiqilayotgan arizaga tegishli bo'lmagan va `cutoff` dan eski
+ * (yuklangan, lekin yuborilmagan yoki yuborishda xato bo'lgan fayllar; ko'rib chiqilganlari tekshiruvdan keyin o'chiriladi).
+ */
+export function staleLicensePaths(files: { path: string; created_at: string | null }[], pending: Set<string>, cutoff: number): string[] {
+  return files.filter((f) => !pending.has(f.path) && f.created_at !== null && Date.parse(f.created_at) < cutoff).map((f) => f.path);
 }
 
 export const fmtSum = (n: number) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} so'm`;
