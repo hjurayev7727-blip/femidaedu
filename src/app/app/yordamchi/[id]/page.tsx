@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { z } from "zod";
 import { TutorChat, type ChatMessage } from "@/components/tutor/chat";
 import type { TutorMode } from "@/lib/ai";
@@ -21,8 +21,9 @@ export default async function TutorThread({ params }: PageProps<"/app/yordamchi/
   const { supabase, userId } = await requireUser();
   // RLS: faqat o'z suhbati
   const { data: t } = await supabase.from("tutor_threads").select("id, mode, title").eq("id", id).eq("user_id", userId)
-    .maybeSingle<{ id: string; mode: TutorMode; title: string }>();
+    .maybeSingle<{ id: string; mode: TutorMode | "legal" | "document"; title: string }>();
   if (!t) notFound();
+  if (t.mode === "legal" || t.mode === "document") redirect(`/app/savol/${t.id}`);
   const { data: msgs } = await supabase.from("tutor_messages").select("role, content, article_ids").eq("thread_id", id).order("id").limit(200).returns<Msg[]>();
   const ids = [...new Set((msgs ?? []).flatMap((m) => m.article_ids.map(Number)))];
   const { data: arts } = ids.length
@@ -40,9 +41,9 @@ export default async function TutorThread({ params }: PageProps<"/app/yordamchi/
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      <nav className="text-sm font-semibold text-mute"><Link href="/app/yordamchi" className="hover:underline">AI yordamchi</Link> › {MODE_INFO[t.mode].title}</nav>
-      <h1 className="text-2xl font-bold">{MODE_INFO[t.mode].icon} {t.title}</h1>
-      <TutorChat threadId={t.id} mode={t.mode} messages={messages} ask={ask} aiReady={aiEnabled()} />
+      <nav className="text-sm font-semibold text-mute"><Link href="/app/yordamchi" className="hover:underline">AI yordamchi</Link> › {MODE_INFO[t.mode as TutorMode].title}</nav>
+      <h1 className="text-2xl font-bold">{MODE_INFO[t.mode as TutorMode].icon} {t.title}</h1>
+      <TutorChat threadId={t.id} mode={t.mode as TutorMode} messages={messages} ask={ask} aiReady={aiEnabled()} />
     </div>
   );
 }

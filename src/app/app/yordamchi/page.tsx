@@ -15,7 +15,7 @@ export default async function TutorPage({ searchParams }: PageProps<"/app/yordam
   const sp = await searchParams;
   const { supabase, userId } = await requireUser();
   const [{ data: threads }, { data: premium }, { data: week }, { data: plan }, { data: weak }] = await Promise.all([
-    supabase.from("tutor_threads").select("id, mode, title, updated_at").eq("user_id", userId).order("updated_at", { ascending: false }).limit(20).returns<ThreadRow[]>(),
+    supabase.from("tutor_threads").select("id, mode, title, updated_at").eq("user_id", userId).in("mode", ["explain", "case"]).order("updated_at", { ascending: false }).limit(20).returns<ThreadRow[]>(),
     supabase.rpc("is_premium"),
     supabase.from("ai_weekly").select("tutor").eq("user_id", userId).eq("week", uzWeekStart()).maybeSingle<{ tutor: number }>(),
     supabase.from("study_plans").select("user_id").eq("user_id", userId).maybeSingle(),

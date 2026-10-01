@@ -93,7 +93,7 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
           Vaziyatingizni yozing — javob amaldagi qonun moddalari havolasi bilan beriladi. Murakkab ish bo&apos;lsa, yurist bilan bog&apos;lanishni tavsiya qilamiz.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <Link href="/app/yordamchi" className="btn-gold">💬 Savol berish</Link>
+          <Link href="/app/savol" className="btn-gold">💬 Savol berish</Link>
           <Link href="/app/sohalar" className="btn border-2 border-white/20 text-white">⚖️ Qonunlarni o&apos;rganish</Link>
         </div>
       </section>

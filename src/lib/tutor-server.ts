@@ -3,7 +3,7 @@ import { generateStudyPlan, tutorAnswer, type StudyPlan, type TutorMode, type Tu
 import { aiClient, logUsage, type AiResult } from "@/lib/ai-server";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 import {
-  extractArticleRefs, mergeSources, sourceRef, threadTitle, TUTOR_FREE_WEEKLY, TUTOR_PREMIUM_WEEKLY,
+  extractArticleRefs, MAX_SOURCES, mergeSources, sourceRef, threadTitle, TUTOR_FREE_WEEKLY, TUTOR_PREMIUM_WEEKLY,
   type PlanGoal, type SourceArticle,
 } from "@/lib/tutor";
 import { createAiTest, type CreateReport } from "@/lib/user-tests-server";
@@ -23,7 +23,7 @@ const toSource = (a: ArticleJoin): SourceArticle => ({
 });
 
 /** Savolga manba moddalar: suhbat moddasi, uning hujjatidagi raqam bilan ko'rsatilganlari, keyin to'liq matnli qidiruv */
-async function findSources(question: string, anchorArticle: number | null): Promise<SourceArticle[]> {
+export async function findSources(question: string, anchorArticle: number | null, extraQueries: string[] = [], max = MAX_SOURCES): Promise<SourceArticle[]> {
   const admin = createSupabaseAdmin();
   const explicit: SourceArticle[] = [];
   let docId: number | null = null;
@@ -39,9 +39,11 @@ async function findSources(question: string, anchorArticle: number | null): Prom
     const { data } = await admin.from("articles").select(ARTICLE_COLS).eq("document_id", docId).in("number", refs).neq("status", "repealed").returns<ArticleJoin[]>();
     explicit.push(...(data ?? []).map(toSource));
   }
-  const { data: found } = await admin.rpc("search_articles", { p_query: question, p_field: null, p_limit: 6 });
-  const searched = ((found ?? []) as (Omit<SourceArticle, "id"> & { id: number })[]).map((a) => ({ ...a, id: Number(a.id) }));
-  return mergeSources(explicit, searched);
+  const queries = [question, ...extraQueries.slice(0, 4)].filter((q) => q.trim().length >= 4);
+  const results = await Promise.all(queries.map((q, i) => admin.rpc("search_articles", { p_query: q, p_field: null, p_limit: i ? 3 : 6 })));
+  // Asosiy savol natijasi birinchi, keyin har bir qo'shimcha so'rovdan navbat bilan
+  const searched = results.flatMap(({ data }) => ((data ?? []) as (Omit<SourceArticle, "id"> & { id: number })[]).map((a) => ({ ...a, id: Number(a.id) })));
+  return mergeSources(explicit, searched, max);
 }
 
 export type TutorReply = { threadId: string; answer: string; sources: { id: number; ref: string; field: string | null }[] };
@@ -60,8 +62,8 @@ export async function askTutor(
   let history: TutorTurn[] = [];
   if (opts.threadId) {
     const { data: t } = await admin.from("tutor_threads").select("id, user_id, mode, article_id").eq("id", opts.threadId)
-      .maybeSingle<{ id: string; user_id: string; mode: TutorMode; article_id: number | null }>();
-    if (!t || t.user_id !== userId) return { ok: false, message: "Suhbat topilmadi." };
+      .maybeSingle<{ id: string; user_id: string; mode: string; article_id: number | null }>();
+    if (!t || t.user_id !== userId || (t.mode !== "explain" && t.mode !== "case")) return { ok: false, message: "Suhbat topilmadi." };
     mode = t.mode;
     anchor = t.article_id;
     const { data: msgs } = await admin.from("tutor_messages").select("role, content").eq("thread_id", t.id).order("id", { ascending: false }).limit(8)
