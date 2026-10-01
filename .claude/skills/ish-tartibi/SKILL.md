@@ -69,3 +69,6 @@ Serverni to'xtatish: `pkill -f "[n]ext-server"` (naqshni `[n]` bilan yoz — aks
 - Ranglar: navy `#0e2340`, brand (harakat) `#1e3a66` / tungida `#6f97d6`, oltin `#b08a3a`/`#cfab5e`; to'g'ri/xato — yashil/qizil.
 - Shrift: sarlavhalar Playfair Display, matn Manrope. Avatar/ilova ikonkasi — tarozi tutgan Femida haykali, favicon — oltin nuqtali F.
 - Shior: "Huquq bo'yicha hammasi bir joyda". Yuridik: "YURISTIM TEAM MChJ mahsuloti". Payme buyurtmalari `F…`.
+- **A+ narxlari:** asosiy — 1 oy 49 000, 3 oy 129 000 (`plans.list_price_uzs`). 2026-10 dan chegirma: 29 000 / 59 000
+  (`price_uzs`), chempionat ishtirokchilariga yana −50%. "Sertifikatgacha" — 99 000, imtihon kunigacha (`plans.ends_on`).
+  Narxni o'zgartirishdan oldin admin → Sozlamalar'dagi joriy qiymatni tekshir.

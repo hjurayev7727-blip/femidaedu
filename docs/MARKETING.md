@@ -173,9 +173,14 @@ O'quvchilaringizni guruhga qo'shsangiz, kim qaysi mavzuda zaifligini ko'rib tura
 | Bepul | 0 | Hamma | Kuniga 20 savol, oyiga 1 sinov, kunlik test |
 | 3 kunlik Premium | 0 | Yangi foydalanuvchi | Sinovdan keyin bir marta |
 | **Sertifikatgacha** | **99 000** | Abituriyent, o'qituvchi | Imtihon kunigacha Premium. Chegirma yo'q, narx barqaror |
+| 1 oy | **29 000** (asosiy 49 000) | Hamma | Chegirmada; sotuvda qoladi |
+| 3 oy | **59 000** (asosiy 129 000) | Hamma | Chegirmada; sotuvda qoladi |
+| Chempionat ishtirokchilari | 14 500 / 29 500 | Chempionatda qatnashganlar | Joriy narxdan yana −50% |
 | **Kurs + Premium** | **500 000** | Jiddiy tayyorlanayotganlar | 8 hafta, haftada 2 jonli dars, 25–30 kishi, imtihongacha 1 oqim (start ~13-oktabr) |
 
-Hozirgi 49 000 / 129 000 tariflari imtihongacha "Sertifikatgacha" bilan almashtiriladi (bot va `/app/premium`).
+**Narxlar bo'yicha kelishuv (egasi, 2026-10-01):** A+ Premium'ning **asosiy narxlari — 1 oy 49 000, 3 oy 129 000**
+(bazada `plans.list_price_uzs`). Hozirgi 29 000 / 59 000 — **chegirma**: bot va saytda asosiy narx ustidan chizilib
+ko'rsatiladi. Hamma tariflar sotuvda qoladi, "Sertifikatgacha" ularga qo'shimcha (aplushuquq#3, #4).
 
 ## 8. Byudjet (oyiga ~2,5 mln so'm)
 
@@ -211,13 +216,14 @@ Raqamlar — maqsad, kafolat emas; 1-oy oxirida haqiqiy konversiya bo'yicha qayt
 **Haftalik jadval (har dushanba):** manba → /start → sinov → to'lov → bir to'lov narxi. Bir to'lov 2 haftada 99 000 dan
 qimmat chiqqan manba to'xtatiladi.
 
-## 11. Kod ishlari (A+ botga istisno, #91)
+## 11. Kod ishlari (A+ botga istisno, #91) — ✅ production'da (2026-10-01)
 
 Ish tartibi bo'yicha `aplushuquq` odatda o'zgartirilmaydi; bu ishlar egasi ruxsati bilan **istisno** — alohida PR, testlar bilan:
 
 1. **Manba deep-link'lari:** `start=src_<kod>` → profil/`bot_starts` jadvaliga manba yoziladi, admin panelda manba bo'yicha /start, sinov, to'lov.
 2. **Referal:** `start=ref_<id>`; +3 kun (sinov), +7 kun (to'lov, ikkalasiga); elchi/o'qituvchi uchun 20% hisobi va "pul yoki Premium" tanlovi.
-3. **"Sertifikatgacha" tarifi:** 99 000, muddat — imtihon sanasigacha (`plans` jadvalida sana bilan).
+3. **"Sertifikatgacha" tarifi:** 99 000, muddat — imtihon sanasigacha (`plans.ends_on`, 2026-12-24 oxirigacha).
+   Asosiy/chegirma narxi — `plans.list_price_uzs`.
 4. **3 kunlik Premium tugashi:** eslatma + 99 000 tugmasi (chegirmasiz).
 5. **Botda "Do'stni taklif qilish"** tugmasi va to'lovdan keyingi "3 do'st" xabari.
 
