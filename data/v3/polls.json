@@ -924,6 +924,332 @@
       ],
       "owner": "\"Huquq bo'yicha hammasi bir joyda\"",
       "decision": "Shior: \"Huquq bo'yicha hammasi bir joyda\"."
+    },
+    {
+      "id": 70,
+      "block": "O. Marketing: holat va maqsad",
+      "q": "Asosiy mijoz kim — kimga ko'proq sotmoqchisiz?",
+      "multi": true,
+      "options": [
+        "Huquq o'qituvchilari",
+        "Abituriyentlar (10–11-sinf)",
+        "Yuridik fakultet talabalari",
+        "Oddiy fuqarolar"
+      ],
+      "owner": "Hammasi (o'qituvchilar, abituriyentlar, talabalar, fuqarolar)",
+      "decision": "83 kungacha ustuvorlik: o'qituvchilar va abituriyentlar (milliy sertifikat). Talaba va fuqarolar — Femida Edu, imtihondan keyin. Har auditoriyaga alohida deep link va xabar."
+    },
+    {
+      "id": 71,
+      "block": "O. Marketing: holat va maqsad",
+      "q": "Hozirgi 399 obunachining ko'pchiligi qayerdan kelgan?",
+      "multi": false,
+      "options": [
+        "O'z kurs o'quvchilarim",
+        "O'qituvchilar chatlari",
+        "Reklama / vzaimopiar",
+        "Bilmayman"
+      ],
+      "owner": "O'z kurs o'quvchilarim",
+      "decision": "Tashqi oqim yo'q — asosiy muammo. Kanal yopiq doira ichida aylanmoqda; strategiya yangi auditoriyaga chiqadigan kamida 3 ta doimiy kanalni quradi."
+    },
+    {
+      "id": 72,
+      "block": "O. Marketing: holat va maqsad",
+      "q": "Imtihongacha 83 kun. Asosiy maqsad nima?",
+      "multi": false,
+      "options": [
+        "Premium sotuvi",
+        "Obunachi soni",
+        "Kurs (guruh) sotuvi",
+        "Femida Edu uchun auditoriya"
+      ],
+      "owner": "Hammasi muhim, strategiyani o'zing tuz",
+      "decision": "Shimoliy yulduz — to'lovlar soni; obunachi va sinov topshirganlar — oraliq ko'rsatkich. Imtihondan keyin auditoriya Femida Edu'ga o'tkaziladi."
+    },
+    {
+      "id": 73,
+      "block": "O. Marketing: holat va maqsad",
+      "q": "Oyiga marketingga qancha ajrata olasiz?",
+      "multi": false,
+      "options": [
+        "1–3 mln so'm",
+        "0 — faqat bepul usullar",
+        "3–10 mln so'm",
+        "10 mln+"
+      ],
+      "owner": "1–3 mln so'm",
+      "decision": "Oyiga 1–3 mln: ~60% tematik kanallarda post, ~30% o'qituvchi/elchi komissiyasi, ~10% sinov (Reels boost)."
+    },
+    {
+      "id": 74,
+      "block": "P. Marketing: shaxsiy brend va kanallar",
+      "q": "Kanal kimning nomidan gapirsin?",
+      "multi": false,
+      "options": [
+        "Sulton Juraev — shaxsiy brend",
+        "Huquq klubi — jamoa",
+        "Mahsulot brendi (A+ / Femida)"
+      ],
+      "owner": "Sulton Juraev — shaxsiy brend",
+      "decision": "Kanal — Sulton Juraevning ovozi; bot va platforma — vosita. Postlarda birinchi shaxs, yuz va fikr."
+    },
+    {
+      "id": 75,
+      "block": "P. Marketing: shaxsiy brend va kanallar",
+      "q": "Yuzingiz/ovozingiz bilan video qila olasizmi?",
+      "multi": false,
+      "options": [
+        "Ha, haftada 3–5 ta qisqa video",
+        "Faqat ovoz / ekran yozuvi",
+        "Haftada 1 ta jonli efir",
+        "Yo'q, faqat matn/rasm"
+      ],
+      "owner": "Ha, haftada 3–5 ta qisqa video",
+      "decision": "Haftada 4 ta qisqa video (Reels + Shorts + kanalga dumaloq video)."
+    },
+    {
+      "id": 76,
+      "block": "P. Marketing: shaxsiy brend va kanallar",
+      "q": "Kanalga kuniga qancha vaqt ajrata olasiz?",
+      "multi": false,
+      "options": [
+        "1 soat",
+        "30 daqiqa",
+        "2+ soat",
+        "Yordamchi (SMM) olaman"
+      ],
+      "owner": "2+ soat",
+      "decision": "Kuniga 2 soat: 45 daq video, 30 daq post, 30 daq hamkorlar/reklama, 15 daq raqamlar."
+    },
+    {
+      "id": 77,
+      "block": "P. Marketing: shaxsiy brend va kanallar",
+      "q": "Qaysi platformalarda faol bo'lishga tayyorsiz?",
+      "multi": true,
+      "options": [
+        "Telegram (kanal + bot)",
+        "Instagram Reels",
+        "TikTok",
+        "YouTube"
+      ],
+      "owner": "Telegram, Instagram Reels, YouTube",
+      "decision": "Telegram — uy va sotuv; Instagram Reels va YouTube Shorts — yangi odamlar oqimi. TikTok hozircha yo'q (bir xil videoni keyin qo'shish mumkin)."
+    },
+    {
+      "id": 78,
+      "block": "Q. Marketing: kontent va taklif",
+      "q": "Kanalda kuniga nechta post bo'lsin?",
+      "multi": false,
+      "options": [
+        "2–3 ta, aniq vaqtda",
+        "1 ta, sifatli",
+        "4–5 ta"
+      ],
+      "owner": "2–3 ta, aniq vaqtda",
+      "decision": "08:00 kunlik savol (quiz), 13:00 foydali post, 20:00 tahlil/ishonch/sotuv. 22:00 dan keyin post yo'q."
+    },
+    {
+      "id": 79,
+      "block": "Q. Marketing: kontent va taklif",
+      "q": "Kontent nisbati qanday bo'lsin?",
+      "multi": false,
+      "options": [
+        "70% foyda / 20% ishonch / 10% sotuv",
+        "50 / 25 / 25",
+        "Faqat testlar"
+      ],
+      "owner": "70 / 20 / 10",
+      "decision": "Haftada ~18 post: 12–13 foyda, 3–4 ishonch, 2 sotuv."
+    },
+    {
+      "id": 80,
+      "block": "Q. Marketing: kontent va taklif",
+      "q": "Eng kuchli magnit (bepul taklif) qaysi bo'lsin?",
+      "multi": true,
+      "options": [
+        "Bepul sinov imtihoni + daraja",
+        "Haftalik ochiq chempionat",
+        "PDF: 35 hujjat konspekti",
+        "3 kunlik bepul Premium"
+      ],
+      "owner": "To'rttasi ham",
+      "decision": "Voronka: reklama/video → bot (PDF yoki sinov) → natija + 3 kunlik Premium → 99 000. Chempionat — haftalik qaytaruvchi."
+    },
+    {
+      "id": 81,
+      "block": "Q. Marketing: kontent va taklif",
+      "q": "Narx va taklif qanday bo'lsin?",
+      "multi": false,
+      "options": [
+        "Imtihongacha bitta paket",
+        "Hozirgi 49 000 / 129 000",
+        "Arzonroq: 29 000/oy",
+        "Premium + jonli kurs"
+      ],
+      "owner": "\"Sertifikatgacha\" paket — 99 000; Premium + jonli kurs — 500 000",
+      "decision": "Ikki mahsulot: \"Sertifikatgacha\" 99 000 so'm (imtihon kunigacha Premium) va \"Kurs + Premium\" 500 000 so'm."
+    },
+    {
+      "id": 82,
+      "block": "R. Marketing: reklama, referal, o'lchov",
+      "q": "Byudjetni qayerga birinchi sarflaymiz?",
+      "multi": false,
+      "options": [
+        "Abituriyent/o'qituvchi kanallarida post",
+        "Telegram Ads",
+        "Instagram target",
+        "Blogerlar"
+      ],
+      "owner": "Tematik kanallarda post va Telegram Ads",
+      "decision": "Avval tematik kanallarda post (har biri alohida deep link). Telegram Ads — byudjet ruxsat bersa, test sifatida."
+    },
+    {
+      "id": 83,
+      "block": "R. Marketing: reklama, referal, o'lchov",
+      "q": "O'qituvchilar uchun hamkorlik (referal) dasturi qilaylikmi?",
+      "multi": false,
+      "options": [
+        "Ha, 20% komissiya",
+        "Ha, bepul Premium evaziga",
+        "Do'st taklif qilsa — +7 kun",
+        "Yo'q"
+      ],
+      "owner": "Uchalasi ham; yangi foydalanuvchilar ham do'st taklif qilib Premium olsin",
+      "decision": "Referal hamma uchun (mukofot tartibi — #90 da)."
+    },
+    {
+      "id": 84,
+      "block": "R. Marketing: reklama, referal, o'lchov",
+      "q": "Boshqa huquq kanallari bilan vzaimopiar qilasizmi?",
+      "multi": false,
+      "options": [
+        "Ha, o'xshash hajmdagilar bilan",
+        "Faqat boshqa fan kanallari bilan",
+        "Yo'q"
+      ],
+      "owner": "Ha, o'xshash hajmdagilar bilan",
+      "decision": "Haftada 1–2 vzaimopiar 300–3000 obunachili huquq/ta'lim kanallari bilan."
+    },
+    {
+      "id": 85,
+      "block": "R. Marketing: reklama, referal, o'lchov",
+      "q": "Natijani qaysi raqamlar bilan o'lchaymiz?",
+      "multi": true,
+      "options": [
+        "Bot /start va to'lovlar",
+        "Post qamrovi (ERR)",
+        "Obunachi o'sishi",
+        "Sinov imtihoni topshirganlar"
+      ],
+      "owner": "To'rttasi ham",
+      "decision": "Haftalik jadval: manba bo'yicha /start, sinov, to'lov; ERR (hozir ~5%, maqsad 25%); obunachi o'sishi."
+    },
+    {
+      "id": 86,
+      "block": "S. Marketing: kanal va o'quvchilar",
+      "q": "Kanal nomi va tavsifi o'zgarsinmi?",
+      "multi": false,
+      "options": [
+        "\"Sulton Juraev | Huquq — Milliy sertifikat\"",
+        "Hozirgi nom qolsin",
+        "Ikki kanal: abituriyent va o'qituvchi"
+      ],
+      "owner": "\"Sulton Juraev | Huquq — Milliy sertifikat\"",
+      "decision": "Nom o'zgaradi; tavsif: 1 qator va'da + bot havolasi + imtihongacha kunlar."
+    },
+    {
+      "id": 87,
+      "block": "S. Marketing: kanal va o'quvchilar",
+      "q": "Mavjud o'quvchilardan qanday foydalanamiz?",
+      "multi": true,
+      "options": [
+        "Natija va sharhlar",
+        "Elchi (ambassador) dasturi",
+        "Har biri 3 do'stini taklif qilsin",
+        "Sharh chatini ochish"
+      ],
+      "owner": "To'rttasi ham",
+      "decision": "Natija/sharh postlari, elchilar (har maktab/fakultetdan 1), \"3 do'st\" chaqiruvi, kanalga muhokama chati."
+    },
+    {
+      "id": 88,
+      "block": "S. Marketing: kanal va o'quvchilar",
+      "q": "Haftalik ochiq chempionat qachon bo'lsin?",
+      "multi": false,
+      "options": [
+        "Yakshanba 20:00",
+        "Shanba 18:00",
+        "Chorshanba 20:00"
+      ],
+      "owner": "Yakshanba 20:00",
+      "decision": "Har yakshanba 20:00, dushanba 13:00 natija va top-10."
+    },
+    {
+      "id": 89,
+      "block": "S. Marketing: kanal va o'quvchilar",
+      "q": "Instagram/YouTube uchun asosiy video format?",
+      "multi": false,
+      "options": [
+        "\"10 soniyada javob ber\" savol-video",
+        "Qonundagi qiziq faktlar",
+        "Imtihon sirlari / xatolar",
+        "Aralash"
+      ],
+      "owner": "\"10 soniyada javob ber\"",
+      "decision": "Asosiy format — savol + taymer + javob + modda, oxirida \"to'liq variant — botda\". Haftada 1 ta \"xatolar\" videosi qo'shimcha."
+    },
+    {
+      "id": 90,
+      "block": "T. Marketing: aniqlashtirish",
+      "q": "Referal mukofotlari ustma-ust tushmasligi uchun qaysi tartib?",
+      "multi": false,
+      "options": [
+        "Ikki daraja",
+        "Hamma uchun +7 kun",
+        "Hamma uchun 20%"
+      ],
+      "owner": "Ikki daraja",
+      "decision": "Foydalanuvchi: do'sti sinov ishlasa +3 kun, to'lasa +7 kun (ikkalasiga). O'qituvchi/elchi: har to'lovdan 20% pul yoki shu summaga Premium."
+    },
+    {
+      "id": 91,
+      "block": "T. Marketing: aniqlashtirish",
+      "q": "Referal va manba deep-linklari A+ botga qo'shilsinmi (aplushuquq odatda o'zgartirilmaydi)?",
+      "multi": false,
+      "options": [
+        "A+ botga istisno sifatida qo'shish",
+        "Faqat Femida Edu'da",
+        "Kodsiz, qo'lda hisob"
+      ],
+      "owner": "A+ botga istisno sifatida qo'shish",
+      "decision": "Istisno: aplushuquq'ga manba deep-linklari, referal va narx o'zgarishi alohida PR bilan, testlar bilan."
+    },
+    {
+      "id": 92,
+      "block": "T. Marketing: aniqlashtirish",
+      "q": "500 minglik \"Premium + jonli kurs\" qanday formatda?",
+      "multi": false,
+      "options": [
+        "8 haftalik onlayn guruh",
+        "Yozib olingan videokurs",
+        "Oflayn guruh"
+      ],
+      "owner": "8 haftalik onlayn guruh",
+      "decision": "8 hafta, haftada 2 jonli dars, 25–30 kishi, imtihongacha 1 oqim (start ~13-oktabr)."
+    },
+    {
+      "id": 93,
+      "block": "T. Marketing: aniqlashtirish",
+      "q": "3 kunlik bepul Premium va 99 minglik paket qanday bog'lanadi?",
+      "multi": false,
+      "options": [
+        "Sinov → 3 kun → 24 soatlik chegirma",
+        "Faqat 99 000, chegirmasiz",
+        "3 kun o'rniga 7 kun"
+      ],
+      "owner": "Faqat 99 000, chegirmasiz",
+      "decision": "Chegirma yo'q, narx barqaror. 3 kun tugashida bot eslatma: natija + \"Sertifikatgacha — 99 000\"."
     }
   ]
 }

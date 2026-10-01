@@ -383,3 +383,7 @@ npm run v3:polls                               # ro'yxat
 npm run v3:polls -- @kanal --send              # kanal/guruhga yuborish (bot admin bo'lishi kerak)
 npm run v3:polls -- @kanal --results           # yopish, natija → data/v3/results-*.json
 ```
+
+## Ilova: marketing strategiyasi
+
+Huquq klubi kanalini o'stirish va sotuv strategiyasi (24 savol, `polls.json` #70–93) — [`docs/MARKETING.md`](MARKETING.md).
