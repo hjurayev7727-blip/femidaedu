@@ -43,6 +43,7 @@ export default async function LawyerCabinet() {
           <div className="flex gap-2">
             {!me.verified_at && v?.status !== "pending" && <Link href="/app/yurist/tasdiqlash" className="btn-primary">Tasdiqlash</Link>}
             <Link href="/app/yurist/arizalar" className="btn-ghost">📩 Arizalar</Link>
+            <Link href="/app/buyurtmalar" className="btn-ghost">🧾 Buyurtmalar</Link>
             <Link href={`/app/yuristlar/${userId}`} className="btn-ghost">Profilni ko&apos;rish</Link>
           </div>
         </section>

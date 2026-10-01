@@ -6,6 +6,7 @@ import { ChatRoom } from "@/components/chat/chat-room";
 import { VerifiedBadge } from "@/components/lawyers/lawyer-card";
 import { requireUser } from "@/lib/auth";
 import { chatPoll, conversationInfo } from "@/lib/chat-server";
+import { lawyerPaymentsEnabled } from "@/lib/escrow-server";
 import { declineAction, offerAction, sendAction } from "../actions";
 
 export const metadata: Metadata = { title: "Suhbat" };
@@ -14,7 +15,7 @@ export default async function ConversationPage({ params }: PageProps<"/app/suhba
   const { id } = await params;
   if (!z.uuid().safeParse(id).success) notFound();
   const { userId } = await requireUser();
-  const [info, poll] = await Promise.all([conversationInfo(userId, id), chatPoll(userId, id, 0)]);
+  const [info, poll, payReady] = await Promise.all([conversationInfo(userId, id), chatPoll(userId, id, 0), lawyerPaymentsEnabled()]);
   if (!info || !poll.ok) notFound();
   const other = info.role === "client" ? info.lawyer_name : info.client_name;
 
@@ -42,7 +43,7 @@ export default async function ConversationPage({ params }: PageProps<"/app/suhba
       <ChatRoom conv={id} role={info.role} otherName={other}
         initial={{ messages: poll.messages, offers: poll.offers, otherRead: poll.other_read, paid: poll.paid }}
         send={sendAction} offer={offerAction} decline={declineAction}
-        blocked={info.lawyer_status === "blocked"} payReady={false} />
+        blocked={info.lawyer_status === "blocked"} payReady={payReady} />
     </div>
   );
 }

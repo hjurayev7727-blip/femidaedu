@@ -37,3 +37,16 @@ npm run lex:import -- all           # 7 ta kodeks lex.uz'dan (ID'lar tekshirilga
 - `npm run lex:import -- all` — oyiga bir marta (qonun o'zgarsa, bog'langan savollar avtomatik tekshiruvga qaytadi).
 - Sentry/loglar: Vercel → Logs; AI xarajati — `ai_usage` jadvali.
 - Haftalik limitlar: bepul — 10 AI test (10 savolgacha), 10 AI ustoz savoli; jonli viktorina — 30 ishtirokchi.
+
+## 4. Yangi yo'nalish: "hamma uchun huquq" (PR #9 → #11 → #12 → #13 → #15 → escrow)
+
+| Bo'lim | Yoqish | Eslatma |
+|---|---|---|
+| Savol bering + hujjat tahlili (`/app/savol`) | `ANTHROPIC_API_KEY` | Hujjat: PDF ≤ 20 sahifa / rasm, ≤ 10 MB; fayl tahlildan keyin o'chiriladi |
+| Yuristlar katalogi, arizalar, yozishma | Admin → Yuristlar → **Ochish** (`lawyers_enabled`) | Yuristlar bo'lim yopiq paytda ham ro'yxatdan o'ta oladi |
+| Yurist xizmatlari uchun to'lov (escrow) | Admin → Escrow → **to'lovni yoqish** (`lawyer_payments_enabled`) | Komissiya kamida 20% |
+
+⚠️ Escrow'ni yoqishdan oldin egasi hal qiladi: mijoz pulini ushlab turish va uchinchi shaxsga o'tkazish "To'lovlar va to'lov
+tizimlari to'g'risida"gi qonun bo'yicha litsenziya talab qilishi, DOYSE/Payme shartnomasi va soliq oqibatlari; yuristlar bilan
+agentlik/pudrat shartnomasi; faqat advokatlar sudda vakillik qila olishi; shaxsga doir ma'lumotlarni O'zbekistonda saqlash talabi.
+Kunlik cron `/api/cron/tozalash`: tashlab ketilgan yuklamalarni o'chiradi va 3 kun o'tgan buyurtmalarni yakunlaydi.
