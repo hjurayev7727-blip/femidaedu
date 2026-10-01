@@ -13,9 +13,9 @@ export async function reviewVerification(form: FormData) {
   const reason = z.string().trim().max(500).catch("").parse(form.get("reason"));
   const admin = createSupabaseAdmin();
   const { data } = await admin.rpc("review_lawyer_verification", { p_admin: userId, p_id: id, p_approve: approve, p_reason: reason || null });
-  // Rad etilgan hujjat saqlanmaydi (shaxsga doir ma'lumot)
+  // Ko'rib chiqilgan hujjat (tasdiqlangan ham, rad etilgan ham) saqlanmaydi — shaxsga doir ma'lumot; raqam bazada qoladi
   const r = data as { ok: boolean; doc_path?: string } | null;
-  if (r?.ok && !approve && r.doc_path) await admin.storage.from(LAWYER_DOCS_BUCKET).remove([r.doc_path]);
+  if (r?.ok && r.doc_path) await admin.storage.from(LAWYER_DOCS_BUCKET).remove([r.doc_path]);
   revalidatePath("/admin/yuristlar");
 }
 
