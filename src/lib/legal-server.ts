@@ -198,6 +198,12 @@ export async function purgeStaleUploads(olderThanMs = 60 * 60 * 1000): Promise<n
 
 /** Yuristlar bo'limi yoqilganmi (admin sozlamasi; bo'lim tayyor bo'lguncha o'chiq) */
 export async function lawyersEnabled(): Promise<boolean> {
-  const { data } = await createSupabaseAdmin().from("app_settings").select("value").eq("key", "lawyers_enabled").maybeSingle<{ value: unknown }>();
-  return data?.value === true;
+  // Ilova menyusi har sahifada chaqiradi: maxfiy kalit yo'q yoki baza javob bermasa — bo'lim yopiq, sahifa yiqilmaydi
+  try {
+    const { data } = await createSupabaseAdmin().from("app_settings").select("value").eq("key", "lawyers_enabled").maybeSingle<{ value: unknown }>();
+    return data?.value === true;
+  } catch (e) {
+    console.error("lawyersEnabled", e instanceof Error ? e.message : e);
+    return false;
+  }
 }
