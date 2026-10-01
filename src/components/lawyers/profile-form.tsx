@@ -1,5 +1,5 @@
 "use client";
-import { useActionState } from "react";
+import { useState, useTransition } from "react";
 import type { ProfileState } from "@/app/app/yurist/actions";
 import { LANGUAGES, REGIONS } from "@/lib/lawyers";
 import type { MyLawyerProfile } from "@/lib/lawyers-server";
@@ -12,10 +12,16 @@ export function LawyerProfileForm(props: {
   fields: { slug: string; title: string }[];
   action: (s: ProfileState, f: FormData) => Promise<ProfileState>;
 }) {
-  const [state, action, pending] = useActionState(props.action, null);
+  // action prop o'rniga onSubmit: React 19 xato bo'lganda ham formani tozalab yubormasin (uzun forma)
+  const [state, setState] = useState<ProfileState>(null);
+  const [pending, start] = useTransition();
   const p = props.profile;
   return (
-    <form action={action} className="card space-y-4">
+    <form className="card space-y-4" onSubmit={(e) => {
+      e.preventDefault();
+      const fd = new FormData(e.currentTarget);
+      start(async () => setState(await props.action(null, fd)));
+    }}>
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block text-sm font-bold">Ism-familiya *
           <input name="display_name" required minLength={3} maxLength={80} defaultValue={p?.display_name ?? props.defaultName} className={input} />

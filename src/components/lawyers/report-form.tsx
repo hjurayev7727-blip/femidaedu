@@ -1,14 +1,19 @@
 "use client";
-import { useActionState, useState } from "react";
+import { useState, useTransition } from "react";
 import type { ReportState } from "@/app/app/yuristlar/actions";
 
 export function ReportForm({ lawyerId, action }: { lawyerId: string; action: (s: ReportState, f: FormData) => Promise<ReportState> }) {
   const [open, setOpen] = useState(false);
-  const [state, formAction, pending] = useActionState(action, null);
+  const [state, setState] = useState<ReportState>(null);
+  const [pending, start] = useTransition();
   if (state?.ok) return <p role="status" className="text-sm font-semibold text-ok">Shikoyatingiz qabul qilindi. Admin ko&apos;rib chiqadi.</p>;
   if (!open) return <button type="button" onClick={() => setOpen(true)} className="text-sm font-bold text-no hover:underline">⚠️ Shikoyat qilish</button>;
   return (
-    <form action={formAction} className="space-y-2">
+    <form className="space-y-2" onSubmit={(e) => {
+      e.preventDefault();
+      const fd = new FormData(e.currentTarget);
+      start(async () => setState(await action(null, fd)));
+    }}>
       <input type="hidden" name="lawyer" value={lawyerId} />
       <label className="block text-sm font-bold">Nima bo&apos;ldi?
         <textarea name="reason" required minLength={10} maxLength={1000} rows={3}

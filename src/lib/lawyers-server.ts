@@ -1,7 +1,7 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
 import type { AiResult } from "@/lib/ai-server";
-import type { LawyerCard, LawyerProfileInput } from "@/lib/lawyers";
+import { staleLicensePaths, type LawyerCard, type LawyerProfileInput } from "@/lib/lawyers";
 import { DOC_EXT } from "@/lib/legal";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 
@@ -67,7 +67,32 @@ export async function submitVerification(userId: string, license: string, path: 
   if (!files?.length) return fail({ reason: "path" });
   const { data } = await admin.rpc("submit_lawyer_verification", { p_user: userId, p_license: license, p_path: path });
   const r = data as { ok: boolean; reason?: string } | null;
-  return r?.ok ? { ok: true, value: true } : fail(r);
+  if (r?.ok) return { ok: true, value: true };
+  // Arizaga aylanmagan fayl saqlanmaydi (mavjud arizaning fayli bo'lsa — tegilmaydi)
+  const { count } = await admin.from("lawyer_verifications").select("id", { count: "exact", head: true }).eq("doc_path", path);
+  if (!count) await admin.storage.from(LAWYER_DOCS_BUCKET).remove([path]);
+  return fail(r);
+}
+
+/** Cron: arizaga aylanmay qolgan (yoki eski) guvohnoma fayllarini o'chirish — ko'rib chiqilayotganlariga tegilmaydi */
+export async function purgeOrphanLicenses(olderThanMs = 60 * 60 * 1000): Promise<number> {
+  const admin = createSupabaseAdmin();
+  const storage = admin.storage.from(LAWYER_DOCS_BUCKET);
+  const { data: pending } = await admin.from("lawyer_verifications").select("doc_path").eq("status", "pending").returns<{ doc_path: string }[]>();
+  const keep = new Set((pending ?? []).map((v) => v.doc_path));
+  const cutoff = Date.now() - olderThanMs;
+  let removed = 0;
+  const { data: dirs } = await storage.list("", { limit: 1000 });
+  for (const d of dirs ?? []) {
+    if (d.id) continue; // papka emas
+    const { data: files } = await storage.list(d.name, { limit: 1000 });
+    const stale = staleLicensePaths((files ?? []).map((f) => ({ path: `${d.name}/${f.name}`, created_at: f.created_at })), keep, cutoff);
+    if (stale.length) {
+      await storage.remove(stale);
+      removed += stale.length;
+    }
+  }
+  return removed;
 }
 
 export async function reportLawyer(userId: string, lawyerId: string, reason: string): Promise<AiResult<true>> {
