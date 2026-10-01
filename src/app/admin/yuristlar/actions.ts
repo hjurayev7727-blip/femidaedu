@@ -43,3 +43,12 @@ export async function toggleLawyers(form: FormData) {
   revalidatePath("/admin/yuristlar");
   revalidatePath("/app", "layout");
 }
+
+export async function assignRequest(form: FormData) {
+  const { userId } = await requireRole("admin");
+  const id = z.coerce.number().int().positive().parse(form.get("id"));
+  const lawyer = z.uuid().safeParse(String(form.get("lawyer") ?? "").trim());
+  if (!lawyer.success) return;
+  await createSupabaseAdmin().rpc("assign_request", { p_admin: userId, p_request: id, p_lawyer: lawyer.data });
+  revalidatePath("/admin/yuristlar");
+}
