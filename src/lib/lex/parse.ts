@@ -89,3 +89,31 @@ export function htmlToText(html: string): string {
     .join("\n")
     .trim();
 }
+
+const LEX_ELEM = /<div class="([A-Z_0-9]+) lx_elem"[\s\S]*?<div name="-?\d+" id="-?\d+">([\s\S]*?)<\/div>/g;
+
+/**
+ * lex.uz hujjat sahifasi → parseLawText uchun qatorlar, sahifa tuzilmasi bo'yicha: TEXT_HEADER_DEFAULT (faqat boblar),
+ * CLAUSE_DEFAULT (modda sarlavhasi), ACT_TEXT (modda matni). Mundarija havolalari va interfeys yozuvlari (sharh, audio)
+ * olinmaydi — aks holda mundarijadagi "N-modda" bo'sh modda bo'lib kirib, haqiqiy modda "takror" deb tashlanadi.
+ * Yuqori indeks (4<sup>1</sup>) → "4-1". Tuzilma topilmasa — butun sahifa matni (htmlToText).
+ */
+export function lexHtmlToText(html: string): string {
+  const lines: string[] = [];
+  for (const m of html.matchAll(LEX_ELEM)) {
+    const cls = m[1];
+    if (cls !== "CLAUSE_DEFAULT" && cls !== "TEXT_HEADER_DEFAULT" && cls !== "ACT_TEXT") continue;
+    let text = htmlToText(m[2].replace(/<sup[^>]*>\s*(\d+)\s*<\/sup>/gi, "-$1")).replace(/\s+/g, " ").trim();
+    if (!text) continue;
+    if (cls === "CLAUSE_DEFAULT") text = text.replace(/(\d)\s*([-–—])\s*(?=\d)/g, "$1$2");
+    if (cls === "TEXT_HEADER_DEFAULT" && !CHAPTER.test(text)) continue; // bo'lim / qism sarlavhalari
+    lines.push(text);
+  }
+  return lines.length ? lines.join("\n") : htmlToText(html);
+}
+
+/** <title> dan hujjat nomi (sahifa to'g'ri hujjatmi — tekshirish uchun) */
+export function lexPageTitle(html: string): string {
+  const m = /<title>([\s\S]*?)<\/title>/i.exec(html);
+  return m ? htmlToText(m[1]).replace(/\s+/g, " ").trim() : "";
+}

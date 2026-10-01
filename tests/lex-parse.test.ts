@@ -64,3 +64,41 @@ describe("htmlToText", () => {
     expect(t).toBe("1-modda. Nom\nMatn «qo‘shtirnoq»\ndavomi");
   });
 });
+
+describe("lexHtmlToText (lex.uz sahifa tuzilmasi)", () => {
+  const ui = `<div class="lx_elem2"><div class="lx_elem3"><span onclick="lx_sf(-1)"><img src="/img/cmt.svg" />Ҳужжатга таклиф юбориш</span></div></div>`;
+  const el = (cls: string, id: number, text: string) => `<div class="${cls} lx_elem" onmousemove="lx_mo(event,-${id})">${ui}<div name="-${id}" id="-${id}">${text}</div></div>`;
+  const page = `<html><head><title>&nbsp; 28.10.2022.&nbsp;Oʻzbekiston Respublikasining Mehnat kodeksi</title></head><body>
+    <div class="docNavbar__item"><p><a class="search-text" href="javascript:scrollText('-3');">1-modda. Mundarijadagi havola</a></p></div>
+    ${el("ACT_TITLE", 1, "Oʻzbekiston Respublikasining Mehnat kodeksi")}
+    ${el("TEXT_HEADER_DEFAULT", 2, "I BOʻLIM. UMUMIY QOIDALAR")}
+    ${el("TEXT_HEADER_DEFAULT", 3, "1-bob. Asosiy qoidalar")}
+    ${el("CLAUSE_DEFAULT", 4, "1-modda. Munosabatlar")}
+    <div class="INDEXES_ON_REF lx_no_select" style="display:none"><div name="onLBC-5" id="onLBC-5">[OKOZ: yashirin]</div></div>
+    ${el("ACT_TEXT", 5, "Birinchi xatboshi &laquo;matn&raquo;.")}
+    ${el("ACT_TEXT", 6, "Ikkinchi xatboshi.")}
+    ${el("TEXT_HEADER_DEFAULT", 7, "UMUMIY QISM")}
+    ${el("CLAUSE_DEFAULT", 8, "4<sup>1</sup>-modda. Qo'shimcha modda")}
+    ${el("ACT_TEXT", 9, "Matn.")}
+    ${el("CLAUSE_DEFAULT", 10, "244 <sup>3</sup> -modda. Bo'shliqli raqam")}
+    ${el("ACT_TEXT", 11, "Oxirgi.")}
+  </body></html>`;
+
+  it("mundarija, UI yozuvlari, yashirin indekslar va bo'lim sarlavhalari kirmaydi; yuqori indeks → tire", async () => {
+    const { lexHtmlToText, lexPageTitle } = await import("@/lib/lex/parse");
+    const text = lexHtmlToText(page);
+    expect(text).not.toContain("Mundarijadagi");
+    expect(text).not.toContain("таклиф");
+    expect(text).not.toContain("OKOZ");
+    expect(text).not.toContain("UMUMIY QISM");
+    const p = parseLawText(text);
+    expect(p.warnings).toEqual([]);
+    expect(p.chapters).toEqual([{ number: "1", title: "Asosiy qoidalar", sort: 1 }]);
+    expect(p.articles.map((a) => [a.number, a.title, a.body])).toEqual([
+      ["1", "Munosabatlar", "Birinchi xatboshi «matn».\nIkkinchi xatboshi."],
+      ["4-1", "Qo'shimcha modda", "Matn."],
+      ["244-3", "Bo'shliqli raqam", "Oxirgi."],
+    ]);
+    expect(lexPageTitle(page)).toContain("Mehnat kodeksi");
+  });
+});
