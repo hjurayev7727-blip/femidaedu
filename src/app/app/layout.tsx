@@ -5,7 +5,7 @@ import { requireUser } from "@/lib/auth";
 // Mobil pastki panelda "wide" bo'lmaganlar (7 ta) ko'rinadi; Sertifikat bo'limi bosh sahifadan ham ochiladi.
 const NAV = [
   { href: "/app", label: "Bosh sahifa", short: "Bosh", icon: "🏠" },
-  { href: "/app/yordamchi", label: "Savol bering", short: "Savol", icon: "💬" },
+  { href: "/app/savol", label: "Savol bering", short: "Savol", icon: "💬" },
   { href: "/app/sohalar", label: "Sohalar", short: "Sohalar", icon: "⚖️" },
   { href: "/app/mashq", label: "Mashq", short: "Mashq", icon: "🎯" },
   { href: "/app/testlar", label: "Testlar", short: "Testlar", icon: "📝" },

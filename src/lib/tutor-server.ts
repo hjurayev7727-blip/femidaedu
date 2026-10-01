@@ -22,8 +22,13 @@ const toSource = (a: ArticleJoin): SourceArticle => ({
   id: Number(a.id), number: a.number, title: a.title, body: a.body, doc_title: a.documents?.short_title ?? "", field_slug: a.documents?.fields?.slug ?? null,
 });
 
-/** Savolga manba moddalar: suhbat moddasi, uning hujjatidagi raqam bilan ko'rsatilganlari, keyin to'liq matnli qidiruv */
-async function findSources(question: string, anchorArticle: number | null): Promise<SourceArticle[]> {
+/**
+ * Savolga manba moddalar: suhbat moddasi, uning hujjatidagi raqam bilan ko'rsatilganlari, keyin to'liq matnli qidiruv
+ * (savol + qo'shimcha so'rovlar, masalan hujjat tahlilidagi triage natijasi).
+ */
+export async function findSources(
+  question: string, anchorArticle: number | null, opts: { queries?: string[]; max?: number } = {},
+): Promise<SourceArticle[]> {
   const admin = createSupabaseAdmin();
   const explicit: SourceArticle[] = [];
   let docId: number | null = null;
@@ -39,9 +44,14 @@ async function findSources(question: string, anchorArticle: number | null): Prom
     const { data } = await admin.from("articles").select(ARTICLE_COLS).eq("document_id", docId).in("number", refs).neq("status", "repealed").returns<ArticleJoin[]>();
     explicit.push(...(data ?? []).map(toSource));
   }
-  const { data: found } = await admin.rpc("search_articles", { p_query: question, p_field: null, p_limit: 6 });
-  const searched = ((found ?? []) as (Omit<SourceArticle, "id"> & { id: number })[]).map((a) => ({ ...a, id: Number(a.id) }));
-  return mergeSources(explicit, searched);
+  const queries = [question, ...(opts.queries ?? [])].map((q) => q.trim()).filter(Boolean).slice(0, 5);
+  const results = await Promise.all(queries.map((q) => admin.rpc("search_articles", { p_query: q, p_field: null, p_limit: 6 })));
+  // So'rovlar navbatma-navbat: har biridan eng mosi birinchi
+  const lists = results.map((r) => ((r.data ?? []) as (Omit<SourceArticle, "id"> & { id: number })[]).map((a) => ({ ...a, id: Number(a.id) })));
+  const searched = lists.length > 1
+    ? Array.from({ length: Math.max(...lists.map((l) => l.length)) }, (_, i) => lists.flatMap((l) => (l[i] ? [l[i]] : []))).flat()
+    : lists[0] ?? [];
+  return mergeSources(explicit, searched, opts.max);
 }
 
 export type TutorReply = { threadId: string; answer: string; sources: { id: number; ref: string; field: string | null }[] };
@@ -61,7 +71,7 @@ export async function askTutor(
   if (opts.threadId) {
     const { data: t } = await admin.from("tutor_threads").select("id, user_id, mode, article_id").eq("id", opts.threadId)
       .maybeSingle<{ id: string; user_id: string; mode: TutorMode; article_id: number | null }>();
-    if (!t || t.user_id !== userId) return { ok: false, message: "Suhbat topilmadi." };
+    if (!t || t.user_id !== userId || !(t.mode === "explain" || t.mode === "case")) return { ok: false, message: "Suhbat topilmadi." };
     mode = t.mode;
     anchor = t.article_id;
     const { data: msgs } = await admin.from("tutor_messages").select("role, content").eq("thread_id", t.id).order("id", { ascending: false }).limit(8)
