@@ -40,6 +40,10 @@ describe("o'quv reja maqsadi", () => {
     expect(PlanGoalSchema.safeParse({ ...base, minutes_per_day: 5 }).success).toBe(false);
   });
 
+  it("umumiy maqsad: soha va sana ixtiyoriy", () => {
+    expect(PlanGoalSchema.safeParse({ target: "umumiy", field: null, exam_date: null, minutes_per_day: 30, level: "boshlang'ich" }).success).toBe(true);
+  });
+
   it("joriy hafta", () => {
     expect(currentPlanWeek("2026-10-01T00:00:00Z", new Date("2026-10-03T00:00:00Z"))).toBe(1);
     expect(currentPlanWeek("2026-10-01T00:00:00Z", new Date("2026-10-15T00:00:00Z"))).toBe(3);

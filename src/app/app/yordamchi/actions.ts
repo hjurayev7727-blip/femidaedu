@@ -25,7 +25,7 @@ export async function ask(threadId: string | null, mode: unknown, question: unkn
   return r;
 }
 
-/** Modda sahifasidan: "AI ustozdan tushuntirish" */
+/** Modda sahifasidan: "AI yordamchidan tushuntirish" */
 export async function explainArticle(form: FormData) {
   const { supabase, userId } = await requireUser();
   const id = z.coerce.number().int().positive().safeParse(form.get("article"));

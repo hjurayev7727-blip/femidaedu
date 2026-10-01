@@ -6,7 +6,7 @@ import { startAssignment, startDaily } from "./mashq/actions";
 
 export const metadata: Metadata = { title: "Bosh sahifa" };
 
-// Norasmiy manbalar va kurs rejasi bo'yicha. UZBMB rasmiy e'lon qilganda tekshirib yangilang.
+// Faqat maqsadi "abituriyent" bo'lganlarga ko'rsatiladi. Norasmiy manbalar va kurs rejasi bo'yicha. UZBMB rasmiy e'lon qilganda tekshirib yangilang.
 const EXAM_DATE = new Date("2026-12-23T09:00:00+05:00");
 
 export default async function Dashboard({ searchParams }: PageProps<"/app">) {
@@ -52,13 +52,18 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
   const dueCount = Number(due ?? 0);
   const daysLeft = daysUntil(EXAM_DATE);
   const firstName = profile.full_name.split(" ")[0] || "do'st";
+  const examPrep = profile.goal === "abituriyent";
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-extrabold tracking-tight">Salom, {firstName}! 👋</h1>
         <p className="mt-1 text-mute">
-          Imtihongacha <b className="text-ink">{daysLeft} kun</b> qoldi ·{" "}
+          {examPrep && (
+            <>
+              Imtihongacha <b className="text-ink">{daysLeft} kun</b> qoldi ·{" "}
+            </>
+          )}
           {premium ? (
             <Link href="/app/premium" className="font-bold text-brand-2">Premium ✓</Link>
           ) : (
@@ -82,13 +87,26 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
         )}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <section className="bg-hero rounded-[22px] px-5 py-6 text-white sm:px-7">
+        <h2 className="text-xl font-extrabold tracking-tight">Huquqiy savolingiz bormi?</h2>
+        <p className="mt-1 max-w-xl text-slate-300">
+          Vaziyatingizni yozing — javob amaldagi qonun moddalari havolasi bilan beriladi. Murakkab ish bo&apos;lsa, yurist bilan bog&apos;lanishni tavsiya qilamiz.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Link href="/app/yordamchi" className="btn-gold">💬 Savol berish</Link>
+          <Link href="/app/sohalar" className="btn border-2 border-white/20 text-white">⚖️ Qonunlarni o&apos;rganish</Link>
+        </div>
+      </section>
+
+      <div className={`grid gap-4 ${examPrep ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
         <Stat label="Streak" value={`🔥 ${effectiveStreak(profile.streak_days, profile.last_active_on)} kun`} hint={`Eng yaxshisi: ${profile.streak_best} · kuniga 10 savol`} />
-        <Stat
-          label="Taxminiy daraja"
-          value={lastMock ? `${lastMock.grade ?? "—"} · ${Number(lastMock.scaled_score)}` : "—"}
-          hint={lastMock ? "Oxirgi sinov imtihoni (75 ballik)" : "Birinchi sinov imtihonidan keyin"}
-        />
+        {examPrep && (
+          <Stat
+            label="Taxminiy daraja"
+            value={lastMock ? `${lastMock.grade ?? "—"} · ${Number(lastMock.scaled_score)}` : "—"}
+            hint={lastMock ? "Oxirgi sinov imtihoni (75 ballik)" : "Birinchi sinov imtihonidan keyin"}
+          />
+        )}
         <Stat label="Takrorlash" value={`${dueCount} savol`} hint="Bugun takrorlanishi kerak" />
       </div>
 
@@ -148,10 +166,10 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
 
         <div className="card">
           <span className="tag">AI</span>
-          <h2 className="mt-3 text-lg font-extrabold">AI ustoz va AI testlar</h2>
+          <h2 className="mt-3 text-lg font-extrabold">AI yordamchi va AI testlar</h2>
           <p className="mt-1 text-mute">Modda yoki vaziyatni tushuntirish, xatolardan test, o&apos;quv reja; o&apos;z testingizni yaratib ulashing.</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Link href="/app/yordamchi" className="btn-primary">💡 AI ustoz</Link>
+            <Link href="/app/yordamchi" className="btn-primary">💡 AI yordamchi</Link>
             <Link href="/app/testlar" className="btn-ghost">📝 Testlar</Link>
           </div>
         </div>
@@ -188,9 +206,9 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
         </div>
 
         <div className="card">
-          <span className="tag">45 topshiriq</span>
-          <h2 className="mt-3 text-lg font-extrabold">Sinov imtihoni</h2>
-          <p className="mt-1 text-mute">Milliy sertifikat formatida: taymer, 75 ballik shkala, A+ … C daraja.</p>
+          <span className="tag">Abituriyentlar uchun</span>
+          <h2 className="mt-3 text-lg font-extrabold">Milliy sertifikat: sinov imtihoni</h2>
+          <p className="mt-1 text-mute">45 topshiriq, taymer, 75 ballik shkala, A+ … C daraja.</p>
           <Link href="/app/imtihon" className="btn-ghost mt-4">Sinovga o&apos;tish →</Link>
         </div>
       </div>

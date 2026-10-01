@@ -161,7 +161,7 @@ export async function handleUpdate(u: Update, d: BotDeps): Promise<void> {
       } else {
         await d.api.sendMessage(
           chat,
-          `${hello}\n\n<b>Femida Edu</b> — huquq bo'yicha hammasi bir joyda: milliy sertifikat, huquq sohalari, 3 000+ savol, sinov imtihoni, izoh va qonun moddalari.\n\nBoshlash uchun pastdagi tugmani bosing — Telegram orqali bir bosishda kirasiz.`,
+          `${hello}\n\n<b>Femida Edu</b> — har kim uchun huquq: savolingizga qonun moddasi bilan javob, qonunlarni o'rganish, mashq va testlar, yurist bilan bog'lanish.\n\nBoshlash uchun pastdagi tugmani bosing — Telegram orqali bir bosishda kirasiz.`,
           { reply_markup: { inline_keyboard: openApp(d.siteUrl, "🚀 Boshlash") } },
         );
       }

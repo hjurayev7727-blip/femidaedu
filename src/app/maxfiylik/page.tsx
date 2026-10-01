@@ -9,7 +9,7 @@ export default function Privacy() {
     <LegalPage
       title="Maxfiylik siyosati"
       updated="2026-yil 29-sentabr"
-      intro="Femida Edu — YURISTIM TEAM MChJ mahsuloti: milliy sertifikatga tayyorgarlik va huquq sohalarini o'rganish platformasi. Bu sahifada qanday ma'lumot to'plashimiz, undan nima uchun foydalanishimiz va uni qanday himoya qilishimiz tushuntiriladi."
+      intro="Femida Edu — YURISTIM TEAM MChJ mahsuloti: huquqni o'rganish, huquqiy savollarga javob olish va yurist bilan bog'lanish platformasi. Bu sahifada qanday ma'lumot to'plashimiz, undan nima uchun foydalanishimiz va uni qanday himoya qilishimiz tushuntiriladi."
       sections={[
         {
           title: "Qanday ma'lumot to'playmiz",

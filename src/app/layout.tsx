@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, title: "Femida Edu", statusBarStyle: "black-translucent" },
   title: { default: "Femida Edu — huquq bo'yicha hammasi bir joyda", template: "%s · Femida Edu" },
   description:
-    "Huquq bo'yicha hammasi bir joyda: milliy sertifikatga tayyorgarlik, istalgan huquq sohasini mustaqil o'rganish, qonun moddalari bilan izohlar va AI yordamida testlar.",
+    "Har kim uchun huquq: qonunlarni o'rganing, savolingizga qonun moddasi bilan javob oling, hujjatingizni tekshiring va yurist bilan bog'laning.",
 };
 
 export const viewport: Viewport = {

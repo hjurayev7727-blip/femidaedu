@@ -103,7 +103,7 @@ export async function aiExplain(
   const q = row?.questions;
   if (!row || !q) return { ok: false, message: "Avval savolga javob bering." };
   // Sinov/musobaqada javob saqlanadi, lekin to'g'ri javob oshkor qilinmasligi kerak
-  if (!isPracticeMode(row.attempts?.mode ?? "")) return { ok: false, message: "AI ustoz sinov va musobaqa paytida ishlamaydi." };
+  if (!isPracticeMode(row.attempts?.mode ?? "")) return { ok: false, message: "AI yordamchi sinov va musobaqa paytida ishlamaydi." };
   if (!(await consume(userId, AI_DAILY_LIMIT))) return { ok: false, message: FAIL_TEXT.limit };
 
   const r = await explainQuestion(

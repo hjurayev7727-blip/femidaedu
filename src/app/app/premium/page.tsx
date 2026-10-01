@@ -25,7 +25,7 @@ const FEATURES: [string, string, string][] = [
   ["Sinov imtihoni (45 topshiriq)", `oyiga ${FREE_MONTHLY_MOCKS} ta`, "cheksiz"],
   ["Izoh + qonun moddasi", "✓", "✓"],
   ["Xatolar ustida ishlash, kunlik test", "✓", "✓"],
-  ["AI ustoz: savolni tushuntirish, yozma javobni qayta tekshirish", "—", `kuniga ${AI_DAILY_LIMIT} ta`],
+  ["AI yordamchi: savolni tushuntirish, yozma javobni qayta tekshirish", "—", `kuniga ${AI_DAILY_LIMIT} ta`],
   ["Musobaqalar", "—", "tez orada"],
 ];
 

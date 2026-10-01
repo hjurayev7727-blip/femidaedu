@@ -19,7 +19,7 @@ export default async function PlanPage() {
   ]);
   return (
     <div className="mx-auto max-w-3xl space-y-5">
-      <nav className="text-sm font-semibold text-mute"><Link href="/app/yordamchi" className="hover:underline">AI ustoz</Link> › O&apos;quv reja</nav>
+      <nav className="text-sm font-semibold text-mute"><Link href="/app/yordamchi" className="hover:underline">AI yordamchi</Link> › O&apos;quv reja</nav>
       <h1 className="text-3xl font-bold">O&apos;quv reja</h1>
       {plan && (
         <section className="space-y-3">

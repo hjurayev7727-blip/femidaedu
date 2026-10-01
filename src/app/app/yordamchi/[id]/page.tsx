@@ -9,7 +9,7 @@ import { requireUser } from "@/lib/auth";
 import { MODE_INFO, sourceRef } from "@/lib/tutor";
 import { ask } from "../actions";
 
-export const metadata: Metadata = { title: "AI ustoz" };
+export const metadata: Metadata = { title: "AI yordamchi" };
 export const maxDuration = 60;
 
 type Msg = { role: "user" | "assistant"; content: string; article_ids: number[] };
@@ -40,7 +40,7 @@ export default async function TutorThread({ params }: PageProps<"/app/yordamchi/
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      <nav className="text-sm font-semibold text-mute"><Link href="/app/yordamchi" className="hover:underline">AI ustoz</Link> › {MODE_INFO[t.mode].title}</nav>
+      <nav className="text-sm font-semibold text-mute"><Link href="/app/yordamchi" className="hover:underline">AI yordamchi</Link> › {MODE_INFO[t.mode].title}</nav>
       <h1 className="text-2xl font-bold">{MODE_INFO[t.mode].icon} {t.title}</h1>
       <TutorChat threadId={t.id} mode={t.mode} messages={messages} ask={ask} aiReady={aiEnabled()} />
     </div>
