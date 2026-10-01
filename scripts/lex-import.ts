@@ -14,7 +14,7 @@ try {
   // o'zgaruvchilar muhitdan olinadi
 }
 
-type Entry = { code: string; field: string; lex_id: string; title: string; short_title: string; expect: string };
+type Entry = { code: string; field: string; lex_id: string; title: string; short_title: string; expect: string; kind: "code" | "law" | "constitution" };
 const registry = (JSON.parse(readFileSync("data/lex/documents.json", "utf8")) as { documents: Entry[] }).documents;
 
 const args = process.argv.slice(2);
@@ -55,7 +55,7 @@ async function main() {
       const parsed = parseLawText(/<html|<body|<div/i.test(raw) ? lexHtmlToText(raw) : raw);
       report(entry, parsed);
       if (!sql || !parsed.articles.length) continue;
-      const payload = { code: entry.code, title: entry.title, short_title: entry.short_title, field: entry.field, lex_id: entry.lex_id, chapters: parsed.chapters, articles: parsed.articles };
+      const payload = { code: entry.code, title: entry.title, short_title: entry.short_title, field: entry.field, kind: entry.kind, lex_id: entry.lex_id, chapters: parsed.chapters, articles: parsed.articles };
       const [r] = await sql<{ r: Record<string, number | boolean> }[]>`select public.import_law_document(${sql.json(payload)}) as r`;
       console.log(`  ✓ ${r.r.created ? "yangi" : "yangilandi"}: +${r.r.inserted}, o'zgargan ${r.r.changed}, bekor ${r.r.repealed}, o'zgarmagan ${r.r.unchanged}; tekshiruvga qaytgan savollar: ${r.r.questions_flagged}`);
     }
