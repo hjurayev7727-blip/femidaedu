@@ -14,6 +14,15 @@ Next.js 16 + Supabase + Telegram. YURISTIM TEAM MChJ mahsuloti.
 - Payme: buyurtma kodi `F…` (DOYSE kassasi F-buyurtmalarni shu saytga uzatadi).
 - Telegram texnik email domeni: `telegram.femidaedu.uz`; bot: `@FemidaEduBot` (yaratilishi kerak).
 
+## V3 — 2-qism: qonun bazasi ✅ (kod), ⏳ real import
+
+- 18 ta huquq sohasi (A/B/C), hujjat → bob → modda, hayotiy mavzular, modda bo'yicha progress (`20261001000015_law_base.sql`).
+- `npm run lex:import -- MK` — lex.uz'dan (yoki `--file matn.txt` bilan nusxalangan matndan) import; `all` — ro'yxatdagi hammasi,
+  `--dry` — bazaga yozmasdan tahlil. Ro'yxat: `data/lex/documents.json` (A darajali 7 ta kodeks; lex_id'lar tekshirilishi kerak —
+  skript sahifa sarlavhasini solishtiradi va mos kelmasa to'xtaydi).
+- Qayta import: bo'shliq/apostrof farqi o'zgarish hisoblanmaydi; modda matni o'zgarsa — `changed`, yo'qolsa — `repealed`,
+  ularga bog'langan e'lon qilingan savollar `review` holatiga qaytadi. Ekspert ko'rib chiqqach: `ack_article_change(id)`.
+
 ---
 
 ## A+ Huquq 2.0 dan meros (holat)

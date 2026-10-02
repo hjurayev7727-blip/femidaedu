@@ -1,0 +1,12 @@
+{
+  "about": "A darajali sohalar kodekslari. lex_id — lex.uz/docs/-<lex_id>. ID'lar 2026-09-30 da qidiruv tizimi orqali lex.uz sahifa sarlavhalari bilan tekshirilgan; skript sahifa sarlavhasini 'expect' bilan solishtiradi va mos kelmasa to'xtaydi.",
+  "documents": [
+    { "code": "FK1",   "field": "fuqarolik",           "lex_id": "111189",  "title": "O'zbekiston Respublikasining Fuqarolik kodeksi (birinchi qism)", "short_title": "Fuqarolik kodeksi (1-qism)", "expect": "fuqarolik kodeksi" },
+    { "code": "FK2",   "field": "fuqarolik",           "lex_id": "180552",  "title": "O'zbekiston Respublikasining Fuqarolik kodeksi (ikkinchi qism)", "short_title": "Fuqarolik kodeksi (2-qism)", "expect": "fuqarolik kodeksi" },
+    { "code": "OK",    "field": "oila",                "lex_id": "104720",  "title": "O'zbekiston Respublikasining Oila kodeksi", "short_title": "Oila kodeksi", "expect": "oila kodeksi" },
+    { "code": "JK",    "field": "jinoyat",             "lex_id": "111453",  "title": "O'zbekiston Respublikasining Jinoyat kodeksi", "short_title": "Jinoyat kodeksi", "expect": "jinoyat kodeksi" },
+    { "code": "JPK",   "field": "jinoyat-protsessual", "lex_id": "111460",  "title": "O'zbekiston Respublikasining Jinoyat-protsessual kodeksi", "short_title": "JPK", "expect": "jinoyat-protsessual kodeksi" },
+    { "code": "MK",    "field": "mehnat",              "lex_id": "6257288", "title": "O'zbekiston Respublikasining Mehnat kodeksi", "short_title": "Mehnat kodeksi", "expect": "mehnat kodeksi" },
+    { "code": "SK",    "field": "soliq",               "lex_id": "4674902", "title": "O'zbekiston Respublikasining Soliq kodeksi", "short_title": "Soliq kodeksi", "expect": "soliq kodeksi" }
+  ]
+}
