@@ -37,16 +37,17 @@ export function PlanForm(props: {
   hasPlan: boolean;
 }) {
   const [state, action, pending] = useActionState(props.action, null);
-  const [target, setTarget] = useState<"sertifikat" | "soha">("sertifikat");
+  const [target, setTarget] = useState<"umumiy" | "soha" | "sertifikat">("umumiy");
   return (
     <div className="space-y-4">
       <form action={action} className="card space-y-4">
         <h2 className="text-xl font-bold">{props.hasPlan ? "Rejani yangilash" : "O'quv reja tuzish"}</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block text-sm font-bold">Maqsad
-            <select name="target" value={target} onChange={(e) => setTarget(e.target.value as "sertifikat" | "soha")} className={field}>
-              <option value="sertifikat">Milliy sertifikat</option>
+            <select name="target" value={target} onChange={(e) => setTarget(e.target.value as "umumiy" | "soha" | "sertifikat")} className={field}>
+              <option value="umumiy">Kundalik hayot uchun huquq</option>
               <option value="soha">Huquq sohasini o&apos;rganish</option>
+              <option value="sertifikat">Milliy sertifikat (abituriyent)</option>
             </select>
           </label>
           {target === "soha" ? (
@@ -55,6 +56,10 @@ export function PlanForm(props: {
                 <option value="" disabled>Tanlang…</option>
                 {props.fields.map((f) => <option key={f.slug} value={f.slug}>{f.title}</option>)}
               </select>
+            </label>
+          ) : target === "umumiy" ? (
+            <label className="block text-sm font-bold">Maqsad sanasi (ixtiyoriy)
+              <input type="date" name="exam_date" className={field} />
             </label>
           ) : (
             <label className="block text-sm font-bold">Imtihon sanasi
@@ -72,7 +77,7 @@ export function PlanForm(props: {
             </select>
           </label>
         </div>
-        <p className="text-xs text-mute">Zaif moddalaringiz avtomatik hisobga olinadi. Reja AI ustoz limitidan 1 ta so&apos;rov oladi.</p>
+        <p className="text-xs text-mute">Zaif moddalaringiz avtomatik hisobga olinadi. Reja AI yordamchi limitidan 1 ta so&apos;rov oladi.</p>
         {state && !state.ok && <p role="alert" className="text-sm font-semibold text-no">{state.message}</p>}
         <button className="btn-gold" disabled={pending || !props.aiReady}>{pending ? "Reja tuzilmoqda… (1 daqiqagacha)" : "🗓️ Reja tuzish"}</button>
       </form>

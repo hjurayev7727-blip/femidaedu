@@ -9,12 +9,12 @@ import {
 import { createAiTest, type CreateReport } from "@/lib/user-tests-server";
 
 const FAIL = {
-  unavailable: "AI ustoz hozircha ulanmagan.",
+  unavailable: "AI yordamchi hozircha ulanmagan.",
   error: "AI javob bera olmadi. Birozdan keyin urinib ko'ring.",
   refusal: "AI bu savolga javob bermadi. Savolni o'quv mavzusi sifatida qayta yozib ko'ring.",
 };
 const limitText = (premium: boolean) =>
-  premium ? "Haftalik AI ustoz limiti tugadi." : `Bu haftalik bepul limit (${TUTOR_FREE_WEEKLY} ta savol) tugadi. Premium bilan ko'proq.`;
+  premium ? "Haftalik AI yordamchi limiti tugadi." : `Bu haftalik bepul limit (${TUTOR_FREE_WEEKLY} ta savol) tugadi. Premium bilan ko'proq.`;
 
 type ArticleJoin = { id: number; number: string; title: string | null; body: string; document_id: number; documents: { short_title: string; fields: { slug: string } | null } | null };
 const ARTICLE_COLS = "id, number, title, body, document_id, documents(short_title, fields(slug))";
@@ -46,7 +46,7 @@ async function findSources(question: string, anchorArticle: number | null): Prom
 
 export type TutorReply = { threadId: string; answer: string; sources: { id: number; ref: string; field: string | null }[] };
 
-/** AI ustozga savol: yangi suhbat (threadId null) yoki davomi. Haftalik limit atomar; AI xatosida qaytariladi. */
+/** AI yordamchiga savol: yangi suhbat (threadId null) yoki davomi. Haftalik limit atomar; AI xatosida qaytariladi. */
 export async function askTutor(
   userId: string, premium: boolean,
   opts: { threadId: string | null; mode: TutorMode; question: string; articleId?: number | null },

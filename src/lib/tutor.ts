@@ -1,4 +1,4 @@
-// AI ustoz (V3, 5-qism): limitlar, rejimlar, manba moddalarini tanlash, o'quv reja maqsadi. Sof funksiyalar.
+// AI yordamchi (V3, 5-qism): limitlar, rejimlar, manba moddalarini tanlash, o'quv reja maqsadi. Sof funksiyalar.
 import { z } from "zod";
 import type { TutorMode } from "@/lib/ai";
 
@@ -55,7 +55,7 @@ export const QuestionSchema = z.string().trim().min(3, "Savolni yozing").max(300
 
 export const PlanGoalSchema = z
   .object({
-    target: z.enum(["sertifikat", "soha"]),
+    target: z.enum(["umumiy", "soha", "sertifikat"]),
     field: z.string().regex(/^[a-z-]{2,40}$/).nullable(),
     exam_date: z.iso.date().nullable(),
     minutes_per_day: z.number().int().min(15).max(240),

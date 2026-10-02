@@ -5,7 +5,7 @@ import { tashkentMonthStart } from "@/lib/dates";
 import { FREE_MONTHLY_MOCKS, getTemplate } from "@/lib/mock-server";
 import { startMockExam } from "./actions";
 
-export const metadata: Metadata = { title: "Sinov imtihoni" };
+export const metadata: Metadata = { title: "Milliy sertifikat: sinov imtihoni" };
 
 const ERRORS: Record<string, string> = {
   limit: `Bepul tarifda oyiga ${FREE_MONTHLY_MOCKS} ta sinov. Keyingisi kelasi oy ochiladi yoki Premium bilan cheksiz.`,

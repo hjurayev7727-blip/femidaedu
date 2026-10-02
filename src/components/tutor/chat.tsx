@@ -105,7 +105,7 @@ export function TutorChat(props: {
               )}
             </li>
           ))}
-          {pending && <li className="card !p-4 text-sm font-semibold text-mute" role="status">AI ustoz o&apos;ylamoqda…</li>}
+          {pending && <li className="card !p-4 text-sm font-semibold text-mute" role="status">AI yordamchi o&apos;ylamoqda…</li>}
         </ol>
       )}
       <div ref={end} />
@@ -117,7 +117,7 @@ export function TutorChat(props: {
           placeholder={messages.length ? "Savolni davom ettiring…" : info.placeholder}
           className="w-full resize-y rounded-xl border-2 border-line bg-card px-3 py-2.5 outline-none focus:border-brand" />
         {error && <p role="alert" className="text-sm font-semibold text-no">{error}</p>}
-        {!props.aiReady && <p className="text-sm font-semibold text-amber">AI ustoz hali ulanmagan.</p>}
+        {!props.aiReady && <p className="text-sm font-semibold text-amber">AI yordamchi hali ulanmagan.</p>}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-xs text-mute">Javoblar bazadagi moddalar asosida · shaxsiy ish bo&apos;yicha yuristga murojaat qiling</p>
           <button className="btn-primary !py-2.5" disabled={pending || text.trim().length < 3 || !props.aiReady}>{pending ? "Yuborilmoqda…" : "Yuborish"}</button>

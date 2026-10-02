@@ -8,7 +8,7 @@ import { TUTOR_FREE_WEEKLY, TUTOR_PREMIUM_WEEKLY } from "@/lib/tutor";
 import { uzWeekStart } from "@/lib/user-tests";
 import { ask, mistakesTest } from "./actions";
 
-export const metadata: Metadata = { title: "AI ustoz" };
+export const metadata: Metadata = { title: "AI yordamchi" };
 export const maxDuration = 300;
 
 export default async function TutorPage({ searchParams }: PageProps<"/app/yordamchi">) {

@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Femida Edu — huquq bo'yicha hammasi bir joyda",
     short_name: "Femida Edu",
-    description: "Milliy sertifikat va huquq sohalari: mashq, sinov imtihoni, qonun moddalari bilan izoh, AI testlar.",
+    description: "Huquqni o'rganing, savol bering, yurist toping: qonun moddalari bilan javoblar, hujjat tahlili, mashq va testlar.",
     start_url: "/app",
     scope: "/",
     display: "standalone",

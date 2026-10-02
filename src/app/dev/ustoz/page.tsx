@@ -1,4 +1,4 @@
-// Faqat ishlab chiqish uchun: AI ustoz sahifalari namuna ma'lumot bilan (Supabase va AI'siz). Production'da mavjud emas.
+// Faqat ishlab chiqish uchun: AI yordamchi sahifalari namuna ma'lumot bilan (Supabase va AI'siz). Production'da mavjud emas.
 import { notFound } from "next/navigation";
 import { TutorChat, type ChatMessage } from "@/components/tutor/chat";
 import { PlanForm, PlanView } from "@/components/tutor/plan";

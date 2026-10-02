@@ -14,7 +14,7 @@ export default function Terms() {
         {
           title: "Xizmat",
           items: [
-            "Platforma huquq fanidan milliy sertifikat imtihoniga tayyorlanish uchun mashq, sinov imtihoni va izohlar beradi.",
+            "Platforma huquqni o'rganish, huquqiy savollarga qonun moddalariga tayangan ma'lumot olish, mashq va testlar, shuningdek milliy sertifikat imtihoniga tayyorlanish imkonini beradi. AI javoblari ma'lumot uchun bo'lib, yuridik maslahat o'rnini bosmaydi.",
             "Sinov imtihonidagi ball va daraja taxminiy — rasmiy imtihon natijasini kafolatlamaydi.",
             "Izohlar va qonun moddalari o'quv maqsadida beriladi va yuridik maslahat hisoblanmaydi. Qonunchilik o'zgarishi mumkin — rasmiy manbalar (lex.uz) ustuvor.",
           ],

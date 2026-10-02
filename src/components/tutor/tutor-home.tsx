@@ -7,7 +7,7 @@ import type { TutorMode } from "@/lib/ai";
 export type ThreadRow = { id: string; mode: TutorMode; title: string; updated_at: string };
 export type WeakRow = { article_id: number; number: string; title: string | null; doc_title: string; field_slug: string | null; seen: number; correct: number };
 
-/** AI ustoz bosh sahifasi: yangi suhbat, xatolardan test, o'quv reja, oldingi suhbatlar */
+/** AI yordamchi bosh sahifasi: yangi suhbat, xatolardan test, o'quv reja, oldingi suhbatlar */
 export function TutorHome(props: {
   chat: ReactNode;
   threads: ThreadRow[];
@@ -24,7 +24,7 @@ export function TutorHome(props: {
   return (
     <div className="space-y-6">
       <section className="bg-hero rounded-[22px] p-6 text-white">
-        <p className="tag !bg-white/10 !text-gold-2">AI ustoz</p>
+        <p className="tag !bg-white/10 !text-gold-2">AI yordamchi</p>
         <h1 className="mt-3 text-3xl font-bold">Savol bering — bazadagi moddalar asosida tushuntiraman</h1>
         <p className="mt-2 text-sm text-slate-300">
           Bu hafta: {props.weekUsed}/{props.weekLimit} savol{!props.premium && " · bepul tarif"} · faqat ta&apos;lim maqsadida, yuridik maslahat emas

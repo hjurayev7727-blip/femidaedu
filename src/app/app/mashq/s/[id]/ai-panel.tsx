@@ -24,7 +24,7 @@ export function AiPanel({ attemptId, questionId, canRegrade, premium, enabled, o
   if (!premium) {
     return (
       <p className="rounded-xl bg-bg px-4 py-3 text-sm">
-        🤖 <b>AI ustoz</b> — tushunmagan savolingizni so&apos;rang, yozma javobingizni qayta tekshirtiring.{" "}
+        🤖 <b>AI yordamchi</b> — tushunmagan savolingizni so&apos;rang, yozma javobingizni qayta tekshirtiring.{" "}
         <Link href="/app/premium" className="font-bold text-brand-2 underline-offset-2 hover:underline">Premium</Link>
       </p>
     );
@@ -90,7 +90,7 @@ export function AiPanel({ attemptId, questionId, canRegrade, premium, enabled, o
 
       {answer && (
         <div role="status" className={`whitespace-pre-line rounded-xl border-l-4 px-4 py-3 text-[15px] leading-relaxed ${answer.ok ? "border-brand bg-card" : "border-no bg-no-soft text-no"}`}>
-          {answer.ok && <p className="mb-1 text-xs font-extrabold uppercase tracking-wider text-brand-2">AI ustoz</p>}
+          {answer.ok && <p className="mb-1 text-xs font-extrabold uppercase tracking-wider text-brand-2">AI yordamchi</p>}
           {answer.text}
         </div>
       )}

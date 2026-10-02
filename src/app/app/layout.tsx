@@ -2,13 +2,14 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { requireUser } from "@/lib/auth";
 
+// Mobil pastki panelda "wide" bo'lmaganlar (7 ta) ko'rinadi; Sertifikat bo'limi bosh sahifadan ham ochiladi.
 const NAV = [
   { href: "/app", label: "Bosh sahifa", short: "Bosh", icon: "🏠" },
-  { href: "/app/mashq", label: "Mashq", short: "Mashq", icon: "🎯" },
+  { href: "/app/yordamchi", label: "Savol bering", short: "Savol", icon: "💬" },
   { href: "/app/sohalar", label: "Sohalar", short: "Sohalar", icon: "⚖️" },
+  { href: "/app/mashq", label: "Mashq", short: "Mashq", icon: "🎯" },
   { href: "/app/testlar", label: "Testlar", short: "Testlar", icon: "📝" },
-  { href: "/app/yordamchi", label: "AI ustoz", short: "AI ustoz", icon: "💡", wide: true },
-  { href: "/app/imtihon", label: "Imtihon", short: "Imtihon", icon: "⏱️" },
+  { href: "/app/imtihon", label: "Sertifikat", short: "Sertifikat", icon: "⏱️", wide: true },
   { href: "/app/takrorlash", label: "Takrorlash", short: "Xatolar", icon: "🔁" },
   { href: "/app/profil", label: "Profil", short: "Profil", icon: "👤" },
 ] as const;

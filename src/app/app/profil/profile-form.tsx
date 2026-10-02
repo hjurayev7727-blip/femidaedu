@@ -20,9 +20,9 @@ export function ProfileForm({ profile }: { profile: Profile }) {
         Maqsad
         <select name="goal" defaultValue={profile.goal ?? ""} className={field}>
           <option value="">Tanlanmagan</option>
-          <option value="abituriyent">Abituriyent — OTMga kirish</option>
+          <option value="abituriyent">Abituriyent — Milliy sertifikat / OTM</option>
           <option value="oqituvchi">O&apos;qituvchi — malaka / ustama</option>
-          <option value="boshqa">Boshqa</option>
+          <option value="boshqa">Huquqni o&apos;rganish va savol-javob</option>
         </select>
       </label>
 
