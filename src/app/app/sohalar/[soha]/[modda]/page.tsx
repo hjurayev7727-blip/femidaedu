@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ARTICLE_ERRORS, ArticleView, type ArticleData } from "@/components/fields/article-view";
 import { requireUser } from "@/lib/auth";
+import { explainArticle } from "../../../yordamchi/actions";
 import { startArticlePractice } from "../../actions";
 
 export const metadata: Metadata = { title: "Modda" };
@@ -34,7 +35,13 @@ export default async function ArticlePage({ params, searchParams }: PageProps<"/
   const i = list.findIndex((x) => x.id === a.id);
   const locked = !free && !premium;
   const aiTest = (
-    <Link href={`/app/testlar/yangi?hujjat=${doc.id}&moddalar=${encodeURIComponent(a.number)}`} className="btn-ghost">🤖 AI bilan test</Link>
+    <>
+      <form action={explainArticle}>
+        <input type="hidden" name="article" value={a.id} />
+        <button className="btn-ghost">💡 AI tushuntirsin</button>
+      </form>
+      <Link href={`/app/testlar/yangi?hujjat=${doc.id}&moddalar=${encodeURIComponent(a.number)}`} className="btn-ghost">🤖 AI bilan test</Link>
+    </>
   );
   const action = locked ? (
     <div className="flex flex-wrap gap-2">{aiTest}<Link href="/app/premium" className="btn-gold">Premium bilan ochish</Link></div>
