@@ -1,4 +1,5 @@
 // Femida Edu — P7 (oltin i nuqtasi), EDU pastda: Q1–Q4. O'rnatish: brand-w10.mjs dagi paketlar.
+/* eslint-disable @typescript-eslint/no-unused-vars -- generatorlar umumiy shrift/yordamchi sarlavhasini bo'lishadi */
 // Femida Edu — W10 uslubi (Playfair Display + yuqori o'ngda kichik EDU): variantlar, ranglar va qo'llanish.
 import opentype from "opentype.js";
 import fs from "node:fs";

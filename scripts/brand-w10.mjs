@@ -1,4 +1,5 @@
 // Femida Edu — W10 uslubi: variantlar (P1–P9), ranglar va qo'llanish namunalari. O'rnatish: @fontsource/{playfair-display,playfair-display-sc,montserrat,tenor-sans} + opentype.js
+/* eslint-disable @typescript-eslint/no-unused-vars -- generatorlar umumiy shrift/yordamchi sarlavhasini bo'lishadi */
 // Femida Edu — W10 uslubi (Playfair Display + yuqori o'ngda kichik EDU): variantlar, ranglar va qo'llanish.
 import opentype from "opentype.js";
 import fs from "node:fs";

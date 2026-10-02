@@ -23,6 +23,15 @@ Next.js 16 + Supabase + Telegram. YURISTIM TEAM MChJ mahsuloti.
 - Qayta import: bo'shliq/apostrof farqi o'zgarish hisoblanmaydi; modda matni o'zgarsa — `changed`, yo'qolsa — `repealed`,
   ularga bog'langan e'lon qilingan savollar `review` holatiga qaytadi. Ekspert ko'rib chiqqach: `ack_article_change(id)`.
 
+## V3 — 3-qism: huquq sohalari katalogi ✅ (kod)
+
+- `/app/sohalar` — 18 soha (A/B/C guruhlari, rang/ikonka, o'zlashtirish foizi); `/app/sohalar/<soha>` — "Kodeks bo'yicha"
+  (hujjat → bob → modda, moddalar xaritasi) va "Hayotiy mavzular"; `/app/sohalar/<soha>/<modda>` — modda matni, lex.uz havolasi,
+  "Shu modda bo'yicha test", oldingi/keyingi modda.
+- Bepul: har hujjatning 1-bobi va C sohalar; qolgan testlar — Premium (`article_is_free`, `start_article_practice`).
+- Modda progressi javob yozilganda trigger bilan yangilanadi; o'zlashtirish — kamida 2 to'g'ri va ≥ 2/3.
+- Supabase'siz ko'rish: `npm run dev` → `/dev/sohalar` (namuna ma'lumot).
+
 ---
 
 ## A+ Huquq 2.0 dan meros (holat)
