@@ -20,7 +20,7 @@ export default async function TutorThread({ params }: PageProps<"/app/yordamchi/
   if (!z.uuid().safeParse(id).success) notFound();
   const { supabase, userId } = await requireUser();
   // RLS: faqat o'z suhbati
-  const { data: t } = await supabase.from("tutor_threads").select("id, mode, title").eq("id", id).eq("user_id", userId)
+  const { data: t } = await supabase.from("tutor_threads").select("id, mode, title").eq("id", id).eq("user_id", userId).in("mode", ["explain", "case"])
     .maybeSingle<{ id: string; mode: TutorMode; title: string }>();
   if (!t) notFound();
   const { data: msgs } = await supabase.from("tutor_messages").select("role, content, article_ids").eq("thread_id", id).order("id").limit(200).returns<Msg[]>();

@@ -13,7 +13,7 @@ export type ChatMessage = { role: "user" | "assistant"; content: string; sources
 const DISCLAIMER = "Bu yuridik maslahat emas — o'quv maqsadidagi tushuntirish.";
 
 /** Javob matni: xatboshilar va "- " ro'yxatlar (Markdown'siz, xavfsiz) */
-function Answer({ text }: { text: string }) {
+export function Answer({ text }: { text: string }) {
   const blocks = text.split(/\n{2,}/);
   return (
     <div className="space-y-2.5">
