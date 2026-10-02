@@ -9,12 +9,14 @@ import { fmtUz } from "@/lib/dates";
 import { experienceLabel, fmtSum, LANGUAGES } from "@/lib/lawyers";
 import { lawyerPublic } from "@/lib/lawyers-server";
 import { lawyersEnabled } from "@/lib/legal-server";
+import { startChat } from "@/app/app/suhbatlar/actions";
 import { reportAction } from "../actions";
 
 export const metadata: Metadata = { title: "Yurist" };
 
-export default async function LawyerPage({ params }: PageProps<"/app/yuristlar/[id]">) {
+export default async function LawyerPage({ params, searchParams }: PageProps<"/app/yuristlar/[id]">) {
   const { id } = await params;
+  const sp = await searchParams;
   if (!z.uuid().safeParse(id).success) notFound();
   const { supabase, userId, profile } = await requireUser();
   if (!(await lawyersEnabled()) && profile.role !== "admin") notFound();
@@ -61,7 +63,13 @@ export default async function LawyerPage({ params }: PageProps<"/app/yuristlar/[
             Telefon va Telegram xizmat uchun to&apos;lov qilingandan keyin ochiladi. To&apos;lov platformada saqlanadi va siz
             &quot;Bajarildi&quot; deb tasdiqlaganingizdan so&apos;ng (yoki 3 kun ichida e&apos;tiroz bo&apos;lmasa) yuristga o&apos;tadi.
           </p>
-          <p className="rounded-xl bg-brand-soft px-3 py-2 text-sm font-semibold">Sayt ichida yozishma va ariza qoldirish tez orada ishga tushadi.</p>
+          {typeof sp.xato === "string" && <p role="alert" className="text-sm font-semibold text-no">{sp.xato.slice(0, 200)}</p>}
+          {l.status === "active" && (
+            <div className="flex flex-wrap gap-2">
+              <form action={startChat}><input type="hidden" name="lawyer" value={l.id} /><button className="btn-primary">💬 Xabar yozish</button></form>
+              <Link href={`/app/yuristlar/ariza?lawyer=${l.id}`} className="btn-ghost">📩 Ariza yuborish</Link>
+            </div>
+          )}
           <div className="border-t border-line pt-3"><ReportForm lawyerId={l.id} action={reportAction} /></div>
         </section>
       )}

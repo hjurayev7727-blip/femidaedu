@@ -5,7 +5,7 @@ import { fmtUz } from "@/lib/dates";
 import { licenseSignedUrl } from "@/lib/lawyers-server";
 import { lawyersEnabled } from "@/lib/legal-server";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
-import { handleReport, reviewVerification, setLawyerStatus, toggleLawyers } from "./actions";
+import { assignRequest, handleReport, reviewVerification, setLawyerStatus, toggleLawyers } from "./actions";
 
 export const metadata: Metadata = { title: "Yuristlar" };
 
@@ -17,7 +17,13 @@ type Queue = {
 
 export default async function AdminLawyers() {
   const { userId } = await requireRole("admin");
-  const [{ data }, enabled] = await Promise.all([createSupabaseAdmin().rpc("lawyer_admin_queue", { p_admin: userId }), lawyersEnabled()]);
+  const admin = createSupabaseAdmin();
+  const [{ data }, enabled, { data: un }, { data: active }] = await Promise.all([
+    admin.rpc("lawyer_admin_queue", { p_admin: userId }), lawyersEnabled(), admin.rpc("unrouted_requests", { p_admin: userId }),
+    admin.from("lawyer_profiles").select("user_id, display_name, fields").eq("status", "active").order("display_name").limit(500)
+      .returns<{ user_id: string; display_name: string; fields: string[] }[]>(),
+  ]);
+  const unrouted = (un ?? []) as { id: number; title: string; body: string; field: string | null; region: string | null; created_at: string }[];
   const q = (data ?? { verifications: [], reports: [], blocked: [] }) as Queue;
   const urls = await Promise.all(q.verifications.map((v) => licenseSignedUrl(v.doc_path)));
 
@@ -74,6 +80,30 @@ export default async function AdminLawyers() {
                   <form action={setLawyerStatus}><input type="hidden" name="lawyer" value={r.lawyer_id} /><button name="status" value="blocked" className="btn-ghost !py-1.5 !text-sm text-no">Bloklash</button></form>
                 )}
               </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="card !p-0">
+        <h2 className="border-b border-line px-5 py-4 font-extrabold">Yo&apos;naltirilmagan arizalar ({unrouted.length})</h2>
+        {unrouted.length === 0 && <p className="px-5 py-4 text-mute">Hammasi yuristlarga yetib bordi.</p>}
+        <ul className="divide-y divide-line">
+          {unrouted.map((r) => (
+            <li key={r.id} className="space-y-2 px-5 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <b>{r.title}</b>
+                <span className="text-xs text-mute">{[r.field, r.region].filter(Boolean).join(" · ")} · {fmtUz(r.created_at, { time: true })}</span>
+              </div>
+              <p className="whitespace-pre-wrap text-sm">{r.body}</p>
+              <form action={assignRequest} className="flex flex-wrap gap-2">
+                <input type="hidden" name="id" value={r.id} />
+                <select name="lawyer" required className="min-w-0 flex-1 rounded-xl border-2 border-line px-3 py-1.5 text-sm">
+                  <option value="">Yuristni tanlang…</option>
+                  {(active ?? []).map((l) => <option key={l.user_id} value={l.user_id}>{l.display_name} ({l.fields.join(", ")})</option>)}
+                </select>
+                <button className="btn-primary !py-1.5 !text-sm">Yo&apos;naltirish</button>
+              </form>
             </li>
           ))}
         </ul>
