@@ -78,7 +78,7 @@ export default async function MockHome({ searchParams }: PageProps<"/app/imtihon
         {!premium && (
           <p className="text-center text-xs text-mute">
             Bepul tarif: oyiga {FREE_MONTHLY_MOCKS} ta sinov · bu oy: {Math.min(usedThisMonth, FREE_MONTHLY_MOCKS)}/{FREE_MONTHLY_MOCKS} ·{" "}
-            <Link href="/app/premium" className="font-bold text-cyan-2 underline-offset-2 hover:underline">Premium — cheksiz</Link>
+            <Link href="/app/premium" className="font-bold text-brand-2 underline-offset-2 hover:underline">Premium — cheksiz</Link>
           </p>
         )}
       </div>

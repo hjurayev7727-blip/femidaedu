@@ -9,7 +9,7 @@ const TYPES = [
   ["open", "Yozma (qisqa javob)"],
 ] as const;
 
-const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-cyan";
+const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-brand";
 
 export function GeneratorForm({ documents }: { documents: { number: number; short_title: string; count: number }[] }) {
   const [state, action, pending] = useActionState(generateQuestions, null);
@@ -44,7 +44,7 @@ export function GeneratorForm({ documents }: { documents: { number: number; shor
           <legend className="sr-only">Savol turlari</legend>
           {TYPES.map(([v, l]) => (
             <label key={v} className="flex items-center gap-1.5 text-sm font-semibold">
-              <input type="checkbox" name="types" value={v} defaultChecked={v !== "case"} className="accent-cyan-600" /> {l}
+              <input type="checkbox" name="types" value={v} defaultChecked={v !== "case"} className="accent-brand" /> {l}
             </label>
           ))}
         </fieldset>

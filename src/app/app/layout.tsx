@@ -22,7 +22,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
 
   return (
     <div className="flex flex-1 flex-col">
-      <header className="bg-hero border-b border-cyan/25 shadow-[0_6px_24px_-8px_rgba(15,23,42,.5)]">
+      <header className="bg-hero border-b border-brand/25 shadow-[0_6px_24px_-8px_rgba(15,23,42,.5)]">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3.5">
           <Logo href="/app" />
           <nav aria-label="Asosiy" className="hidden items-center gap-1 text-sm font-bold md:flex">
@@ -60,7 +60,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
         <ul className="grid grid-cols-5">
           {NAV.map((n) => (
             <li key={n.href}>
-              <Link href={n.href} className="flex flex-col items-center gap-0.5 py-2 text-[11px] font-bold text-mute hover:text-cyan-2">
+              <Link href={n.href} className="flex flex-col items-center gap-0.5 py-2 text-[11px] font-bold text-mute hover:text-brand-2">
                 <span className="text-lg leading-none" aria-hidden>{n.icon}</span>
                 {n.short}
               </Link>

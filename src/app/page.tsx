@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LegalFooter } from "@/components/legal-page";
-import { Logo } from "@/components/logo";
+import { Logo, LogoMark } from "@/components/logo";
 
 const FEATURES = [
   { icon: "🎯", title: "Mavzu bo'yicha mashq", text: "52 ta qonunchilik hujjati va rasmiy spetsifikatsiya bo'limlari bo'yicha minglab savol." },
@@ -27,21 +27,19 @@ export default function Home() {
       <section className="bg-hero text-white">
         <header className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
           <Logo />
-          <Link href="/kirish" className="rounded-xl px-4 py-2 text-sm font-bold text-cyan-100 hover:bg-white/10">
+          <Link href="/kirish" className="rounded-xl px-4 py-2 text-sm font-bold text-gold-2 hover:bg-white/10">
             Kirish
           </Link>
         </header>
         <div className="mx-auto max-w-5xl px-4 pb-16 pt-10 sm:pt-16">
-          <span className="tag bg-white/10! text-cyan-100!">Huquq · milliy sertifikat</span>
-          <h1 className="mt-4 max-w-2xl text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
-            Maqsad bitta — <span className="text-cyan">A+</span>
-          </h1>
+          <LogoMark className="h-auto w-full max-w-[300px] text-white sm:w-auto sm:max-w-none sm:h-24" title="Femida Edu" />
+          <h1 className="mt-6 max-w-2xl text-3xl font-bold leading-[1.15] sm:text-5xl">Huquq bo&apos;yicha hammasi bir joyda</h1>
           <p className="mt-4 max-w-xl text-lg text-slate-300">
-            Huquq fanidan milliy sertifikat imtihoniga tizimli tayyorgarlik: mashq, sinov imtihoni va har bir javobga
-            qonun moddasi bilan izoh.
+            Milliy sertifikatga tizimli tayyorgarlik va istalgan huquq sohasini mustaqil o&apos;rganish: mashq, sinov
+            imtihoni va har bir javobga qonun moddasi bilan izoh.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/kirish" className="btn-primary">
+            <Link href="/kirish" className="btn-gold">
               Bepul boshlash
             </Link>
             <a href="#darajalar" className="btn border-2 border-white/20 text-white">
@@ -84,7 +82,7 @@ export default function Home() {
             <tbody>
               {GRADES.map((g) => (
                 <tr key={g.grade} className="border-b border-line last:border-0">
-                  <td className="px-5 py-3 font-extrabold text-cyan-2">{g.grade}</td>
+                  <td className="px-5 py-3 font-extrabold text-brand-2">{g.grade}</td>
                   <td className="px-5 py-3 font-semibold">{g.min}</td>
                   <td className="px-5 py-3 text-mute">{g.note}</td>
                 </tr>

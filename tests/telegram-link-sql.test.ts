@@ -5,7 +5,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { asUser, createTestDb } from "./helpers/db";
 
 let db: PGlite;
-const EMAIL = "tg777@telegram.aplus-huquq.uz";
+const EMAIL = "tg777@telegram.femidaedu.uz";
 const U = "00000000-0000-0000-0000-00000000c701";
 
 const link = async (email: string, tg: number, username: string | null = "ali") =>
@@ -37,8 +37,8 @@ describe("link_telegram_profile", () => {
     expect(await link(EMAIL, 778)).toBeNull();
     const V = "00000000-0000-0000-0000-00000000c702";
     // Kimdir texnik emailni oldindan egallagan (app_metadata'da telegram_id yo'q)
-    await db.query(`insert into auth.users (id, email, raw_user_meta_data) values ($1, 'tg900@telegram.aplus-huquq.uz', '{"telegram_id":"900"}')`, [V]);
-    expect(await link("tg900@telegram.aplus-huquq.uz", 900)).toBeNull();
+    await db.query(`insert into auth.users (id, email, raw_user_meta_data) values ($1, 'tg900@telegram.femidaedu.uz', '{"telegram_id":"900"}')`, [V]);
+    expect(await link("tg900@telegram.femidaedu.uz", 900)).toBeNull();
     expect((await profileTg(V)).telegram_id).toBeNull();
   });
 

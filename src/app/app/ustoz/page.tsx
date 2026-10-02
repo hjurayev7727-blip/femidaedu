@@ -33,7 +33,7 @@ export default async function TeacherHome({ searchParams }: PageProps<"/app/usto
         <label className="min-w-0 flex-1 text-sm font-bold">
           Yangi guruh
           <input name="name" required minLength={2} maxLength={60} placeholder="Masalan: 11-A sinf yoki Kechki guruh"
-            className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-cyan" />
+            className="mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-brand" />
         </label>
         <button className="btn-primary">Yaratish</button>
       </form>
@@ -51,7 +51,7 @@ export default async function TeacherHome({ searchParams }: PageProps<"/app/usto
                     {g.group_members[0]?.count ?? 0} o&apos;quvchi{g.grants_premium && " · Premium guruh"}
                   </span>
                 </span>
-                <span className="font-bold text-cyan-2">→</span>
+                <span className="font-bold text-brand-2">→</span>
               </Link>
             </li>
           ))}

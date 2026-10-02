@@ -1,5 +1,9 @@
 # Femida Edu — brend qarorlari
 
+> **Yakuniy: logo — S1** (Playfair Display "Femida", oltin "i" nuqtasi, oltin nishonchadagi EDU) — `src/components/logo.tsx`.
+> Avatar va ilova ikonkasi — tarozi tutgan Femida haykali (oltin siluet, to'q ko'k fon), favicon — oltin nuqtali F.
+> Femida Edu — A+ Huquq'dan alohida mahsulot (so'rovnoma 70–93).
+>
 > Holat: **qaror qabul qilingan, ro'yxatdan o'tkazilmagan.** Domen, bot va tovar belgisi hali olinmagan.
 > So'rovnoma: `data/v3/polls.json`, 62–69.
 

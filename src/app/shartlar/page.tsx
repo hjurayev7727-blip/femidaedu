@@ -9,7 +9,7 @@ export default function Terms() {
     <LegalPage
       title="Foydalanish shartlari"
       updated="2026-yil 29-sentabr"
-      intro="A+ Huquq platformasidan foydalanib, siz quyidagi shartlarga rozilik bildirasiz."
+      intro="Femida Edu platformasidan (YURISTIM TEAM MChJ mahsuloti) foydalanib, siz quyidagi shartlarga rozilik bildirasiz."
       sections={[
         {
           title: "Xizmat",
@@ -39,13 +39,13 @@ export default function Terms() {
         {
           title: "Kontent",
           items: [
-            "Savollar, izohlar va platforma dizayni A+ Huquq'ga tegishli. Ularni ruxsatsiz nusxalash va tarqatish mumkin emas.",
-            "Savolda xato topsangiz, @aplushuquq_bot orqali yuboring — tekshirib tuzatamiz.",
+            "Savollar, izohlar va platforma dizayni Femida Edu (YURISTIM TEAM MChJ)ga tegishli. Ularni ruxsatsiz nusxalash va tarqatish mumkin emas.",
+            "Savolda xato topsangiz, @FemidaEduBot orqali yuboring — tekshirib tuzatamiz.",
           ],
         },
         {
           title: "Aloqa",
-          items: ["Savol va takliflar uchun: Telegram — @aplushuquq_bot."],
+          items: ["Savol va takliflar uchun: Telegram — @FemidaEduBot."],
         },
       ]}
     />

@@ -150,7 +150,7 @@ function Row({ topic, stats, number, priority }: {
           {topic.title}
           {priority && (
             <span title={PRIORITY_HINT[priority]} className={`ml-2 rounded-md px-1.5 py-0.5 align-middle text-[10px] font-extrabold
-              ${priority === "A" ? "bg-cyan-soft text-cyan-2" : "bg-bg text-mute"}`}>{priority}</span>
+              ${priority === "A" ? "bg-brand-soft text-brand-2" : "bg-bg text-mute"}`}>{priority}</span>
           )}
         </p>
         <Meter stats={stats} />

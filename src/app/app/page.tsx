@@ -60,11 +60,11 @@ export default async function Dashboard({ searchParams }: PageProps<"/app">) {
         <p className="mt-1 text-mute">
           Imtihongacha <b className="text-ink">{daysLeft} kun</b> qoldi ·{" "}
           {premium ? (
-            <Link href="/app/premium" className="font-bold text-cyan-2">Premium ✓</Link>
+            <Link href="/app/premium" className="font-bold text-brand-2">Premium ✓</Link>
           ) : (
             <>
               Bepul tarif · bugun {usedToday}/20 savol ·{" "}
-              <Link href="/app/premium" className="font-bold text-cyan-2 underline-offset-2 hover:underline">Premium</Link>
+              <Link href="/app/premium" className="font-bold text-brand-2 underline-offset-2 hover:underline">Premium</Link>
             </>
           )}
         </p>

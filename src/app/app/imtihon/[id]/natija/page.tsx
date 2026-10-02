@@ -56,7 +56,7 @@ export default async function MockResult({ params }: PageProps<"/app/imtihon/[id
   return (
     <div className="mx-auto max-w-3xl space-y-5">
       <div className="bg-hero rounded-[22px] p-6 text-center text-white">
-        <p className="text-sm font-bold uppercase tracking-wider text-cyan-100">{t?.title ?? "Sinov imtihoni"}</p>
+        <p className="text-sm font-bold uppercase tracking-wider text-gold-2">{t?.title ?? "Sinov imtihoni"}</p>
         <div className="mt-3 flex items-center justify-center gap-4">
           <span className={`rounded-2xl px-4 py-2 text-4xl font-extrabold ${a.grade ? "bg-accent" : "bg-white/10"}`}>{a.grade ?? "—"}</span>
           <div className="text-left">

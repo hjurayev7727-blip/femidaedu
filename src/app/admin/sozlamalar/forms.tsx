@@ -3,7 +3,7 @@ import { useActionState } from "react";
 import type { ManualPaymentSettings, Plan } from "@/lib/payments";
 import { savePaymentSettings, savePlan, type SaveState } from "./actions";
 
-const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-cyan";
+const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-brand";
 
 function Status({ state }: { state: SaveState }) {
   return state ? <span role="status" className={`text-sm font-semibold ${state.ok ? "text-ok" : "text-no"}`}>{state.message}</span> : null;
@@ -52,7 +52,7 @@ export function PlanForm({ plan }: { plan: Plan }) {
         <input name="price_uzs" inputMode="numeric" defaultValue={plan.price_uzs} className={`${field} w-32 tabular-nums`} />
       </label>
       <label className="flex items-center gap-2 pb-3 text-sm font-bold">
-        <input type="checkbox" name="is_active" defaultChecked={plan.is_active} className="accent-cyan-600" /> Faol
+        <input type="checkbox" name="is_active" defaultChecked={plan.is_active} className="accent-brand" /> Faol
       </label>
       <button className="btn-ghost mb-0.5 px-4! py-2.5! text-sm!" disabled={pending}>Saqlash</button>
       <Status state={state} />

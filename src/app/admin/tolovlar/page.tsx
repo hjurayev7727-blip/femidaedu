@@ -60,7 +60,7 @@ export default async function AdminPayments() {
                     <input
                       name="reason"
                       placeholder="Rad etish sababi (foydalanuvchiga ko'rinadi)"
-                      className="min-w-0 flex-1 rounded-xl border-2 border-line bg-card px-3 py-2 text-sm outline-none focus:border-cyan"
+                      className="min-w-0 flex-1 rounded-xl border-2 border-line bg-card px-3 py-2 text-sm outline-none focus:border-brand"
                     />
                     <button className="btn-ghost px-3! py-2! text-sm! text-no!">Rad etish</button>
                   </form>

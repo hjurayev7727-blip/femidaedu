@@ -62,7 +62,7 @@ export default async function Leaderboard({ searchParams }: PageProps<"/app/reyt
 
       <ol className="card divide-y divide-line p-0!">
         {rows.filter((r) => r.rank <= 50).map((r) => (
-          <li key={`${r.rank}-${r.name}-${r.answered}`} className={`flex items-center gap-3 px-5 py-3 ${r.is_me ? "bg-cyan-soft" : ""}`}>
+          <li key={`${r.rank}-${r.name}-${r.answered}`} className={`flex items-center gap-3 px-5 py-3 ${r.is_me ? "bg-brand-soft" : ""}`}>
             <span className="w-8 text-center font-extrabold tabular-nums">{r.rank <= 3 ? ["🥇", "🥈", "🥉"][r.rank - 1] : r.rank}</span>
             <span className="min-w-0 flex-1">
               <span className="block truncate font-bold">{r.name}{r.is_me && " (siz)"}</span>

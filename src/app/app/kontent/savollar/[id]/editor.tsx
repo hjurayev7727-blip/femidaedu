@@ -22,7 +22,7 @@ export type EditableQuestion = {
   readonlyStructure: string | null;
 };
 
-const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-cyan";
+const field = "mt-1.5 w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold outline-none focus:border-brand";
 
 export function QuestionEditor({ q }: { q: EditableQuestion }) {
   const [state, action, pending] = useActionState(saveQuestion, null);
@@ -56,7 +56,7 @@ export function QuestionEditor({ q }: { q: EditableQuestion }) {
           <legend className="text-sm font-bold">Variantlar (to&apos;g&apos;risini belgilang)</legend>
           {options.map((o, i) => (
             <div key={i} className="flex items-center gap-2">
-              <input type="radio" name="correct" value={i} checked={correct === i} onChange={() => setCorrect(i)} aria-label={`${String.fromCharCode(65 + i)} — to'g'ri`} className="accent-cyan-600" />
+              <input type="radio" name="correct" value={i} checked={correct === i} onChange={() => setCorrect(i)} aria-label={`${String.fromCharCode(65 + i)} — to'g'ri`} className="accent-brand" />
               <span className="w-5 font-extrabold">{String.fromCharCode(65 + i)}</span>
               <input name="options" value={o} onChange={(e) => setOptions(options.map((x, j) => (j === i ? e.target.value : x)))}
                 className={`${field} mt-0 ${correct === i ? "border-ok" : ""}`} />

@@ -18,9 +18,9 @@ export function PayForm({ plans }: { plans: Plan[] }) {
         <legend className="text-sm font-bold">Tarif</legend>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
           {plans.map((p, i) => (
-            <label key={p.code} className="flex cursor-pointer items-center justify-between gap-3 rounded-[14px] border-2 border-line px-4 py-3 has-[:checked]:border-cyan has-[:checked]:bg-cyan-soft">
+            <label key={p.code} className="flex cursor-pointer items-center justify-between gap-3 rounded-[14px] border-2 border-line px-4 py-3 has-[:checked]:border-brand has-[:checked]:bg-brand-soft">
               <span className="flex items-center gap-2 font-bold">
-                <input type="radio" name="plan" value={p.code} defaultChecked={i === 0} className="accent-cyan-600" />
+                <input type="radio" name="plan" value={p.code} defaultChecked={i === 0} className="accent-brand" />
                 {p.title}
               </span>
               <span className="font-extrabold tabular-nums">{p.price}</span>
@@ -31,7 +31,7 @@ export function PayForm({ plans }: { plans: Plan[] }) {
 
       <label className="block">
         <span className="text-sm font-bold">To&apos;lov cheki (skrinshot yoki PDF, 5 MB gacha)</span>
-        <span className="mt-2 flex cursor-pointer items-center gap-3 rounded-[14px] border-2 border-dashed border-line px-4 py-4 hover:border-cyan">
+        <span className="mt-2 flex cursor-pointer items-center gap-3 rounded-[14px] border-2 border-dashed border-line px-4 py-4 hover:border-brand">
           <span className="text-2xl" aria-hidden>🧾</span>
           <span className="text-sm font-semibold text-mute">{fileName ?? "Faylni tanlang…"}</span>
           <input

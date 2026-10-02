@@ -3,8 +3,8 @@ import { z } from "zod";
 
 /**
  * Payme — DOYSE kassasi orqali (YURISTIM TEAM MCHJ). Payme Merchant API so'rovlari doyse.uz ga keladi,
- * DOYSE kalitni tekshiradi va A+ buyurtmalarini (kod "A…") bu yerga PAYME_FORWARD_SECRET bilan uzatadi.
- * Shuning uchun A+ da Payme kaliti yo'q — faqat kassa ID (ochiq) va uzatish kaliti.
+ * DOYSE kalitni tekshiradi va Femida Edu buyurtmalarini (kod "F…") bu yerga PAYME_FORWARD_SECRET bilan uzatadi.
+ * Shuning uchun Femida Edu da Payme kaliti yo'q — faqat kassa ID (ochiq) va uzatish kaliti.
  */
 export function paymeEnv() {
   const parsed = z

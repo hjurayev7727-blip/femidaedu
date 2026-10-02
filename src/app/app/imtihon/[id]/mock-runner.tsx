@@ -178,8 +178,8 @@ export function MockRunner({
                   aria-current={i === pos ? "step" : undefined}
                   aria-label={`${it.label}-topshiriq${done ? ", javob berilgan" : ""}`}
                   className={`h-9 rounded-lg text-xs font-extrabold tabular-nums transition
-                    ${i === pos ? "ring-2 ring-cyan ring-offset-2 ring-offset-card" : ""}
-                    ${done ? "bg-cyan-2 text-white" : "bg-bg text-mute hover:bg-cyan-soft"}`}
+                    ${i === pos ? "ring-2 ring-brand ring-offset-2 ring-offset-card" : ""}
+                    ${done ? "bg-brand-2 text-white" : "bg-bg text-mute hover:bg-brand-soft"}`}
                 >
                   {it.label}
                 </button>

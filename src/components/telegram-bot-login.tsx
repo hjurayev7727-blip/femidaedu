@@ -61,14 +61,14 @@ export function TelegramBotLogin({ next }: { next: string }) {
 
   if (phase.kind === "waiting") {
     return (
-      <div className="space-y-3 rounded-2xl bg-cyan-soft px-4 py-4 text-center">
+      <div className="space-y-3 rounded-2xl bg-brand-soft px-4 py-4 text-center">
         <p className="font-extrabold">Telegram&apos;da «✅ Tasdiqlash» ni bosing</p>
         <p className="text-sm text-mute">Tasdiqlaganingizdan so&apos;ng bu sahifa o&apos;zi kiradi.</p>
         <a href={phase.link} target="_blank" rel="noopener" className="btn-primary w-full">
           Telegram&apos;ni ochish
         </a>
         <p className="flex items-center justify-center gap-2 text-xs text-mute">
-          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-cyan" aria-hidden /> Tasdiq kutilmoqda…
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-brand" aria-hidden /> Tasdiq kutilmoqda…
         </p>
       </div>
     );

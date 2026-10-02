@@ -1,5 +1,5 @@
 -- Payme (Paycom Merchant API) — DOYSE kassasi orqali.
--- Payme so'rovlari doyse.uz ga keladi; DOYSE "A" bilan boshlanuvchi buyurtmalarni va o'zida topilmagan
+-- Payme so'rovlari doyse.uz ga keladi; DOYSE "F" bilan boshlanuvchi (Femida Edu) buyurtmalarni va o'zida topilmagan
 -- tranzaksiyalarni bu yerga uzatadi (/api/pay/payme, maxfiy kalit bilan). Payme kalitini A+ bilmaydi.
 --
 -- To'lanmagan Payme buyurtmasi payments jadvaliga tushmaydi (admin tasdiqlash ro'yxati va talabaning
@@ -7,7 +7,7 @@
 -- Butun mantiq bitta SQL funksiyada — qatorlar qulflanadi, parallel so'rovlar ikki marta Premium bermaydi.
 
 create table public.payme_orders (
-  code        text primary key check (code ~ '^A[A-Z0-9]{9}$'),
+  code        text primary key check (code ~ '^F[A-Z0-9]{9}$'),
   user_id     uuid not null references public.profiles (id) on delete cascade,
   plan_code   text not null references public.plans (code),
   months      int not null check (months > 0),
@@ -65,7 +65,7 @@ begin
 
   if c is null then
     loop
-      c := 'A' || (select string_agg(substr(abc, 1 + floor(random() * length(abc))::int, 1), '') from generate_series(1, 9));
+      c := 'F' || (select string_agg(substr(abc, 1 + floor(random() * length(abc))::int, 1), '') from generate_series(1, 9));
       exit when not exists (select 1 from payme_orders where code = c);
     end loop;
     insert into payme_orders (code, user_id, plan_code, months, amount_uzs) values (c, p_user, pl.code, pl.months, pl.price_uzs);

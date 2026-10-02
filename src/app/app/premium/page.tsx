@@ -51,7 +51,7 @@ export default async function PremiumPage({ searchParams }: PageProps<"/app/prem
 
   // Payme'dan qaytganda: shu foydalanuvchining buyurtma holati (payme_orders mijozga yopiq — admin klient, user_id bilan)
   const paymeOrder =
-    paymeCode && /^A[A-Z0-9]{9}$/.test(paymeCode)
+    paymeCode && /^F[A-Z0-9]{9}$/.test(paymeCode)
       ? (await createSupabaseAdmin().from("payme_orders").select("status").eq("code", paymeCode).eq("user_id", userId).maybeSingle<{ status: string }>()).data
       : null;
   const payme = paymeEnv() !== null;
@@ -63,7 +63,7 @@ export default async function PremiumPage({ searchParams }: PageProps<"/app/prem
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div className="bg-hero rounded-[22px] p-6 text-white">
-        <p className="text-sm font-bold uppercase tracking-wider text-cyan-100">A+ Premium</p>
+        <p className="text-sm font-bold uppercase tracking-wider text-gold-2">Femida Edu Premium</p>
         {premium ? (
           <>
             <p className="mt-2 text-2xl font-extrabold">Premium faol ✓</p>
@@ -85,7 +85,7 @@ export default async function PremiumPage({ searchParams }: PageProps<"/app/prem
             <tr className="border-b border-line">
               <th className="px-5 py-3 font-bold">Imkoniyat</th>
               <th className="px-3 py-3 font-bold">Bepul</th>
-              <th className="px-3 py-3 font-bold text-cyan-2">Premium</th>
+              <th className="px-3 py-3 font-bold text-brand-2">Premium</th>
             </tr>
           </thead>
           <tbody>

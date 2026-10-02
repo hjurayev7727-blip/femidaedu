@@ -10,7 +10,7 @@ export function LegalPage({ title, updated, intro, sections }: { title: string; 
       <section className="bg-hero text-white">
         <header className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
           <Logo />
-          <Link href="/kirish" className="rounded-xl px-4 py-2 text-sm font-bold text-cyan-100 hover:bg-white/10">
+          <Link href="/kirish" className="rounded-xl px-4 py-2 text-sm font-bold text-gold-2 hover:bg-white/10">
             Kirish
           </Link>
         </header>
@@ -42,7 +42,7 @@ export function LegalPage({ title, updated, intro, sections }: { title: string; 
 export function LegalFooter() {
   return (
     <footer className="border-t border-line py-6 text-center text-sm text-mute">
-      © {new Date().getFullYear()} A+ Huquq ·{" "}
+      © {new Date().getFullYear()} Femida Edu — YURISTIM TEAM MChJ mahsuloti ·{" "}
       <Link href="/maxfiylik" className="hover:underline">
         Maxfiylik siyosati
       </Link>{" "}

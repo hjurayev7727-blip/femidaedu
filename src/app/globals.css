@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
-/* A+ Huquq — grafit + firuza (v1 theme.css bilan bir xil tokenlar) */
+/* Femida Edu — to'q ko'k + oltin. brand — harakat/tanlov rangi (tungi rejimda ochroq), navy — fon/sarlavha, gold — aksent va Premium */
 :root {
-  --graf: #1e293b;
-  --graf-2: #0f172a;
-  --graf-3: #334155;
-  --cyan: #06b6d4;
-  --cyan-2: #0891b2;
-  --cyan-soft: #cffafe;
+  --navy: #0e2340;
+  --navy-2: #081628;
+  --navy-3: #22406b;
+  --brand: #1e3a66;
+  --brand-2: #0e2340;
+  --brand-soft: #e7edf6;
+  --gold: #b08a3a;
+  --gold-2: #cfab5e;
+  --gold-soft: #f3e7cc;
   --ok: #10b981;
   --ok-soft: #d1fae5;
   --no: #f43f5e;
   --no-soft: #ffe4e6;
   --amber: #f59e0b;
   --amber-soft: #fef3c7;
-  --bg: #f8fafc;
+  --bg: #f7f8fb;
   --card: #ffffff;
-  --ink: #0f172a;
+  --ink: #0e1a2e;
   --mute: #64748b;
   --line: #e2e8f0;
   color-scheme: light;
@@ -24,12 +27,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0b1220;
-    --card: #151f31;
-    --ink: #e8eef7;
-    --mute: #94a3b8;
-    --line: #22304a;
-    --cyan-soft: #0e3a47;
+    --bg: #0a1426;
+    --card: #12203a;
+    --ink: #eef1f7;
+    --mute: #9aa6bb;
+    --line: #22324f;
+    --brand: #6f97d6;
+    --brand-2: #a9c2ea;
+    --brand-soft: #172a47;
+    --gold-soft: #3a2f17;
     --ok-soft: #0f2e24;
     --no-soft: #3a1620;
     --amber-soft: #3a2c0c;
@@ -37,12 +43,15 @@
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0b1220;
-  --card: #151f31;
-  --ink: #e8eef7;
-  --mute: #94a3b8;
-  --line: #22304a;
-  --cyan-soft: #0e3a47;
+  --bg: #0a1426;
+  --card: #12203a;
+  --ink: #eef1f7;
+  --mute: #9aa6bb;
+  --line: #22324f;
+  --brand: #6f97d6;
+  --brand-2: #a9c2ea;
+  --brand-soft: #172a47;
+  --gold-soft: #3a2f17;
   --ok-soft: #0f2e24;
   --no-soft: #3a1620;
   --amber-soft: #3a2c0c;
@@ -50,12 +59,15 @@
 }
 
 @theme inline {
-  --color-graf: var(--graf);
-  --color-graf-2: var(--graf-2);
-  --color-graf-3: var(--graf-3);
-  --color-cyan: var(--cyan);
-  --color-cyan-2: var(--cyan-2);
-  --color-cyan-soft: var(--cyan-soft);
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-navy-3: var(--navy-3);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-brand-soft: var(--brand-soft);
+  --color-gold: var(--gold);
+  --color-gold-2: var(--gold-2);
+  --color-gold-soft: var(--gold-soft);
   --color-ok: var(--ok);
   --color-ok-soft: var(--ok-soft);
   --color-no: var(--no);
@@ -67,6 +79,7 @@
   --color-ink: var(--ink);
   --color-mute: var(--mute);
   --color-line: var(--line);
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
@@ -77,10 +90,10 @@ body {
 }
 
 @utility bg-hero {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 55%, #134e5a 100%);
+  background: linear-gradient(135deg, #0e2340 0%, #081628 58%, #2c2412 100%);
 }
 @utility bg-accent {
-  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  background: linear-gradient(135deg, #cfab5e, #b08a3a);
 }
 
 @utility card {
@@ -91,11 +104,27 @@ body {
     tracking-tight transition-transform active:scale-[.985] disabled:opacity-50;
 }
 @utility btn-primary {
-  @apply btn bg-accent text-white shadow-[0_8px_20px_-10px_rgba(6,182,212,.9)];
+  @apply btn bg-brand text-white shadow-[0_8px_20px_-10px_rgba(14,35,64,.8)];
+}
+@utility btn-gold {
+  @apply btn bg-accent text-navy shadow-[0_8px_20px_-10px_rgba(176,138,58,.9)];
 }
 @utility btn-ghost {
-  @apply btn border-2 border-line text-cyan-2;
+  @apply btn border-2 border-line text-brand-2;
 }
 @utility tag {
-  @apply inline-block rounded-full bg-cyan-soft px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.1em] text-cyan-2;
+  @apply inline-block rounded-full bg-brand-soft px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.1em] text-brand-2;
+}
+
+/* Sarlavhalar — Playfair Display (logo bilan bir oila) */
+h1, h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* To'q ko'k fonli bloklarda asosiy tugma oltin bo'ladi (to'q ko'k ustida to'q ko'k ko'rinmaydi) */
+.bg-hero .btn-primary {
+  background: linear-gradient(135deg, #cfab5e, #b08a3a);
+  color: var(--navy);
+  box-shadow: 0 8px 20px -10px rgba(176, 138, 58, 0.9);
 }

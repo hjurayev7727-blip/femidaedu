@@ -107,7 +107,7 @@ export function PracticeRunner({ attemptId, topicTitle, questions, answeredIds, 
               {result.correct ? "To'g'ri! ✓" : result.score > 0 ? `Qisman to'g'ri (${Math.round(result.score * 100)}%)` : "Xato ✕"}
             </p>
             {result.explanation && (
-              <p className="rounded-r-xl border-l-4 border-cyan bg-cyan-soft px-4 py-3 text-[15px] leading-relaxed">{result.explanation}</p>
+              <p className="rounded-r-xl border-l-4 border-brand bg-brand-soft px-4 py-3 text-[15px] leading-relaxed">{result.explanation}</p>
             )}
             {result.sourceNote && <p className="text-[12.5px] text-mute">📖 {result.sourceNote}</p>}
             {result.limit != null && result.usedToday >= result.limit - 3 && (
@@ -200,7 +200,7 @@ function ReportButton({ questionId }: { questionId: number }) {
         rows={2}
         maxLength={1000}
         placeholder="Nima noto'g'ri? (masalan: javob eskirgan, modda o'zgargan)"
-        className="w-full rounded-xl border-2 border-line bg-card px-3 py-2 text-sm outline-none focus:border-cyan"
+        className="w-full rounded-xl border-2 border-line bg-card px-3 py-2 text-sm outline-none focus:border-brand"
       />
       <div className="flex items-center gap-2">
         <button disabled={pending || msg.trim().length < 3} className="btn-ghost px-3! py-2! text-sm!">Yuborish</button>

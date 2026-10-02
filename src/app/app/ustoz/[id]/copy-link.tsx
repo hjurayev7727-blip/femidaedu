@@ -22,7 +22,7 @@ export function CopyLink({ url }: { url: string }) {
         className="btn-ghost px-4! py-2! text-sm!"
         target="_blank"
         rel="noreferrer"
-        href={`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent("A+ Huquq guruhimizga qo'shiling:")}`}
+        href={`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent("Femida Edu guruhimizga qo'shiling:")}`}
       >
         Telegram&apos;da ulashish
       </a>

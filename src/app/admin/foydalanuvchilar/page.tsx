@@ -48,7 +48,7 @@ export default async function AdminUsers({ searchParams }: PageProps<"/admin/foy
       </div>
       <form className="flex gap-2">
         <input name="q" defaultValue={q} placeholder="Ism yoki @username"
-          className="min-w-0 flex-1 rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-cyan" />
+          className="min-w-0 flex-1 rounded-xl border-2 border-line bg-card px-3.5 py-2.5 font-semibold outline-none focus:border-brand" />
         <button className="btn-primary">Qidirish</button>
       </form>
       <ul className="card divide-y divide-line p-0!">
@@ -79,14 +79,14 @@ export default async function AdminUsers({ searchParams }: PageProps<"/admin/foy
                 <select name="role" defaultValue={u.role} aria-label="Rol" className="rounded-lg border-2 border-line bg-card px-2 py-1.5 text-sm font-semibold">
                   {Object.entries(ROLE_LABEL).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
                 </select>
-                <button className="text-xs font-bold text-cyan-2">Saqlash</button>
+                <button className="text-xs font-bold text-brand-2">Saqlash</button>
               </form>
               <form action={grantPremium} className="flex items-center gap-1.5">
                 <input type="hidden" name="user" value={u.id} />
                 <select name="months" defaultValue="1" aria-label="Premium oy" className="rounded-lg border-2 border-line bg-card px-2 py-1.5 text-sm font-semibold">
                   {[1, 3, 6, 12].map((m) => <option key={m} value={m}>{m} oy</option>)}
                 </select>
-                <button className="text-xs font-bold text-cyan-2">+ Premium</button>
+                <button className="text-xs font-bold text-brand-2">+ Premium</button>
               </form>
             </li>
           );

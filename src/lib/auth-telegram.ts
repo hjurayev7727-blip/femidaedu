@@ -9,7 +9,7 @@ import { displayName, type TelegramUser } from "@/lib/telegram";
  *      (texnik email bilan — foydalanuvchiga ko'rinmaydi, xat yuborilmaydi);
  *   3) admin API orqali bir martalik token olinib, verifyOtp bilan cookie sessiya ochiladi.
  */
-const TECH_EMAIL_DOMAIN = "telegram.aplus-huquq.uz";
+const TECH_EMAIL_DOMAIN = "telegram.femidaedu.uz";
 
 /** Profil sahifasida "Telegram'ni bog'lash" bosilganda qo'yiladi (qiymati — user id, 10 daqiqa). */
 export const LINK_COOKIE = "tg_link";

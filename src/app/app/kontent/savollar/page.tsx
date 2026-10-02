@@ -58,7 +58,7 @@ export default async function QuestionList({ searchParams }: PageProps<"/app/kon
           <input name="q" defaultValue={q} className="mt-1.5 block w-full rounded-xl border-2 border-line bg-card px-3 py-2 font-semibold" />
         </label>
         <label className="flex items-center gap-2 pb-2.5 text-sm font-semibold">
-          <input type="checkbox" name="filtr" value="uzun" defaultChecked={onlyBiased} className="accent-cyan-600" /> Javobi ko&apos;zga tashlanadi
+          <input type="checkbox" name="filtr" value="uzun" defaultChecked={onlyBiased} className="accent-brand" /> Javobi ko&apos;zga tashlanadi
         </label>
         <button className="btn-primary px-4! py-2.5! text-sm!">Qidirish</button>
       </form>

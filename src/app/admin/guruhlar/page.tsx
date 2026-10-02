@@ -33,7 +33,7 @@ export default async function AdminGroups() {
             <form action={setGroupPremium} className="flex items-center gap-2">
               <input type="hidden" name="group" value={g.id} />
               <input type="hidden" name="on" value={g.grants_premium ? "0" : "1"} />
-              {g.grants_premium && <span className="rounded-lg bg-cyan-soft px-2 py-1 text-xs font-extrabold text-cyan-2">Premium guruh</span>}
+              {g.grants_premium && <span className="rounded-lg bg-brand-soft px-2 py-1 text-xs font-extrabold text-brand-2">Premium guruh</span>}
               <button className={g.grants_premium ? "btn-ghost px-3! py-1.5! text-xs!" : "btn-primary px-3! py-1.5! text-xs!"}>
                 {g.grants_premium ? "O'chirish" : "Premium qilish"}
               </button>

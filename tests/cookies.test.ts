@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { describe, expect, it } from "vitest";
 import { isSameOrigin, sessionCookieOptions } from "@/lib/supabase/cookies";
 
-const SITE = "https://aplushuquq.vercel.app";
+const SITE = "https://femidaedu.vercel.app";
 
 describe("sessiya cookie parametrlari", () => {
   it("HTTPS'da Telegram Web iframe uchun SameSite=None + Partitioned, localhost'da standart", () => {

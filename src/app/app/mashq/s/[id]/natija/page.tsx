@@ -44,7 +44,7 @@ export default async function PracticeResult({ params }: PageProps<"/app/mashq/s
   return (
     <div className="mx-auto max-w-2xl space-y-5">
       <div className="bg-hero rounded-[22px] p-6 text-center text-white">
-        <p className="text-sm font-bold uppercase tracking-wider text-cyan-100">{topic?.title ?? MODE_TITLE[attempt.mode] ?? "Mashq"}</p>
+        <p className="text-sm font-bold uppercase tracking-wider text-gold-2">{topic?.title ?? MODE_TITLE[attempt.mode] ?? "Mashq"}</p>
         <p className="mt-2 text-5xl font-extrabold tabular-nums">{pct}%</p>
         <p className="mt-1 text-slate-300">{correct} / {total} to&apos;g&apos;ri · {verdict}</p>
         <div className="mt-5 flex flex-wrap justify-center gap-2">

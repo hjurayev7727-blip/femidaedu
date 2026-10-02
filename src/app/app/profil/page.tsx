@@ -40,7 +40,7 @@ export default async function ProfilePage({ searchParams }: PageProps<"/app/prof
         <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5">
           {(allBadges ?? []).map((b) => (
             <li key={b.code} title={b.description}
-              className={`rounded-xl px-2 py-3 text-center ${earned.has(b.code) ? "bg-cyan-soft" : "bg-bg opacity-40 grayscale"}`}>
+              className={`rounded-xl px-2 py-3 text-center ${earned.has(b.code) ? "bg-brand-soft" : "bg-bg opacity-40 grayscale"}`}>
               <span className="block text-2xl" aria-hidden>{b.icon}</span>
               <span className="mt-1 block text-[11px] font-bold leading-tight">{b.title}</span>
               <span className="sr-only">{earned.has(b.code) ? "olingan" : "hali olinmagan"}: {b.description}</span>
@@ -51,18 +51,18 @@ export default async function ProfilePage({ searchParams }: PageProps<"/app/prof
 
       <form action={saveLeaderboardVisibility} className="card flex flex-wrap items-center justify-between gap-3">
         <label className="flex items-center gap-2 text-sm font-semibold">
-          <input type="checkbox" name="visible" defaultChecked={profile.leaderboard_visible} className="accent-cyan-600" />
+          <input type="checkbox" name="visible" defaultChecked={profile.leaderboard_visible} className="accent-brand" />
           Reytingda ko&apos;rinish (faqat ism va familiyaning bosh harfi)
         </label>
         <button className="btn-ghost px-3! py-2! text-sm!">Saqlash</button>
       </form>
 
-      <Link href="/app/premium" className="card flex items-center justify-between gap-3 hover:border-cyan">
+      <Link href="/app/premium" className="card flex items-center justify-between gap-3 hover:border-brand">
         <span>
           <span className="block font-extrabold">Tarif: {premium ? "Premium ✓" : "Bepul"}</span>
           <span className="text-sm text-mute">{premium ? "Muddat va to'lovlar tarixi" : "Cheksiz mashq va sinovlar"}</span>
         </span>
-        <span className="font-bold text-cyan-2">→</span>
+        <span className="font-bold text-brand-2">→</span>
       </Link>
 
       <section className="card space-y-3">
@@ -88,11 +88,11 @@ export default async function ProfilePage({ searchParams }: PageProps<"/app/prof
             )}
             <form action={saveNotifications} className="space-y-2">
               <label className="flex items-center gap-2 text-sm font-semibold">
-                <input type="checkbox" name="notify_morning" defaultChecked={profile.notify_morning} className="accent-cyan-600" />
+                <input type="checkbox" name="notify_morning" defaultChecked={profile.notify_morning} className="accent-brand" />
                 08:00 — kunlik test
               </label>
               <label className="flex items-center gap-2 text-sm font-semibold">
-                <input type="checkbox" name="notify_evening" defaultChecked={profile.notify_evening} className="accent-cyan-600" />
+                <input type="checkbox" name="notify_evening" defaultChecked={profile.notify_evening} className="accent-brand" />
                 20:00 — streak eslatmasi (bugun 10 ta savol yechilmagan bo&apos;lsa)
               </label>
               <button className="btn-ghost px-3! py-2! text-sm!">Eslatmalarni saqlash</button>

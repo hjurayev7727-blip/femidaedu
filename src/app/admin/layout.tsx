@@ -17,11 +17,11 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   await requireRole("admin");
   return (
     <div className="flex flex-1 flex-col">
-      <header className="bg-hero border-b border-cyan/25">
+      <header className="bg-hero border-b border-brand/25">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3.5">
           <div className="flex items-center gap-3">
             <Logo href="/admin" />
-            <span className="rounded-md bg-amber px-2 py-0.5 text-xs font-extrabold text-graf-2">ADMIN</span>
+            <span className="rounded-md bg-amber px-2 py-0.5 text-xs font-extrabold text-navy-2">ADMIN</span>
           </div>
           <nav className="flex flex-wrap items-center gap-1 text-sm font-bold">
             {NAV.map((n) => (
