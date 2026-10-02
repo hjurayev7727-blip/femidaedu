@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { requireUser } from "@/lib/auth";
+import { lawyersEnabled } from "@/lib/legal-server";
 
 // Mobil pastki panelda "wide" bo'lmaganlar (7 ta) ko'rinadi; Sertifikat bo'limi bosh sahifadan ham ochiladi.
 const NAV = [
@@ -16,7 +17,9 @@ const NAV = [
 
 export default async function AppLayout({ children }: LayoutProps<"/app">) {
   const { profile } = await requireUser();
+  const lawyers = await lawyersEnabled();
   const extra = [
+    ...(lawyers || profile.role === "admin" ? [{ href: "/app/yuristlar", label: "Yuristlar", lg: true }] : []),
     { href: "/app/reyting", label: "Reyting", lg: true },
     { href: "/app/musobaqa", label: "Musobaqa", lg: true },
     ...(profile.role === "teacher" || profile.role === "admin" ? [{ href: "/app/ustoz", label: "Ustoz", lg: false }] : []),
