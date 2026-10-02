@@ -8,6 +8,7 @@ import { requireUser } from "@/lib/auth";
 import { fmtUz } from "@/lib/dates";
 import { experienceLabel, fmtSum, LANGUAGES } from "@/lib/lawyers";
 import { lawyerPublic } from "@/lib/lawyers-server";
+import { createSupabaseAdmin } from "@/lib/supabase/server";
 import { lawyersEnabled } from "@/lib/legal-server";
 import { startChat } from "@/app/app/suhbatlar/actions";
 import { reportAction } from "../actions";
@@ -22,7 +23,14 @@ export default async function LawyerPage({ params, searchParams }: PageProps<"/a
   if (!(await lawyersEnabled()) && profile.role !== "admin") notFound();
   const l = await lawyerPublic(userId, id);
   if (!l) notFound();
-  const { data: fields } = await supabase.from("fields").select("slug, title").in("slug", l.fields).returns<{ slug: string; title: string }[]>();
+  const admin = createSupabaseAdmin();
+  const [{ data: fields }, { data: reviews }, { data: contacts }] = await Promise.all([
+    supabase.from("fields").select("slug, title").in("slug", l.fields).returns<{ slug: string; title: string }[]>(),
+    admin.rpc("lawyer_reviews_public", { p_lawyer: id, p_limit: 20 }),
+    admin.rpc("lawyer_contacts", { p_user: userId, p_lawyer: id }),
+  ]);
+  const revs = (reviews ?? []) as { rating: number; body: string | null; created_at: string; client: string }[];
+  const c = contacts as { phone: string | null; telegram: string | null } | null;
   const titles = Object.fromEntries((fields ?? []).map((f) => [f.slug, f.title]));
   const own = id === userId;
 
@@ -54,11 +62,29 @@ export default async function LawyerPage({ params, searchParams }: PageProps<"/a
         {l.bio && <p className="whitespace-pre-wrap text-[15px] leading-relaxed">{l.bio}</p>}
       </section>
 
+      {revs.length > 0 && (
+        <section className="card space-y-3">
+          <h2 className="font-extrabold">Mijozlar fikri</h2>
+          <ul className="space-y-3">
+            {revs.map((r, i) => (
+              <li key={i} className="border-b border-line pb-3 last:border-0 last:pb-0">
+                <p className="text-sm"><span className="font-bold text-amber">{"★".repeat(r.rating)}<span className="text-line">{"★".repeat(5 - r.rating)}</span></span> · {r.client} · <span className="text-mute">{fmtUz(r.created_at)}</span></p>
+                {r.body && <p className="mt-1 whitespace-pre-wrap text-sm">{r.body}</p>}
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-mute">Faqat platforma orqali to&apos;lab xizmat olgan mijozlar baho qoldira oladi.</p>
+        </section>
+      )}
+
       {own ? (
         <Link href="/app/yurist" className="btn-primary">Profilni tahrirlash</Link>
       ) : (
         <section className="card space-y-3">
           <h2 className="font-extrabold">Bog&apos;lanish</h2>
+          {c && (c.phone || c.telegram) && (
+            <p className="rounded-xl bg-ok-soft px-3 py-2 text-sm">{c.phone && <>📞 <a href={`tel:${c.phone}`} className="font-bold">{c.phone}</a> </>}{c.telegram && <>✈️ <a href={`https://t.me/${c.telegram}`} target="_blank" rel="noreferrer" className="font-bold">@{c.telegram}</a></>}</p>
+          )}
           <p className="text-sm text-mute">
             Telefon va Telegram xizmat uchun to&apos;lov qilingandan keyin ochiladi. To&apos;lov platformada saqlanadi va siz
             &quot;Bajarildi&quot; deb tasdiqlaganingizdan so&apos;ng (yoki 3 kun ichida e&apos;tiroz bo&apos;lmasa) yuristga o&apos;tadi.

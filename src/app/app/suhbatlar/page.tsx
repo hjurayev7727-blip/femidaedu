@@ -10,7 +10,8 @@ export const metadata: Metadata = { title: "Suhbatlar" };
 type Conv = { id: string; role: "client" | "lawyer"; other: string; request_title: string | null; last_message_at: string; last: string | null; unread: number };
 type Req = { id: number; title: string; field: string | null; status: string; created_at: string; recipients: number; replies: number };
 
-export default async function Conversations() {
+export default async function Conversations({ searchParams }: PageProps<"/app/suhbatlar">) {
+  const sp = await searchParams;
   const { userId } = await requireUser();
   const admin = createSupabaseAdmin();
   const [{ data: convs }, { data: reqs }] = await Promise.all([
@@ -24,8 +25,12 @@ export default async function Conversations() {
     <div className="mx-auto max-w-3xl space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <h1 className="text-2xl font-extrabold tracking-tight">Suhbatlar</h1>
-        <Link href="/app/yuristlar/ariza" className="btn-primary">📩 Yangi ariza</Link>
+        <div className="flex gap-2">
+          <Link href="/app/buyurtmalar" className="btn-ghost">🧾 Buyurtmalar</Link>
+          <Link href="/app/yuristlar/ariza" className="btn-primary">📩 Yangi ariza</Link>
+        </div>
       </div>
+      {typeof sp.xato === "string" && <p role="alert" className="rounded-xl bg-no-soft px-4 py-3 text-sm font-semibold text-no">{sp.xato.slice(0, 200)}</p>}
 
       {open.length > 0 && (
         <section className="card !p-0">

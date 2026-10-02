@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useTransition } from "react";
+import { acceptOffer } from "@/app/app/buyurtmalar/actions";
 import type { AiResult } from "@/lib/ai-server";
 import type { ChatMsg, ChatOffer } from "@/lib/chat";
 import { fmtUz } from "@/lib/dates";
@@ -17,7 +18,7 @@ function OfferCard({ o, role, onDecline, payReady }: { o: ChatOffer; role: "clie
       {role === "client" && o.status === "pending" && (
         <div className="mt-2 flex flex-wrap gap-2">
           {payReady
-            ? <a href={`/app/buyurtmalar/yangi?taklif=${o.id}`} className="btn-primary !px-3 !py-1.5 !text-sm">Qabul qilish va to&apos;lash</a>
+            ? <form action={acceptOffer}><input type="hidden" name="offer" value={o.id} /><button className="btn-primary !px-3 !py-1.5 !text-sm">Qabul qilish va to&apos;lash</button></form>
             : <span className="text-xs font-semibold text-mute">Platforma orqali to&apos;lov tez orada ishga tushadi.</span>}
           <button type="button" onClick={() => onDecline(o.id)} className="btn-ghost !px-3 !py-1.5 !text-sm">Rad etish</button>
         </div>
