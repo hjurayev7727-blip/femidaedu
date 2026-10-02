@@ -72,4 +72,18 @@ describe("qonun bazasi", () => {
     const n = await asUser(db, uid, async () => (await db.query<{ n: number }>(`select (select count(*) from fields) + (select count(*) from chapters) as n`)).rows[0].n);
     expect(Number(n)).toBeGreaterThan(18);
   });
+
+  it("hujjat turi: qonun va Konstitutsiya; noto'g'ri tur rad etiladi; teng moslikda Konstitutsiya oldin", async () => {
+    const body = "Har kim mulkdor bo'lishga haqli. Mulk huquqi qonun bilan qo'riqlanadi.";
+    const mk = (code: string, kind: string, field: string) => ({
+      code, kind, field, title: code, short_title: code, articles: [{ number: "1", title: "Mulk huquqi", body, sort: 1 }],
+    });
+    await imp(mk("ISTEMOL", "law", "istemolchi"));
+    await imp(mk("KONST2", "constitution", "konstitutsiyaviy"));
+    const { rows } = await db.query<{ code: string; kind: string }>(`select code, kind from documents where code in ('ISTEMOL', 'KONST2') order by code`);
+    expect(rows).toEqual([{ code: "ISTEMOL", kind: "law" }, { code: "KONST2", kind: "constitution" }]);
+    await expect(imp(mk("X1", "decree", "oila"))).rejects.toThrow(/turi/);
+    const s = await db.query<{ doc_title: string }>(`select doc_title from public.search_articles('mulk huquqi qo''riqlanadi', null, 2)`);
+    expect(s.rows.map((r) => r.doc_title)).toEqual(["KONST2", "ISTEMOL"]);
+  });
 });

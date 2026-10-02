@@ -1,12 +1,23 @@
 {
-  "about": "A darajali sohalar kodekslari. lex_id — lex.uz/docs/-<lex_id>. ID'lar 2026-09-30 da qidiruv tizimi orqali lex.uz sahifa sarlavhalari bilan tekshirilgan; skript sahifa sarlavhasini 'expect' bilan solishtiradi va mos kelmasa to'xtaydi.",
+  "about": "Konstitutsiya, kodekslar va ko'p so'raladigan qonunlar. lex_id — lex.uz/docs/-<lex_id>; kind — constitution | code | law. ID'lar lex.uz sahifa sarlavhalari bilan tekshirilgan (7 ta kodeks 2026-09-30, qolganlari 2026-10-01); skript sahifa sarlavhasini 'expect' bilan solishtiradi va mos kelmasa to'xtaydi.",
   "documents": [
-    { "code": "FK1",   "field": "fuqarolik",           "lex_id": "111189",  "title": "O'zbekiston Respublikasining Fuqarolik kodeksi (birinchi qism)", "short_title": "Fuqarolik kodeksi (1-qism)", "expect": "fuqarolik kodeksi" },
-    { "code": "FK2",   "field": "fuqarolik",           "lex_id": "180552",  "title": "O'zbekiston Respublikasining Fuqarolik kodeksi (ikkinchi qism)", "short_title": "Fuqarolik kodeksi (2-qism)", "expect": "fuqarolik kodeksi" },
-    { "code": "OK",    "field": "oila",                "lex_id": "104720",  "title": "O'zbekiston Respublikasining Oila kodeksi", "short_title": "Oila kodeksi", "expect": "oila kodeksi" },
-    { "code": "JK",    "field": "jinoyat",             "lex_id": "111453",  "title": "O'zbekiston Respublikasining Jinoyat kodeksi", "short_title": "Jinoyat kodeksi", "expect": "jinoyat kodeksi" },
-    { "code": "JPK",   "field": "jinoyat-protsessual", "lex_id": "111460",  "title": "O'zbekiston Respublikasining Jinoyat-protsessual kodeksi", "short_title": "JPK", "expect": "jinoyat-protsessual kodeksi" },
-    { "code": "MK",    "field": "mehnat",              "lex_id": "6257288", "title": "O'zbekiston Respublikasining Mehnat kodeksi", "short_title": "Mehnat kodeksi", "expect": "mehnat kodeksi" },
-    { "code": "SK",    "field": "soliq",               "lex_id": "4674902", "title": "O'zbekiston Respublikasining Soliq kodeksi", "short_title": "Soliq kodeksi", "expect": "soliq kodeksi" }
+    {"code": "FK1", "field": "fuqarolik", "lex_id": "111189", "title": "O'zbekiston Respublikasining Fuqarolik kodeksi (birinchi qism)", "short_title": "Fuqarolik kodeksi (1-qism)", "expect": "fuqarolik kodeksi", "kind": "code"},
+    {"code": "FK2", "field": "fuqarolik", "lex_id": "180552", "title": "O'zbekiston Respublikasining Fuqarolik kodeksi (ikkinchi qism)", "short_title": "Fuqarolik kodeksi (2-qism)", "expect": "fuqarolik kodeksi", "kind": "code"},
+    {"code": "OK", "field": "oila", "lex_id": "104720", "title": "O'zbekiston Respublikasining Oila kodeksi", "short_title": "Oila kodeksi", "expect": "oila kodeksi", "kind": "code"},
+    {"code": "JK", "field": "jinoyat", "lex_id": "111453", "title": "O'zbekiston Respublikasining Jinoyat kodeksi", "short_title": "Jinoyat kodeksi", "expect": "jinoyat kodeksi", "kind": "code"},
+    {"code": "JPK", "field": "jinoyat-protsessual", "lex_id": "111460", "title": "O'zbekiston Respublikasining Jinoyat-protsessual kodeksi", "short_title": "JPK", "expect": "jinoyat-protsessual kodeksi", "kind": "code"},
+    {"code": "MK", "field": "mehnat", "lex_id": "6257288", "title": "O'zbekiston Respublikasining Mehnat kodeksi", "short_title": "Mehnat kodeksi", "expect": "mehnat kodeksi", "kind": "code"},
+    {"code": "SK", "field": "soliq", "lex_id": "4674902", "title": "O'zbekiston Respublikasining Soliq kodeksi", "short_title": "Soliq kodeksi", "expect": "soliq kodeksi", "kind": "code"},
+    {"code": "KONST", "field": "konstitutsiyaviy", "lex_id": "6445145", "title": "O'zbekiston Respublikasi Konstitutsiyasi", "short_title": "Konstitutsiya", "expect": "konstitutsiyasi", "kind": "constitution"},
+    {"code": "MJTK", "field": "mamuriy", "lex_id": "97664", "title": "O'zbekiston Respublikasining Ma'muriy javobgarlik to'g'risidagi kodeksi", "short_title": "Ma'muriy javobgarlik kodeksi", "expect": "ma'muriy javobgarlik", "kind": "code"},
+    {"code": "FPK", "field": "fuqarolik-protsessual", "lex_id": "3517337", "title": "O'zbekiston Respublikasining Fuqarolik protsessual kodeksi", "short_title": "Fuqarolik protsessual kodeksi", "expect": "fuqarolik protsessual kodeksi", "kind": "code"},
+    {"code": "IPK", "field": "fuqarolik-protsessual", "lex_id": "3523891", "title": "O'zbekiston Respublikasining Iqtisodiy protsessual kodeksi", "short_title": "Iqtisodiy protsessual kodeksi", "expect": "iqtisodiy protsessual kodeksi", "kind": "code"},
+    {"code": "MSIK", "field": "mamuriy", "lex_id": "3527353", "title": "O'zbekiston Respublikasining Ma'muriy sud ishlarini yuritish to'g'risidagi kodeksi", "short_title": "Ma'muriy sud ishlari kodeksi", "expect": "ma'muriy sud ishlarini", "kind": "code"},
+    {"code": "UJK", "field": "uy-joy", "lex_id": "106136", "title": "O'zbekiston Respublikasining Uy-joy kodeksi", "short_title": "Uy-joy kodeksi", "expect": "uy-joy kodeksi", "kind": "code"},
+    {"code": "YK", "field": "yer", "lex_id": "152653", "title": "O'zbekiston Respublikasining Yer kodeksi", "short_title": "Yer kodeksi", "expect": "yer kodeksi", "kind": "code"},
+    {"code": "BK", "field": "bojxona", "lex_id": "2876354", "title": "O'zbekiston Respublikasining Bojxona kodeksi", "short_title": "Bojxona kodeksi", "expect": "bojxona kodeksi", "kind": "code"},
+    {"code": "ISTEMOL", "field": "istemolchi", "lex_id": "4704", "title": "Iste'molchilarning huquqlarini himoya qilish to'g'risida", "short_title": "Iste'molchilar huquqlari", "expect": "huquqlarini himoya qilish", "kind": "law"},
+    {"code": "MUROJ", "field": "konstitutsiyaviy", "lex_id": "2509996", "title": "Jismoniy va yuridik shaxslarning murojaatlari to'g'risida", "short_title": "Murojaatlar", "expect": "murojaatlari to'g'risida", "kind": "law"},
+    {"code": "NOTARIAT", "field": "fuqarolik", "lex_id": "54458", "title": "Notariat to'g'risida", "short_title": "Notariat", "expect": "notariat to'g'risida", "kind": "law"}
   ]
 }
