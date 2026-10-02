@@ -7,6 +7,8 @@ import { env } from "@/lib/env";
 import type { Answer, Payload, QuestionType } from "@/lib/questions";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 import { rowToInput, shareLinks, type TestSettings, type Visibility } from "@/lib/user-tests";
+import { startLive } from "@/app/jonli/actions";
+import { LIVE_FREE_MAX, LIVE_PREMIUM_MAX } from "@/lib/live";
 import { publish, removeItem, saveItem, saveMeta, setStatus } from "../actions";
 
 export const metadata: Metadata = { title: "Test" };
@@ -40,6 +42,7 @@ export default async function TestEditorPage({ params, searchParams }: PageProps
     supabase.from("groups").select("id, name").eq("teacher_id", userId).order("created_at").returns<{ id: number; name: string }[]>(),
     supabase.from("profiles").select("trust_level").eq("id", userId).single<{ trust_level: number }>(),
   ]);
+  const { data: premium } = await supabase.rpc("is_premium");
   const statById = new Map(((stats ?? []) as { item_id: number; answered: number; correct: number }[]).map((s) => [Number(s.item_id), s]));
   const editorItems: EditorItem[] = (items ?? []).map((i) => ({
     id: Number(i.id),
@@ -60,7 +63,9 @@ export default async function TestEditorPage({ params, searchParams }: PageProps
       results={(results ?? []) as ResultRow[]}
       links={{ web: links.web, telegram: links.telegram }}
       created={typeof sp.yangi === "string" ? Number(sp.yangi) : undefined}
-      actions={{ saveMeta, saveItem, removeItem, publish, setStatus }}
+      liveError={typeof sp.jonli === "string" ? sp.jonli.slice(0, 120) : undefined}
+      liveMax={premium ? LIVE_PREMIUM_MAX : LIVE_FREE_MAX}
+      actions={{ saveMeta, saveItem, removeItem, publish, setStatus, startLive }}
     />
   );
 }

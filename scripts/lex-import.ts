@@ -6,7 +6,7 @@
 // Qayta ishga tushirish xavfsiz: o'zgargan moddalar belgilanadi, ularga bog'langan savollar tekshiruvga qaytadi.
 import { readFileSync } from "node:fs";
 import postgres from "postgres";
-import { htmlToText, parseLawText, type ParsedLaw } from "../src/lib/lex/parse";
+import { lexHtmlToText, lexPageTitle, parseLawText, type ParsedLaw } from "../src/lib/lex/parse";
 
 try {
   process.loadEnvFile(".env.local");
@@ -25,11 +25,12 @@ const target = args.find((a, i) => !a.startsWith("--") && args[i - 1] !== "--fil
 async function fetchLex(entry: Entry): Promise<string> {
   const res = await fetch(`https://lex.uz/docs/-${entry.lex_id}`, { headers: { "user-agent": "FemidaEdu-import/1.0 (+https://femidaedu.uz)" } });
   if (!res.ok) throw new Error(`lex.uz ${res.status} — ${entry.code}`);
-  const text = htmlToText(await res.text());
-  if (!text.toLowerCase().replace(/[‘’ʻʼ`]/g, "'").includes(entry.expect)) {
-    throw new Error(`${entry.code}: sahifada "${entry.expect}" topilmadi — lex_id noto'g'ri bo'lishi mumkin (${entry.lex_id})`);
+  const html = await res.text();
+  const title = lexPageTitle(html);
+  if (!title.toLowerCase().replace(/[‘’ʻʼ`]/g, "'").includes(entry.expect)) {
+    throw new Error(`${entry.code}: sahifa sarlavhasi "${title}" — "${entry.expect}" emas, lex_id noto'g'ri bo'lishi mumkin (${entry.lex_id})`);
   }
-  return text;
+  return html;
 }
 
 function report(entry: Entry, p: ParsedLaw) {
@@ -51,7 +52,7 @@ async function main() {
     for (const entry of entries) {
       const file = value("--file");
       const raw = file ? readFileSync(file, "utf8") : await fetchLex(entry);
-      const parsed = parseLawText(/<html|<body|<div/i.test(raw) ? htmlToText(raw) : raw);
+      const parsed = parseLawText(/<html|<body|<div/i.test(raw) ? lexHtmlToText(raw) : raw);
       report(entry, parsed);
       if (!sql || !parsed.articles.length) continue;
       const payload = { code: entry.code, title: entry.title, short_title: entry.short_title, field: entry.field, lex_id: entry.lex_id, chapters: parsed.chapters, articles: parsed.articles };

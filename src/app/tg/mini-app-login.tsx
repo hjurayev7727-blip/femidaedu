@@ -15,10 +15,12 @@ const TEXT: Record<string, string> = {
   server: "Serverda xatolik. Birozdan keyin urinib ko'ring.",
 };
 
-/** Bot havolasidagi startapp: t_K7Q2XM → foydalanuvchi testi */
+/** Bot havolasidagi startapp: t_K7Q2XM → foydalanuvchi testi, j_123456 → jonli viktorina */
 function startTarget(param: string | undefined): string | null {
   const m = /^t_([A-HJ-NP-Z2-9]{6})$/.exec(param ?? "");
-  return m ? `/t/${m[1]}` : null;
+  if (m) return `/t/${m[1]}`;
+  const j = /^j_(\d{6})$/.exec(param ?? "");
+  return j ? `/jonli?pin=${j[1]}` : null;
 }
 
 export function MiniAppLogin({ next }: { next: string }) {

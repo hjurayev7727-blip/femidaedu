@@ -16,7 +16,8 @@
     "db:calibrate": "tsx scripts/calibrate.ts",
     "v3:polls": "tsx scripts/v3-polls.ts",
     "brand:check": "tsx scripts/brand-check.ts",
-    "lex:import": "tsx scripts/lex-import.ts"
+    "lex:import": "tsx scripts/lex-import.ts",
+    "prod:check": "tsx scripts/prod-check.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.129.0",
@@ -24,6 +25,7 @@
     "@supabase/supabase-js": "^2.117.2",
     "next": "16.3.6",
     "postgres": "^3.4.9",
+    "qrcode": "^1.5.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "server-only": "^0.0.1",
@@ -33,6 +35,7 @@
     "@electric-sql/pglite": "^0.5.8",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^24.19.0",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
