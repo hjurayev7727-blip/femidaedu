@@ -7,7 +7,7 @@ export type ArticleNav = { id: number; number: string };
 
 export const ARTICLE_ERRORS: Record<string, string> = {
   premium: "Bu modda bo'yicha testlar Premium'da. Har sohaning 1-bobi va C darajali sohalar bepul.",
-  bosh: "Bu modda bo'yicha hali savol yo'q — AI testlar qismida qo'shiladi.",
+  bosh: "Bu modda bo'yicha hali savol yo'q — «AI bilan test» tugmasi orqali o'zingiz yarating.",
   topilmadi: "Modda topilmadi.",
   server: "Mashqni boshlab bo'lmadi. Qayta urinib ko'ring.",
 };

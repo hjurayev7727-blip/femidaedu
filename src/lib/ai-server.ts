@@ -16,13 +16,13 @@ export function aiEnabled(): boolean {
 }
 
 let client: Anthropic | null = null;
-function aiClient(): Anthropic | null {
+export function aiClient(): Anthropic | null {
   if (!process.env.ANTHROPIC_API_KEY) return null;
   client ??= new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
   return client;
 }
 
-async function logUsage(userId: string | null, purpose: string, u: AiUsage) {
+export async function logUsage(userId: string | null, purpose: string, u: AiUsage) {
   await createSupabaseAdmin()
     .from("ai_usage")
     .insert({ user_id: userId, purpose, model: u.model, input_tokens: u.input_tokens, output_tokens: u.output_tokens });
