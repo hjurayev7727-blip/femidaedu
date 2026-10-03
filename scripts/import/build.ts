@@ -1,9 +1,9 @@
 // v1 materiallaridan import to'plamini quradi:  npm run import:build [-- <v1 papka>]
 // Natija: data/v1/bundle.json (repoga qo'shiladi) va data/v1/REPORT.md (tekshiruv hisoboti).
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { longestOptionBias } from "../../src/lib/bias";
-import { buildBundle } from "./bundle";
+import { applyOptionFixes, buildBundle, type OptionFixes } from "./bundle";
 import { documentByNumber } from "./documents";
 import { dedupe, isRejected, normalize, type ImportedQuestion, type Rejected } from "./normalize";
 import { readAllSources } from "./sources";
@@ -21,6 +21,8 @@ for (const raw of items) {
 }
 const { questions, conflicts } = dedupe(ok);
 const bundle = buildBundle(questions);
+const fixesPath = join(outDir, "fixes.json");
+const fixes = existsSync(fixesPath) ? applyOptionFixes(bundle, JSON.parse(readFileSync(fixesPath, "utf8")) as OptionFixes) : null;
 
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "bundle.json"), JSON.stringify(bundle));
@@ -61,6 +63,7 @@ const lines = [
   `| **Unikal savollar** | **${questions.length}** |`,
   `| Mavzusiz (faqat aralash testlarda) | ${noTopic} |`,
   `| Javobi ziddiyatli dublikatlar | ${conflicts.length} |`,
+  `| Variantlari tuzatilgan (fixes.json) | ${fixes?.applied ?? 0}${fixes?.skipped.length ? ` · qo'llanmadi: ${fixes.skipped.length}` : ""} |`,
   ``,
   `## Turlar`,
   ...[...byType].sort((a, b) => b[1] - a[1]).map(([t, n]) => `- ${t}: ${n}`),
@@ -73,7 +76,7 @@ const lines = [
   emptyDocs.length ? `⚠ Savolsiz hujjatlar: ${emptyDocs.map((d) => `№${d.number}`).join(", ")}` : `Barcha 52 hujjat bo'yicha savol bor.`,
   ``,
   `## To'g'ri javobi keskin uzun savollar — ${biasedTotal} / ${choice.length} (${Math.round((100 * biasedTotal) / choice.length)}%)`,
-  `To'g'ri variant boshqalardan kamida 30% va 8 belgi uzun — o'quvchi bilmasdan topa oladi. Kontent panelida "Javobi ko'zga tashlanadi" filtri bilan tuzating (chalg'ituvchi variantlarni uzaytiring).`,
+  `To'g'ri variant boshqalardan kamida 30% va 8 belgi uzun — o'quvchi bilmasdan topa oladi. Tuzatishlar \`data/v1/fixes.json\` da saqlanadi (to'g'ri variant o'zgarmaydi); qolganlarini kontent panelidagi "Javobi ko'zga tashlanadi" filtri bilan tuzating.`,
   ``,
   `| Hujjat | Keskin uzun | Jami |`,
   `|---|---|---|`,

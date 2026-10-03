@@ -144,7 +144,7 @@ Reja: `../HUQUQSHUNOSLIK KURSI/05_TEXNIK_ONLAYN_TIZIM/PLATFORMA_2.0_REJA.md`
 **Kontent sifati va PWA**
 - [x] `/app/kontent/savollar`: qidiruv, hujjat filtri, "javobi ko'zga tashlanadi" filtri; savolni tahrirlash
       (versiya oshadi — qayta import ustidan yozmaydi; ikki ekspert bir vaqtda tahrirlasa — to'qnashuv aniqlanadi)
-- [ ] **1 074 ta savolda (41%) to'g'ri javob keskin uzun** — tahrir kerak (`data/v1/REPORT.md`)
+- [x] To'g'ri javobi keskin uzun 1 074 ta savol tuzatildi — chalg'ituvchi variantlar uzaytirildi (`data/v1/fixes.json`, to'g'ri javob o'zgarmagan)
 - [x] PWA: manifest, ikonkalar, service worker (faqat statik fayllar keshlanadi), offline sahifa, xavfsizlik sarlavhalari
 
 **Kurs o'quvchilarini ko'chirish:** v1 da akkaunt yo'q edi (ism + telefon), shuning uchun avtomatik ko'chirilmaydi.

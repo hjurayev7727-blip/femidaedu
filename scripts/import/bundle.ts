@@ -87,3 +87,25 @@ export function buildBundle(questions: ImportedQuestion[]): Bundle {
     questions: out.sort((a, b) => a.legacyKey.localeCompare(b.legacyKey)),
   };
 }
+
+/** Qo'lda tuzatilgan variantlar (data/v1/fixes.json): legacyKey → yangi variantlar. To'g'ri variant matni va indeksi o'zgarmaydi. */
+export type OptionFixes = Record<string, { options: string[] }>;
+
+export function applyOptionFixes(bundle: Bundle, fixes: OptionFixes): { applied: number; skipped: string[] } {
+  let applied = 0;
+  const skipped: string[] = [];
+  const byKey = new Map(bundle.questions.map((q) => [q.legacyKey, q]));
+  for (const [key, fix] of Object.entries(fixes)) {
+    const q = byKey.get(key);
+    const old = q && "options" in q.payload ? q.payload.options : null;
+    const idx = q && "index" in q.answer ? q.answer.index : -1;
+    // Manba o'zgargan bo'lsa (variantlar soni yoki to'g'ri javob matni boshqa) — tuzatishni qo'llamaymiz
+    if (!q || !old || fix.options.length !== old.length || fix.options[idx] !== old[idx]) {
+      skipped.push(key);
+      continue;
+    }
+    q.payload = { ...q.payload, options: fix.options };
+    applied++;
+  }
+  return { applied, skipped };
+}
