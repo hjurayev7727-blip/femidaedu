@@ -2,7 +2,8 @@
 // scripts/bot-setup.ts (qo'lda) va src/instrumentation.ts / kunlik cron (avtomatik) ishlatadi.
 import type { BotApi } from "@/lib/bot/api";
 
-export const BOT_UPDATES = ["message", "my_chat_member", "callback_query"];
+// chat_join_request — hamjamiyat guruhiga qo'shilish so'rovlari (bot u yerda admin)
+export const BOT_UPDATES = ["message", "my_chat_member", "callback_query", "chat_join_request"];
 
 type WebhookInfo = { url?: string; last_error_date?: number; last_error_message?: string; allowed_updates?: string[] };
 

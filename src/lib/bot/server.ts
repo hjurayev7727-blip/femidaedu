@@ -1,8 +1,13 @@
 import "server-only";
 import { createBotApi, esc, type BotApi } from "@/lib/bot/api";
+import { communityAnswer } from "@/lib/ai";
+import { aiClient, logUsage } from "@/lib/ai-server";
 import { openApp, type BotDeps, type BotStats } from "@/lib/bot/handler";
+import { BOT_USERNAME_DEFAULT, CHAT_DAILY_ANSWERS, hamjamiyatChatId, USER_DAILY_ANSWERS, type CommunityDeps } from "@/lib/bot/hamjamiyat";
 import { botEnv, env } from "@/lib/env";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
+import { findSources } from "@/lib/tutor-server";
+import { sourceRef } from "@/lib/tutor";
 
 let cached: { token: string; api: BotApi } | null = null;
 
@@ -13,10 +18,47 @@ export function botApi(): BotApi | null {
   return cached.api;
 }
 
+export function botUsername(): string {
+  return (env().NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? BOT_USERNAME_DEFAULT).replace(/^@/, "");
+}
+
+/** Hamjamiyat guruhi: profil tekshiruvi, kunlik limit (atomar, bazada) va AI javob (qonun bazasidagi moddalar bilan) */
+export function communityDeps(): CommunityDeps {
+  const admin = createSupabaseAdmin();
+  const chatId = hamjamiyatChatId();
+  return {
+    chatId,
+    botId: Number(botEnv()?.TELEGRAM_BOT_TOKEN.split(":")[0] ?? 0),
+    username: botUsername(),
+    async knownUser(telegramId) {
+      const { data } = await admin.from("profiles").select("id").eq("telegram_id", telegramId).limit(1);
+      return (data?.length ?? 0) > 0;
+    },
+    async consume(telegramId) {
+      const { data, error } = await admin.rpc("consume_community_quota", {
+        p_chat: chatId, p_user: telegramId, p_user_limit: USER_DAILY_ANSWERS, p_chat_limit: CHAT_DAILY_ANSWERS,
+      });
+      return !error && data === true;
+    },
+    async answer(question, context) {
+      const c = aiClient();
+      if (!c) return null;
+      const sources = await findSources(question, null, { max: 4 }).catch(() => []);
+      const r = await communityAnswer(c, {
+        question, context, sources: sources.map((a) => ({ ref: sourceRef(a), title: a.title, body: a.body })),
+      });
+      if (!r.ok) return null;
+      await logUsage(null, "community", r.usage).catch(() => {});
+      return r.data.answer.trim() || null;
+    },
+  };
+}
+
 export function botDeps(api: BotApi): BotDeps {
   const admin = createSupabaseAdmin();
   return {
     api,
+    community: communityDeps(),
     siteUrl: env().NEXT_PUBLIC_SITE_URL,
     async stats(telegramId) {
       const { data, error } = await admin.rpc("bot_user_stats", { p_telegram: telegramId });

@@ -550,3 +550,51 @@ export async function analyzeDocument(client: Anthropic, opts: { attachment: Att
     maxTokens: 12000,
   });
 }
+
+// ─────────────────────────── 6. Hamjamiyat guruhi (Telegram) ───────────────────────────
+
+export const COMMUNITY_SYSTEM = [
+  "Siz Femida Edu botisiz (@femidaedu_bot) va «Sulton Juraev | Hamjamiyat · AI» Telegram guruhida savolga qisqa javob berasiz.",
+  "Femida Edu — har kim uchun huquqni o'rganish: 18 huquq sohasi va kodekslar moddalari, AI ustoz (modda tushuntirish, kazus tahlili),",
+  "mashq va testlar, jonli viktorina, yurist bilan bog'lanish.",
+  "Javob: o'zbek (lotin), oddiy matn (Markdown, HTML, sarlavha yo'q), 600 belgigacha, 2–4 gap. Modda raqamini faqat <manbalar> da bo'lsa ayting:",
+  "(MK 12-modda); o'ylab topmang. Shaxsiy ish bo'yicha — umumiy qoida va yuristga murojaat tavsiyasi.",
+  "Boshqa yo'nalish savollari: milliy sertifikat testlari — @aplushuquq_bot; jinoyat huquqi seminarlari — @doyse_uz_bot;",
+  "ilmiy maqola/dissertatsiya yozish — @ilmiyagentbot. Bunday savolga bir gap bilan javob berib, tegishli botni ko'rsating.",
+  "Huquqqa aloqasiz savollarga xushmuomalalik bilan qisqa rad javobi. Siyosat, shaxslar haqida mish-mish va haqoratga kirishmang.",
+  UNTRUSTED,
+].join("\n");
+
+export const CommunitySchema = z.object({ answer: z.string() });
+
+export async function communityAnswer(client: Anthropic, opts: { question: string; context: string | null; sources: TutorSource[] }) {
+  return parseStructured(client, {
+    system: COMMUNITY_SYSTEM,
+    user: [
+      tag("manbalar", sourcesText(opts.sources, 2500)),
+      opts.context ? tag("oquvchi_iqtibos", opts.context.slice(0, 1000)) : "",
+      tag("oquvchi_savoli", opts.question.slice(0, 1500)),
+    ].filter(Boolean).join("\n"),
+    schema: CommunitySchema,
+    effort: "low",
+    maxTokens: 4000,
+  });
+}
+
+export const TIP_SYSTEM = [
+  "Siz Femida Edu uchun Telegram guruhiga kunlik qisqa «saboqcha» yozasiz: berilgan bitta qonun moddasi asosida foydali, qiziqarli fakt yoki maslahat.",
+  "Faqat <modda> matniga tayaning, boshqa modda raqamlarini keltirmang. 450 belgigacha, o'zbek (lotin), oddiy matn, Markdown yo'q.",
+  "Tuzilma: qiziqtiruvchi savol yoki hayotiy vaziyat → modda nima deydi (sodda) → bir jumlalik xulosa. Emoji ko'pi bilan 1 ta.",
+].join("\n");
+
+export const TipSchema = z.object({ text: z.string() });
+
+export async function communityTip(client: Anthropic, article: TutorSource) {
+  return parseStructured(client, {
+    system: TIP_SYSTEM,
+    user: tag("modda", `[${article.ref}] ${article.title ?? ""}\n${article.body.slice(0, 4000)}`),
+    schema: TipSchema,
+    effort: "low",
+    maxTokens: 4000,
+  });
+}

@@ -1,6 +1,7 @@
 // Bot yangilanishlarini (webhook) qayta ishlash. Baza va Bot API tashqaridan beriladi — test qilish oson.
 import { esc, type BotApi, type InlineButton } from "@/lib/bot/api";
 import { BOT_LOGIN_PREFIX, hashLoginToken, isLoginToken, tgFromCallback } from "@/lib/bot-login";
+import { approveJoin, handleGroupMessage, handleJoinRequest, type CommunityDeps, type GroupMessage, type JoinRequest } from "@/lib/bot/hamjamiyat";
 import type { TelegramUser } from "@/lib/telegram";
 
 export type BotStats =
@@ -26,14 +27,17 @@ export type BotDeps = {
   loginRequest(tokenHash: string): Promise<{ id: string } | null>;
   /** Tasdiqlash — faqat hali tasdiqlanmagan va muddati o'tmagan so'rov uchun; true = tasdiqlandi */
   confirmLogin(id: string, tg: TelegramUser): Promise<boolean>;
+  /** Hamjamiyat guruhi (ixtiyoriy — berilmasa guruh bilan ishlanmaydi) */
+  community?: CommunityDeps;
 };
 
 type TgUser = { id: number; first_name?: string; last_name?: string; username?: string; is_bot?: boolean };
 export type Update = {
   update_id: number;
-  message?: { message_id: number; from?: TgUser; chat: { id: number; type: string }; text?: string };
+  message?: GroupMessage;
   callback_query?: { id: string; from: TgUser; data?: string; message?: { message_id: number; chat: { id: number; type: string } } };
   my_chat_member?: { chat: { id: number; type: string }; from: TgUser; new_chat_member: { status: string } };
+  chat_join_request?: JoinRequest;
 };
 
 /** Mini App kirish nuqtasi: foydalanuvchini tizimga kiritib, kerakli sahifaga olib boradi */
@@ -104,12 +108,25 @@ export async function handleUpdate(u: Update, d: BotDeps): Promise<void> {
     return;
   }
 
+  if (u.chat_join_request) {
+    if (d.community) await handleJoinRequest(u.chat_join_request, d.api, d.community);
+    return;
+  }
+
   const m = u.message;
-  if (!m?.text || m.chat.type !== "private" || !m.from || m.from.is_bot) return;
+  // Guruhlar: faqat hamjamiyat guruhida va faqat botga qaratilgan xabarlarga javob; boshqa hamma narsa — e'tiborsiz
+  if (m && m.chat.type !== "private") {
+    if (d.community) await handleGroupMessage(m, d.api, d.community);
+    return;
+  }
+  if (!m?.text || !m.from || m.from.is_bot) return;
   const chat = m.chat.id;
   const tgId = m.from.id;
   const [first, arg = ""] = m.text.trim().split(/\s+/);
   const cmd = first.toLowerCase().replace(/@.*$/, "");
+
+  // Botni ochgan odamning hamjamiyat guruhiga qo'shilish so'rovi bo'lsa — tasdiqlanadi (so'rov yo'q bo'lsa jim)
+  if (cmd === "/start" && d.community) await approveJoin(d.api, d.community.chatId, tgId);
 
   // Saytdan kelgan kirish so'rovi: /start login_<kod>
   if (cmd === "/start" && arg.startsWith(BOT_LOGIN_PREFIX)) {

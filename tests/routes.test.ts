@@ -67,6 +67,22 @@ describe("GET /api/cron/eslatma", () => {
   });
 });
 
+describe("GET /api/cron/hamjamiyat", () => {
+  const req = (auth?: string) => new NextRequest(`${SITE}/api/cron/hamjamiyat`, { headers: auth ? { authorization: `Bearer ${auth}` } : {} });
+
+  it("CRON_SECRET yo'q — 503; noto'g'ri — 403", async () => {
+    baseEnv({ TELEGRAM_WEBHOOK_SECRET: SECRET });
+    let { GET } = await import("@/app/api/cron/hamjamiyat/route");
+    expect((await GET(req(SECRET))).status).toBe(503);
+
+    vi.resetModules();
+    vi.stubEnv("CRON_SECRET", SECRET);
+    ({ GET } = await import("@/app/api/cron/hamjamiyat/route"));
+    expect((await GET(req())).status).toBe(403);
+    expect((await GET(req("y".repeat(32)))).status).toBe(403);
+  });
+});
+
 describe("POST /api/auth/telegram-webapp", () => {
   function initData(token = TOKEN) {
     const fields = { user: JSON.stringify({ id: 42, first_name: "Ali" }), auth_date: String(Math.floor(Date.now() / 1000)) };
