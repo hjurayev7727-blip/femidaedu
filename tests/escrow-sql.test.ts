@@ -25,7 +25,7 @@ async function payByPayme(orderId: number) {
   const p = await one<{ code: string; amount_uzs: number }>(`select public.create_service_payme_order($1, $2) as r`, [C, orderId]);
   const id = `tx${++txn}`;
   const params = { id, time: Date.now(), amount: p!.amount_uzs * 100, account: { order_id: p!.code } };
-  expect((await rpc("CheckPerformTransaction", params))?.result).toEqual({ allow: true });
+  expect((await rpc("CheckPerformTransaction", params))?.result).toMatchObject({ allow: true, detail: { receipt_type: 0, items: [{ code: "10899001001000000", vat_percent: 0 }] } });
   expect((await rpc("CreateTransaction", params))?.result).toMatchObject({ state: 1 });
   expect((await rpc("PerformTransaction", { id }))?.result).toMatchObject({ state: 2 });
   return id;

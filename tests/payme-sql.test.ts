@@ -1,5 +1,7 @@
 // Payme Merchant API mantig'i (payme_rpc) — Payme sandbox ssenariylari bo'yicha.
 import type { PGlite } from "@electric-sql/pglite";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
 import { asUser, createTestDb } from "./helpers/db";
 
@@ -42,7 +44,13 @@ describe("payme_rpc", () => {
     const { code } = await order(u);
     expect((await rpc("CheckPerformTransaction", { amount: 4900000, account: { order_id: "FZZZZZZZZZ" } })).error).toMatchObject({ code: -31050, data: "order_id" });
     expect((await rpc("CheckPerformTransaction", { amount: 100, account: { order_id: code } })).error?.code).toBe(-31001);
-    expect((await rpc("CheckPerformTransaction", { amount: 4900000, account: { order_id: code } })).result).toEqual({ allow: true });
+    expect((await rpc("CheckPerformTransaction", { amount: 4900000, account: { order_id: code } })).result).toEqual({
+      allow: true,
+      detail: {
+        receipt_type: 0,
+        items: [{ title: "Ta'lim xizmati", price: 4900000, count: 1, code: "10899001001000000", package_code: "1236092", vat_percent: 0 }],
+      },
+    });
   });
 
   it("to'liq yo'l: Create → (qayta Create) → Perform → Premium; ikkinchi tranzaksiya rad etiladi", async () => {
@@ -125,5 +133,17 @@ describe("payme_rpc", () => {
     await expect(asUser(db, u, () => db.query(`select public.payme_rpc('CheckTransaction', '{}')`))).rejects.toThrow(/permission denied/);
     await expect(asUser(db, u, () => db.query(`select public.create_payme_order('${u}', 'oy1')`))).rejects.toThrow(/permission denied/);
     await expect(asUser(db, u, () => db.query(`select * from public.payme_transactions`))).rejects.toThrow(/permission denied/);
+  });
+});
+
+describe("payme fiskal migratsiyasi", () => {
+  it("qayta ishga tushirilsa ham buzilmaydi (idempotent), core mijozga yopiq", async () => {
+    await db.exec(readFileSync(join(__dirname, "..", "supabase/migrations/20261011000027_payme_fiscal.sql"), "utf8"));
+    const u = await newUser();
+    const { code } = await order(u);
+    const r = await rpc("CheckPerformTransaction", { amount: 4900000, account: { order_id: code } });
+    expect(r.result).toMatchObject({ allow: true, detail: { items: [{ price: 4900000, package_code: "1236092" }] } });
+    expect((r.result!.detail as { items: unknown[] }).items).toHaveLength(1);
+    await expect(asUser(db, u, () => db.query(`select public.payme_rpc_core('CheckTransaction', '{}')`))).rejects.toThrow(/permission denied/);
   });
 });

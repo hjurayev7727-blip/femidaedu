@@ -3,6 +3,7 @@ import { AI_DAILY_LIMIT } from "@/lib/ai-server";
 import { requireUser } from "@/lib/auth";
 import { FREE_MONTHLY_MOCKS } from "@/lib/mock-server";
 import { formatUzs, type ManualPaymentSettings, type Plan } from "@/lib/payments";
+import { OtherPayMethods, PaymePrimary } from "@/components/pay-options";
 import { paymeEnv } from "@/lib/payme";
 import { FREE_DAILY_LIMIT } from "@/lib/practice";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
@@ -60,6 +61,32 @@ export default async function PremiumPage({ searchParams }: PageProps<"/app/prem
   const pending = (payments ?? []).some((p) => p.status === "pending");
   const canPayManually = Boolean(pay?.card?.trim()) && (plans ?? []).length > 0;
 
+  // Qo'lda to'lov (karta → chek) — Payme yoqilgan bo'lsa ikkinchi darajali, yig'ilgan holda
+  const manualBody = (
+    !canPayManually ? (
+      <p className="rounded-xl bg-amber-soft px-4 py-3 text-sm">To&apos;lov hozircha qabul qilinmayapti — tez orada ochiladi.</p>
+    ) : pending ? (
+      <p className="rounded-xl bg-amber-soft px-4 py-3 text-sm font-semibold">
+        Chekingiz tekshirilmoqda. Tasdiqlangach Premium avtomatik yoqiladi (odatda 24 soat ichida).
+      </p>
+    ) : (
+      <>
+        <ol className="space-y-2 text-[15px]">
+          <li>
+            <b>1.</b> Tanlangan tarif summasini kartaga o&apos;tkazing:
+            <span className="mt-1.5 block rounded-xl bg-bg px-4 py-3">
+              <span className="block font-mono text-lg font-extrabold tracking-wider">{pay!.card}</span>
+              {pay!.holder && <span className="text-sm text-mute">{pay!.holder}</span>}
+            </span>
+          </li>
+          <li><b>2.</b> To&apos;lov chekini (skrinshot) shu yerga yuklang.</li>
+          {pay!.note && <li className="text-sm text-mute">{pay!.note}</li>}
+        </ol>
+        <PayForm plans={(plans ?? []).map((p) => ({ code: p.code, title: p.title, months: p.months, price: formatUzs(p.price_uzs) }))} />
+      </>
+    )
+  );
+
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div className="bg-hero rounded-[22px] p-6 text-white">
@@ -113,50 +140,34 @@ export default async function PremiumPage({ searchParams }: PageProps<"/app/prem
       )}
 
       {payme && (plans ?? []).length > 0 && (
-        <section className="card space-y-3">
-          <h2 className="text-lg font-extrabold">{premium ? "Muddatni uzaytirish" : "Premium olish"} — Payme</h2>
-          <p className="text-sm text-mute">Istalgan bank kartasi (Uzcard, Humo) bilan. Premium to&apos;lovdan so&apos;ng darhol yoqiladi.</p>
+        <PaymePrimary
+          title={`${premium ? "Muddatni uzaytirish" : "Premium olish"} — Payme`}
+          hint={<>Istalgan bank kartasi (Uzcard, Humo) bilan. Premium to&apos;lovdan so&apos;ng darhol, avtomatik yoqiladi.</>}
+        >
           <div className="grid gap-3 sm:grid-cols-2">
             {plans!.map((p) => (
               <form key={p.code} action={payWithPayme}>
                 <input type="hidden" name="plan" value={p.code} />
                 <button type="submit" className="btn-primary w-full">
-                  {p.title} — {formatUzs(p.price_uzs)}
+                  Payme · {p.title} — {formatUzs(p.price_uzs)}
                 </button>
               </form>
             ))}
           </div>
-        </section>
+        </PaymePrimary>
       )}
 
-      {(canPayManually || !payme) && (
-      <section className="card space-y-4">
-        <h2 className="text-lg font-extrabold">
-          {payme ? "Karta orqali o'tkazma (chek bilan)" : premium ? "Muddatni uzaytirish" : "Premium olish"}
-        </h2>
-        {!canPayManually ? (
-          <p className="rounded-xl bg-amber-soft px-4 py-3 text-sm">To&apos;lov hozircha qabul qilinmayapti — tez orada ochiladi.</p>
-        ) : pending ? (
-          <p className="rounded-xl bg-amber-soft px-4 py-3 text-sm font-semibold">
-            Chekingiz tekshirilmoqda. Tasdiqlangach Premium avtomatik yoqiladi (odatda 24 soat ichida).
-          </p>
-        ) : (
-          <>
-            <ol className="space-y-2 text-[15px]">
-              <li>
-                <b>1.</b> Tanlangan tarif summasini kartaga o&apos;tkazing:
-                <span className="mt-1.5 block rounded-xl bg-bg px-4 py-3">
-                  <span className="block font-mono text-lg font-extrabold tracking-wider">{pay!.card}</span>
-                  {pay!.holder && <span className="text-sm text-mute">{pay!.holder}</span>}
-                </span>
-              </li>
-              <li><b>2.</b> To&apos;lov chekini (skrinshot) shu yerga yuklang.</li>
-              {pay!.note && <li className="text-sm text-mute">{pay!.note}</li>}
-            </ol>
-            <PayForm plans={(plans ?? []).map((p) => ({ code: p.code, title: p.title, months: p.months, price: formatUzs(p.price_uzs) }))} />
-          </>
-        )}
-      </section>
+      {payme && canPayManually && (
+        <OtherPayMethods summary="Boshqa usul: karta orqali o'tkazma (chek bilan)" open={pending}>
+          {manualBody}
+        </OtherPayMethods>
+      )}
+
+      {!payme && (
+        <section className="card space-y-4">
+          <h2 className="text-lg font-extrabold">{premium ? "Muddatni uzaytirish" : "Premium olish"}</h2>
+          {manualBody}
+        </section>
       )}
 
       {(payments ?? []).length > 0 && (

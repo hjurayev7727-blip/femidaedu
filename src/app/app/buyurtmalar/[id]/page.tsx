@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { DisputeForm, ReceiptForm, ReviewForm } from "@/components/escrow/order-forms";
+import { OtherPayMethods, RecommendedBadge } from "@/components/pay-options";
 import { requireUser } from "@/lib/auth";
 import { fmtUz } from "@/lib/dates";
 import { ORDER_STATUS, orderActions, RELEASE_DAYS } from "@/lib/escrow";
@@ -33,6 +34,15 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/ap
   const st = ORDER_STATUS[o.status];
   const c = contacts as { phone: string | null; telegram: string | null } | null;
   const hidden = (n: number) => <input type="hidden" name="order" value={n} />;
+  // Payme — asosiy usul; karta → chek — ikkinchi darajali (Payme yoqilgan bo'lsa yig'ilgan)
+  const payme = paymeEnv() !== null;
+  const cardPay = pay?.value?.card ? (
+    <div className="space-y-2 rounded-xl bg-bg p-3">
+      <p className="text-sm">Karta orqali: <b>{pay.value.card}</b>{pay.value.holder && <> ({pay.value.holder})</>} — {fmtSum(o.amount_uzs)}, keyin chekni yuklang.</p>
+      {o.receipt_note && <p className="text-sm font-semibold text-no">Oldingi chek: {o.receipt_note}</p>}
+      <ReceiptForm order={o.id} action={uploadReceipt} />
+    </div>
+  ) : null;
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
@@ -67,15 +77,15 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/ap
         <section className="card space-y-4">
           <h2 className="font-extrabold">To&apos;lov</h2>
           <p className="text-sm text-mute">Pul platformada saqlanadi. Xizmatni tasdiqlaganingizdan so&apos;ng (yoki yurist topshirgach {RELEASE_DAYS} kun ichida e&apos;tiroz bo&apos;lmasa) yuristga o&apos;tadi. Muammo bo&apos;lsa — e&apos;tiroz bildirasiz va admin hal qiladi.</p>
-          {paymeEnv() && <form action={payWithPayme}>{hidden(o.id)}<button className="btn-primary">Payme orqali to&apos;lash</button></form>}
-          {pay?.value?.card && (
-            <div className="space-y-2 rounded-xl bg-bg p-3">
-              <p className="text-sm">Karta orqali: <b>{pay.value.card}</b>{pay.value.holder && <> ({pay.value.holder})</>} — {fmtSum(o.amount_uzs)}, keyin chekni yuklang.</p>
-              {o.receipt_note && <p className="text-sm font-semibold text-no">Oldingi chek: {o.receipt_note}</p>}
-              <ReceiptForm order={o.id} action={uploadReceipt} />
-            </div>
+          {payme && (
+            <form action={payWithPayme} className="space-y-1.5">
+              {hidden(o.id)}
+              <div className="flex items-center gap-2 text-sm font-bold">Payme — karta orqali onlayn <RecommendedBadge /></div>
+              <button className="btn-primary w-full">Payme orqali to&apos;lash · {fmtSum(o.amount_uzs)}</button>
+            </form>
           )}
-          {!paymeEnv() && !pay?.value?.card && <p className="text-sm font-semibold text-amber">To&apos;lov usullari hali sozlanmagan.</p>}
+          {cardPay && (payme ? <OtherPayMethods summary="Boshqa usul: karta orqali o'tkazma (chek bilan)" open={Boolean(o.receipt_note)}>{cardPay}</OtherPayMethods> : cardPay)}
+          {!payme && !pay?.value?.card && <p className="text-sm font-semibold text-amber">To&apos;lov usullari hali sozlanmagan.</p>}
         </section>
       )}
 
