@@ -1,4 +1,4 @@
-// data/v1/bundle.json ni Supabase bazasiga yuklaydi:  npm run db:import
+// data/v1/bundle.json (yoki argument: npm run db:import -- data/v2/bundle.json) ni Supabase bazasiga yuklaydi:  npm run db:import
 // DATABASE_URL — Supabase → Connect → "Session pooler" satri (parol bilan). Faqat .env.local da saqlang.
 import { readFileSync } from "node:fs";
 import postgres from "postgres";
@@ -16,7 +16,7 @@ if (!url) {
   process.exit(1);
 }
 
-const bundle = JSON.parse(readFileSync("data/v1/bundle.json", "utf8")) as Bundle;
+const bundle = JSON.parse(readFileSync(process.argv[2] ?? "data/v1/bundle.json", "utf8")) as Bundle;
 const sql = postgres(url, { max: 1, prepare: false, onnotice: () => {} });
 
 async function main() {

@@ -1323,6 +1323,110 @@
       ],
       "owner": "Yopib qo'y",
       "decision": "aplushuquq#1 yopildi (branch saqlangan)."
+    },
+    {
+      "id": 102,
+      "block": "Q. Savol bazasini qayta tuzish",
+      "q": "Qaysi savollarni qayta tuzamiz?",
+      "multi": false,
+      "options": [
+        "Hammasini, hujjat bo'yicha ketma-ket",
+        "Faqat zaif savollar",
+        "Faqat open/case/ordering turlari"
+      ],
+      "owner": "Rustamboyev darsligi bo'yicha ketma-ket",
+      "decision": "Savollar Rustamboyev darsligi boblari tartibida qayta tuziladi."
+    },
+    {
+      "id": 103,
+      "block": "Q. Savol bazasini qayta tuzish",
+      "q": "ANTHROPIC_API_KEY ni qanday olamiz?",
+      "multi": false,
+      "options": [
+        "Cloud muhit sirlariga qo'shiladi",
+        "Vercel/Supabase'dagi mavjud kalit",
+        "Kalitsiz: Claude Code yozadi"
+      ],
+      "owner": "Vercel/Supabase'dagi mavjud kalit",
+      "decision": "Vercel MCP 403 qaytardi (scope hjurayev7727-blip); kalit hali olinmadi."
+    },
+    {
+      "id": 104,
+      "block": "Q. Savol bazasini qayta tuzish",
+      "q": "Xarajat/usage himoyasi?",
+      "multi": false,
+      "options": [
+        "Batch API + qattiq limit",
+        "Oddiy API, kichik partiyalar",
+        "Faqat sinov (50 savol)"
+      ],
+      "owner": "Batch API + qattiq limit",
+      "decision": "Batch API (-50%), sinov partiyasi avval, limitga yetsa to'xtaydi."
+    },
+    {
+      "id": 105,
+      "block": "Q. Savol bazasini qayta tuzish",
+      "q": "Qaysi model?",
+      "multi": false,
+      "options": [
+        "Sonnet 5.5 yozadi, Opus 5.5 tekshiradi",
+        "Hammasi Opus 5.5",
+        "Hammasi Haiku 5.5"
+      ],
+      "owner": "Sonnet 5.5 yozadi, Opus 5.5 tekshiradi",
+      "decision": "Ikki bosqich: yozish Sonnet, tekshiruv Opus."
+    },
+    {
+      "id": 106,
+      "block": "Q. Savol bazasini qayta tuzish",
+      "q": "Darslik matni qayerdan?",
+      "multi": false,
+      "options": [
+        "Siz fayl yuklaysiz",
+        "Google Drive'dan topaman",
+        "Faqat 52 hujjat tartibida"
+      ],
+      "owner": "CLAUDE AI papkada bor, Word, bobma-bob",
+      "decision": "Fayl egasining Mac'ida; Drive'da topilmadi — yuklash kerak."
+    },
+    {
+      "id": 107,
+      "block": "Q. Savol bazasini qayta tuzish",
+      "q": "Vercel'dagi kalitni qanday olaman?",
+      "multi": false,
+      "options": [
+        "Vercel MCP orqali, faqat jarayon xotirasida",
+        "Yangi alohida kalit",
+        "Claude Code o'zim yozaman"
+      ],
+      "owner": "Vercel MCP orqali ANTHROPIC_API_KEY ni o'qiyman, faqat jarayon xotirasida",
+      "decision": "Kalit faylga/git'ga/chatga yozilmaydi."
+    },
+    {
+      "id": 108,
+      "block": "Q. Savol bazasini qayta tuzish",
+      "q": "Jami API xarajat chegarasi?",
+      "multi": false,
+      "options": [
+        "$20",
+        "$50",
+        "$5"
+      ],
+      "owner": "$20",
+      "decision": "Skript $20 dan oshsa o'zi to'xtaydi; sinov ~$1."
+    },
+    {
+      "id": 109,
+      "block": "Q. Savol bazasini qayta tuzish",
+      "q": "Yangi savollar qanday kiradi?",
+      "multi": false,
+      "options": [
+        "Faylga (data/v2), draft PR",
+        "To'g'ridan-to'g'ri production",
+        "Faqat hisobot"
+      ],
+      "owner": "Faylga (data/v2), eskisi o'zgarmaydi, draft PR",
+      "decision": "data/v1 saqlanadi, db:import ko'rib chiqilgach."
     }
   ]
 }
