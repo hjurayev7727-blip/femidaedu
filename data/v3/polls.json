@@ -1323,6 +1323,163 @@
       ],
       "owner": "Yopib qo'y",
       "decision": "aplushuquq#1 yopildi (branch saqlangan)."
+    },
+    {
+      "id": 102,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Jonli viktorina (PIN, QR, xost ekrani) bilan nima qilamiz?",
+      "multi": false,
+      "options": [
+        "To'liq olib tashlash",
+        "Yashirish, kod qolsin",
+        "Faqat markaz/o'qituvchilarga"
+      ],
+      "owner": "To'liq olib tashlash",
+      "decision": "Jonli viktorina olib tashlanadi: /jonli sahifalari, komponentlar, menyu va havolalar o'chiriladi; jadvallar yangi migratsiya bilan o'chiriladi. Kod git tarixida qoladi."
+    },
+    {
+      "id": 103,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Ilovani ochgan odam birinchi nimani ko'rsin?",
+      "multi": false,
+      "options": [
+        "Savol berish maydoni",
+        "Uch teng tugma",
+        "Bilim olish (sohalar)",
+        "Yurist topish"
+      ],
+      "owner": "Savol berish maydoni",
+      "decision": "Bosh ekran: yuqorida 'Savolingizni yozing' (AI moddalar bilan javob), pastda hayotiy vaziyatlar va tasdiqlangan yuristlar."
+    },
+    {
+      "id": 104,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Foydalanuvchi savoliga javob qanday beriladi?",
+      "multi": false,
+      "options": [
+        "AI darhol + yuristga o'tish",
+        "Ochiq savol-javob forumi",
+        "Ikkalasi ham",
+        "Faqat yurist javob beradi"
+      ],
+      "owner": "AI darhol + yuristga o'tish",
+      "decision": "AI bazadagi moddalar bilan darhol javob beradi; davomi — yuristga o'tish (113-savol). Ochiq forum yo'q."
+    },
+    {
+      "id": 105,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Yuristlar va advokatlar platformada nima qila olsin?",
+      "multi": true,
+      "options": [
+        "Pullik konsultatsiya",
+        "Ochiq savollarga javob",
+        "Maqola va qo'llanma yozish",
+        "Profil va katalog"
+      ],
+      "owner": "Pullik konsultatsiya",
+      "decision": "Yurist roli — pullik konsultatsiya (chat, escrow — mavjud buyurtma tizimi). Katalog profili shu uchun kerak bo'lgan darajada qoladi; ochiq javoblar va maqolalar hozircha yo'q."
+    },
+    {
+      "id": 106,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Yurist va advokat qanday tekshirilsin?",
+      "multi": false,
+      "options": [
+        "Hujjat + reyestr tekshiruvi",
+        "Faqat hujjat yuklash",
+        "Tekshiruvsiz, sharhlar hal qiladi"
+      ],
+      "owner": "Hujjat + reyestr tekshiruvi",
+      "decision": "Diplom yoki advokatlik guvohnomasi yuklanadi, admin palata reyestri bilan solishtiradi, keyin 'Tasdiqlangan' belgisi. Tasdiqlanmagan yurist katalogda va tavsiyalarda chiqmaydi."
+    },
+    {
+      "id": 107,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Yurist va advokat alohida turmi?",
+      "multi": false,
+      "options": [
+        "Ha, alohida belgi",
+        "Bitta 'Yurist' toifasi"
+      ],
+      "owner": "Ha, alohida belgi",
+      "decision": "Ikki tur: 'Advokat' (litsenziya, sudda himoya) va 'Yurist' (maslahat, hujjat). Profilda belgi, katalogda filtr; advokatdan litsenziya raqami majburiy."
+    },
+    {
+      "id": 108,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Platforma qanday daromad qiladi?",
+      "multi": false,
+      "options": [
+        "Obuna + konsultatsiya komissiyasi",
+        "Faqat komissiya, bilim bepul",
+        "Yuristlar obunasi"
+      ],
+      "owner": "Obuna + konsultatsiya komissiyasi",
+      "decision": "Foydalanuvchi Premium (ko'proq AI savol, hujjat tahlili) + har yurist buyurtmasidan komissiya (escrow). Payme asosiy to'lov usuli bo'lib qoladi."
+    },
+    {
+      "id": 109,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Milliy sertifikat (imtihonga tayyorlov, reyting) nima bo'ladi?",
+      "multi": false,
+      "options": [
+        "Qoladi, ikkinchi darajali",
+        "Asosiy yo'nalish bo'lib qoladi",
+        "Olib tashlash"
+      ],
+      "owner": "Qoladi, ikkinchi darajali",
+      "decision": "Sinov imtihoni, mashq, takrorlash, reyting 'Bilim' ichida alohida bo'lim; bosh ekranda emas."
+    },
+    {
+      "id": 110,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Oddiy fuqaro uchun bilim asosan qanday ko'rinishda bo'lsin?",
+      "multi": false,
+      "options": [
+        "Hayotiy vaziyatlar qo'llanmasi",
+        "Kodeks moddalari + test",
+        "Ikkalasi teng"
+      ],
+      "owner": "Hayotiy vaziyatlar qo'llanmasi",
+      "decision": "'Bilim' bosh formati — hayotiy vaziyatlar ('Ishdan bo'shatishdi', 'Aliment', 'Ijara'): qadam-baqadam, har qadamda modda havolasi. Sohalar va moddalar ichkarida qoladi."
+    },
+    {
+      "id": 111,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "AI test yaratish va ulashish qoladimi?",
+      "multi": false,
+      "options": [
+        "Qoladi, Bilim bo'limida",
+        "Asosiy menyuda qolsin",
+        "Olib tashlash"
+      ],
+      "owner": "Olib tashlash",
+      "decision": "AI test yaratish va ulashish (/app/testlar, /t/kod, guruhga vazifa) olib tashlanadi; faqat rasmiy testlar (sohalar, sertifikat) qoladi. 4, 6–21, 22–25 (UGC qismi) qarorlari bekor."
+    },
+    {
+      "id": 112,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "AI javobidan keyin yuristga o'tish qanday ko'rinsin?",
+      "multi": false,
+      "options": [
+        "Mos yuristlar kartasi",
+        "Bitta 'Yuristga yuborish' tugmasi",
+        "Faqat murakkab savollarda"
+      ],
+      "owner": "Mos yuristlar kartasi",
+      "decision": "AI javobi ostida savol sohasi va foydalanuvchi hududiga mos 2–3 tasdiqlangan yurist/advokat, narxi bilan; tanlansa savol matni buyurtmaga avtomatik o'tadi."
+    },
+    {
+      "id": 113,
+      "block": "Q. Yo'nalish: savol-javob, bilim va yuristlar (2026-10-17)",
+      "q": "Bot va mini-ilova menyusi qanday bo'lsin?",
+      "multi": false,
+      "options": [
+        "Savol · Bilim · Yuristlar · Profil",
+        "Savol · Bilim · Yuristlar · Testlar · Profil"
+      ],
+      "owner": "Savol · Bilim · Yuristlar · Profil",
+      "decision": "Asosiy menyu 4 bo'lim: Savol, Bilim, Yuristlar, Profil. Sertifikat, mashq, takrorlash va AI ustoz — Bilim ichida."
     }
   ]
 }
