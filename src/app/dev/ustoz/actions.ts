@@ -19,10 +19,8 @@ export async function demoAsk(threadId: string | null, _mode: unknown, _q: unkno
     },
   };
 }
+
 export async function demoPlan(_prev: PlanState, _form: FormData): Promise<PlanState> {
   dev();
   return { ok: false, message: "DEV: namuna — reja tuzilmaydi." };
-}
-export async function demoMistakes() {
-  dev();
 }

@@ -11,9 +11,9 @@ const PILLARS = [
 ];
 
 const FEATURES = [
-  { icon: "🎯", title: "Mashq va testlar", text: "Soha va modda bo'yicha minglab savol, o'z testingizni yaratish va do'stlar bilan ulashish." },
+  { icon: "🎯", title: "Mashq va testlar", text: "Soha va modda bo'yicha minglab savol — har birida qonun moddasi va izoh." },
   { icon: "🔁", title: "Bilimni mustahkamlash", text: "Xato qilgan savollaringiz 1 → 3 → 7 → 14 kun oralig'ida qayta beriladi." },
-  { icon: "🏆", title: "Jonli viktorina", text: "Sinf yoki jamoa bilan real vaqtda bellashuv — PIN orqali telefondan qo'shiling." },
+  { icon: "💡", title: "AI yordamchi", text: "Modda yoki vaziyatni oddiy tilda, misol bilan tushuntiradi va o'quv reja tuzadi." },
   { icon: "🤖", title: "Telegram bot", text: "Kunlik savollar, eslatmalar va javoblar to'g'ridan-to'g'ri Telegram'da." },
 ];
 

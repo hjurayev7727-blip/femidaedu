@@ -2,7 +2,7 @@
 import Script from "next/script";
 import { useEffect, useState } from "react";
 
-type TelegramWebApp = { initData: string; initDataUnsafe?: { start_param?: string }; ready(): void; expand(): void };
+type TelegramWebApp = { initData: string; ready(): void; expand(): void };
 declare global {
   interface Window {
     Telegram?: { WebApp?: TelegramWebApp };
@@ -14,14 +14,6 @@ const TEXT: Record<string, string> = {
   signature: "Telegram ma'lumotini tasdiqlab bo'lmadi. Botni qayta ochib ko'ring.",
   server: "Serverda xatolik. Birozdan keyin urinib ko'ring.",
 };
-
-/** Bot havolasidagi startapp: t_K7Q2XM → foydalanuvchi testi, j_123456 → jonli viktorina */
-function startTarget(param: string | undefined): string | null {
-  const m = /^t_([A-HJ-NP-Z2-9]{6})$/.exec(param ?? "");
-  if (m) return `/t/${m[1]}`;
-  const j = /^j_(\d{6})$/.exec(param ?? "");
-  return j ? `/jonli?pin=${j[1]}` : null;
-}
 
 export function MiniAppLogin({ next }: { next: string }) {
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +34,7 @@ export function MiniAppLogin({ next }: { next: string }) {
         const r = await fetch("/api/auth/telegram-webapp", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ initData, keyin: startTarget(app.initDataUnsafe?.start_param) ?? next }),
+          body: JSON.stringify({ initData, keyin: next }),
         });
         const body = (await r.json().catch(() => ({}))) as { ok?: boolean; next?: string; error?: string };
         if (body.ok && body.next) window.location.replace(body.next);

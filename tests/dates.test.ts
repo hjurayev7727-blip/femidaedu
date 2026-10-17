@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { daysUntil } from "@/lib/dates";
+import { daysUntil, uzWeekStart } from "@/lib/dates";
 
 describe("daysUntil", () => {
   const exam = new Date("2026-12-23T09:00:00+05:00");
@@ -29,5 +29,12 @@ describe("effectiveStreak", () => {
     expect(effectiveStreak(5, "2026-10-09", now)).toBe(5);
     expect(effectiveStreak(5, "2026-10-08", now)).toBe(0);
     expect(effectiveStreak(5, null, now)).toBe(0);
+  });
+});
+
+describe("uzWeekStart", () => {
+  it("dushanba, Toshkent vaqti bo'yicha", () => {
+    expect(uzWeekStart(new Date("2026-10-04T20:00:00Z"))).toBe("2026-10-05"); // yakshanba 20:00 UTC = dushanba 01:00 Toshkent
+    expect(uzWeekStart(new Date("2026-10-01T09:00:00Z"))).toBe("2026-09-28");
   });
 });

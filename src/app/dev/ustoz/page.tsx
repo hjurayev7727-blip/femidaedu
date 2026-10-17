@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { TutorChat, type ChatMessage } from "@/components/tutor/chat";
 import { PlanForm, PlanView } from "@/components/tutor/plan";
 import { TutorHome } from "@/components/tutor/tutor-home";
-import { demoAsk, demoMistakes, demoPlan } from "./actions";
+import { demoAsk, demoPlan } from "./actions";
 
 const MESSAGES: ChatMessage[] = [
   { role: "user", content: "Namuna: sinov muddati qancha bo'lishi mumkin?" },
@@ -32,7 +32,7 @@ export default async function DevTutor({ searchParams }: PageProps<"/dev/ustoz">
       {page === "bosh" && (
         <TutorHome
           chat={<TutorChat threadId={null} mode="explain" messages={[]} ask={demoAsk} aiReady pickMode />}
-          weekUsed={4} weekLimit={10} premium={false} hasPlan={false} base="/dev/ustoz" mistakesAction={demoMistakes}
+          weekUsed={4} weekLimit={10} premium={false} hasPlan={false} base="/dev/ustoz"
           weak={[
             { article_id: 1, number: "105", title: null, doc_title: "Mehnat kodeksi", field_slug: "mehnat", seen: 4, correct: 1 },
             { article_id: 2, number: "12", title: null, doc_title: "Oila kodeksi", field_slug: "oila", seen: 3, correct: 1 },

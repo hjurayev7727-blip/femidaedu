@@ -6,7 +6,7 @@ import type { StudyPlan } from "@/lib/ai";
 import type { AiResult } from "@/lib/ai-server";
 import { requireUser } from "@/lib/auth";
 import { PlanGoalSchema, QuestionSchema } from "@/lib/tutor";
-import { askTutor, createMistakesTest, createStudyPlan, type TutorReply } from "@/lib/tutor-server";
+import { askTutor, createStudyPlan, type TutorReply } from "@/lib/tutor-server";
 
 async function premiumOf(supabase: Awaited<ReturnType<typeof requireUser>>["supabase"]) {
   const { data } = await supabase.rpc("is_premium");
@@ -39,11 +39,6 @@ export async function explainArticle(form: FormData) {
   redirect(r.ok ? `/app/yordamchi/${r.value.threadId}` : `/app/yordamchi?xato=${encodeURIComponent(r.message)}`);
 }
 
-export async function mistakesTest() {
-  const { supabase, userId } = await requireUser();
-  const r = await createMistakesTest(userId, await premiumOf(supabase));
-  redirect(r.ok ? `/app/testlar/${r.value.id}?yangi=${r.value.created}` : `/app/yordamchi?xato=${encodeURIComponent(r.message)}`);
-}
 
 export type PlanState = { ok: false; message: string } | { ok: true; plan: StudyPlan } | null;
 

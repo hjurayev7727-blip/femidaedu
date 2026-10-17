@@ -32,19 +32,10 @@ Next.js 16 + Supabase + Telegram. YURISTIM TEAM MChJ mahsuloti.
 - Modda progressi javob yozilganda trigger bilan yangilanadi; o'zlashtirish — kamida 2 to'g'ri va ≥ 2/3.
 - Supabase'siz ko'rish: `npm run dev` → `/dev/sohalar` (namuna ma'lumot).
 
-## V3 — 4-qism: AI bilan test yaratish va ulashish ✅ (kod)
+## V3 — 4-qism: AI bilan test yaratish va ulashish ❌ (olib tashlandi, 2026-10-17)
 
-- `/app/testlar` — mening testlarim, guruhga berilgan testlar, kod bilan ochish, haftalik AI limiti.
-- `/app/testlar/yangi` — manba: bazadagi moddalar (raqamlar yoki bob), matn, PDF/rasm; 5–50 savol (bepul: haftasiga 10 test × 10 savol).
-  AI 10 talik bo'laklarda tuzadi, savollar `article_ref` bo'yicha bazadagi moddaga bog'lanadi (topilmasa — "o'z materiali").
-- `/app/testlar/<id>` — har savolni tahrirlash; javob kaliti o'zgarsa `key_version++` va barcha natijalar jimgina qayta hisoblanadi
-  (eski ball `score_history` da); nashr: faqat men / havola / guruh / ochiq katalog; taymer, muddat, urinishlar, aralashtirish,
-  javob ko'rsatish (har savoldan keyin / oxirida / muddat tugagach), mehmonlar; natijalar va har savol bo'yicha to'g'ri %.
-- Ulashish: `/t/<KOD>` (6 belgi, 0/O/1/I yo'q), `t.me/<bot>?startapp=t_<KOD>` (Mini App), bot `/start t_<KOD>`, Telegram share.
-- Ishlovchi: kartada "natijangiz va ismingiz muallifga ko'rinadi"; mehmon — ism + httpOnly token (keyin kirsa urinishlar akkauntga o'tadi).
-- Ochiq katalog `/t`: public + ishonch darajasi ≥ 1 (admin beradi) + AI moderatsiya + bazaga bog'langan + ≥ 5 savol + izohli ≥ 50%.
-- Javob kaliti klientga hech qachon berilmaydi — barcha amallar service_role funksiyalari orqali.
-- Supabase'siz ko'rish: `npm run dev` → `/dev/testlar?sahifa=bosh|yangi|tahrir|karta|ishlash`.
+- So'rovnoma 111: kod o'chirildi (`/app/testlar`, `/t/<KOD>`, bot `t_<KOD>`). Jadvallar (`tests`, `test_items`, `test_attempts` …)
+  bazada qoldi — ma'lumot yo'qolmasin; `ai_weekly`, `uz_week()` AI ustoz va hujjat limitlari bilan umumiy.
 
 ## V3 — 5-qism: AI ustoz ✅ (kod)
 
@@ -52,21 +43,14 @@ Next.js 16 + Supabase + Telegram. YURISTIM TEAM MChJ mahsuloti.
   kontekst bazadagi moddalardan (`search_articles` — to'liq matnli qidiruv + suhbat moddasi + matndagi "12-modda" havolalari).
   Har javob ostida manba moddalar (havola) va "Bu yuridik maslahat emas"; shaxsiy ish bo'yicha — yuristga murojaat tavsiyasi.
 - Modda sahifasida "💡 AI tushuntirsin"; bosh sahifada AI kartasi.
-- "Xatolardan test": `weak_articles` (xato bor, o'zlashtirilmagan) → AI test (4-qism, test limitiga kiradi).
+- "Zaif moddalar": `weak_articles` (xato bor, o'zlashtirilmagan) — modda sahifasiga havola.
 - `/app/yordamchi/reja` — maqsad (sertifikat/soha), sana, kunlik vaqt, daraja + zaif moddalar → 8 haftagacha reja.
 - Limit: bepul — haftasiga 10 ta savol (reja ham 1 ta), Premium — 200; AI xatosida qaytariladi.
 - Supabase'siz ko'rish: `/dev/ustoz?sahifa=bosh|suhbat|reja`.
 
-## V3 — 6-qism: jonli viktorina ✅ (kod)
+## V3 — 6-qism: jonli viktorina ❌ (olib tashlandi, 2026-10-17)
 
-- Muallif sahifasida "🎮 Jonli viktorina" → xona: 6 raqamli PIN + QR (Telegram Mini App `startapp=j_<PIN>`), har savolga 10–60 s,
-  ixtiyoriy guruh. Bepul — 30 ishtirokchigacha, Premium — 200. Bir hostda bitta faol xona.
-- `/jonli` — PIN va ism bilan qo'shilish (kirmaganlar ham, httpOnly token); bot `/start j_<PIN>`.
-- `/jonli/host/<xona>` — proyektor uchun ekran: ishtirokchilar, savol va taymer, javob berganlar soni, variantlar taqsimoti,
-  to'g'ri javob, top-5, yakuniy natijalar. `/jonli/<xona>` — o'quvchi ekrani (tanlov turida bir bosishda javob).
-- Holat har 1,5 soniyada `/api/jonli/<xona>` orqali olinadi; vaqt server soati bo'yicha; javob kaliti faqat "reveal" bosqichida.
-  Ball: to'g'ri — 500 + 500 × qolgan vaqt ulushi.
-- Supabase'siz ko'rish: `/dev/jonli?kim=host|oquvchi|kirish&holat=lobby|question|reveal|finished`.
+- So'rovnoma 102: kod o'chirildi (`/jonli`, `/api/jonli`, bot `j_<PIN>`). `live_*` jadvallari bazada qoldi (keyingi tozalash migratsiyasida).
 
 ---
 

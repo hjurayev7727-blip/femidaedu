@@ -6,7 +6,6 @@ import {
   extractArticleRefs, mergeSources, sourceRef, threadTitle, TUTOR_FREE_WEEKLY, TUTOR_PREMIUM_WEEKLY,
   type PlanGoal, type SourceArticle,
 } from "@/lib/tutor";
-import { createAiTest, type CreateReport } from "@/lib/user-tests-server";
 
 const FAIL = {
   unavailable: "AI yordamchi hozircha ulanmagan.",
@@ -104,23 +103,6 @@ export async function askTutor(
     { thread_id: threadId, role: "assistant", content: r.data.slice(0, 12000), article_ids: sources.map((s) => s.id) },
   ]);
   return { ok: true, value: { threadId, answer: r.data, sources: sources.map((s) => ({ id: s.id, ref: sourceRef(s), field: s.field_slug })) } };
-}
-
-/** Zaif moddalar bo'yicha AI test (test limitiga kiradi) */
-export async function createMistakesTest(userId: string, premium: boolean): Promise<AiResult<CreateReport>> {
-  const { data } = await createSupabaseAdmin().rpc("weak_articles", { p_user: userId, p_limit: 10 });
-  const weak = (data ?? []) as { article_id: number; document_id: number; doc_title: string }[];
-  if (!weak.length) return { ok: false, message: "Hali xato qilingan moddalar yo'q — avval sohalar bo'yicha test ishlang." };
-  // Bitta hujjat (eng ko'p xatolisi) — savollar shu hujjat moddalariga bog'lanadi
-  const doc = weak[0].document_id;
-  const ids = weak.filter((w) => w.document_id === doc).map((w) => Number(w.article_id));
-  return createAiTest(userId, premium, {
-    title: `Xatolarim: ${weak[0].doc_title}`,
-    field: null,
-    source: { kind: "articles", articleIds: ids },
-    count: premium ? Math.min(20, Math.max(5, ids.length * 2)) : 10,
-    types: ["single", "case", "fill_blank"],
-  });
 }
 
 /** O'quv reja: AI tuzadi (ustoz limitidan 1 ta), oldingi reja almashtiriladi */

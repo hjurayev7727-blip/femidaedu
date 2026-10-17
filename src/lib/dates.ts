@@ -41,3 +41,10 @@ export function fmtUz(iso: string, opts: { time?: boolean; short?: boolean } = {
   if (opts.time === false) return date;
   return `${date}, ${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}`;
 }
+
+/** Joriy hafta boshi (dushanba, Toshkent vaqti) — SQL uz_week() bilan bir xil */
+export function uzWeekStart(now = new Date()): string {
+  const d = new Date(now.getTime() + 5 * 3600_000);
+  d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
+  return d.toISOString().slice(0, 10);
+}

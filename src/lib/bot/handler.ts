@@ -145,26 +145,6 @@ export async function handleUpdate(u: Update, d: BotDeps): Promise<void> {
     return;
   }
 
-  // Ulashilgan test: /start t_<KOD> (t.me/<bot>?start=t_K7Q2XM)
-  const shared = cmd === "/start" ? /^t_([A-HJ-NP-Z2-9]{6})$/.exec(arg) : null;
-  if (shared) {
-    await d.setBotEnabled(tgId, true);
-    await d.api.sendMessage(chat, `📝 Sizga test ulashildi — kod <b>${shared[1]}</b>.\nNatijangiz va ismingiz test muallifiga ko'rinadi.`, {
-      reply_markup: { inline_keyboard: openApp(d.siteUrl, "Testni ochish", `/t/${shared[1]}`) },
-    });
-    return;
-  }
-
-  // Jonli viktorina: /start j_<PIN>
-  const live = cmd === "/start" ? /^j_(\d{6})$/.exec(arg) : null;
-  if (live) {
-    await d.setBotEnabled(tgId, true);
-    await d.api.sendMessage(chat, `🎮 Jonli viktorina — PIN <b>${live[1]}</b>. Ismingiz va natijangiz o'qituvchi ekranida ko'rinadi.`, {
-      reply_markup: { inline_keyboard: openApp(d.siteUrl, "Qo'shilish", `/jonli?pin=${live[1]}`) },
-    });
-    return;
-  }
-
   switch (cmd) {
     case "/start": {
       const linked = await d.setBotEnabled(tgId, true);

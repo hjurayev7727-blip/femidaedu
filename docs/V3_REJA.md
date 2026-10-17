@@ -11,7 +11,7 @@ Bu bo'lim quyidagi eski qarorlardan ustun turadi.
 
 | # | Savol | Javob | Qaror |
 |---|---|---|---|
-| 102 | Jonli viktorina | **To'liq olib tashlash** | `/jonli`, komponentlar, menyu va havolalar o'chiriladi, jadvallar migratsiya bilan. 3.8-bo'lim bekor. |
+| 102 | Jonli viktorina | **To'liq olib tashlash** | `/jonli`, komponentlar, menyu va havolalar o'chirildi; `live_*` jadvallari hozircha bazada. 3.8-bo'lim bekor. |
 | 103 | Bosh ekran | **Savol berish maydoni** | Yuqorida "Savolingizni yozing", pastda hayotiy vaziyatlar va tasdiqlangan yuristlar. |
 | 104 | Javob qanday beriladi | **AI darhol + yuristga o'tish** | AI bazadagi moddalar bilan javob beradi. Ochiq forum yo'q. |
 | 105 | Yuristlar nima qiladi | **Pullik konsultatsiya** | Chat + escrow (mavjud buyurtma tizimi). Katalog profili shu uchun. |
@@ -24,7 +24,7 @@ Bu bo'lim quyidagi eski qarorlardan ustun turadi.
 | 112 | Yuristga o'tish | **Mos yuristlar kartasi** | AI javobi ostida soha va hududga mos 2–3 tasdiqlangan yurist, narxi bilan; savol buyurtmaga o'tadi. |
 | 113 | Menyu | **Savol · Bilim · Yuristlar · Profil** | AI ustoz, sertifikat, mashq — "Bilim" ichida. |
 
-**Ishlar tartibi:** (1) jonli viktorina va AI test/ulashishni olib tashlash → (2) yangi menyu va bosh ekran (savol maydoni) →
+**Ishlar tartibi:** (1) ✅ jonli viktorina va AI test/ulashishni olib tashlash (kod; jadvallar bazada) → (2) yangi menyu va bosh ekran (savol maydoni) →
 (3) yurist/advokat turi va hujjat + reyestr tekshiruvi → (4) AI javobi ostida mos yuristlar kartasi →
 (5) "Bilim": hayotiy vaziyatlar qo'llanmalari, sertifikat ichkariga.
 

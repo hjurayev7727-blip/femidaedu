@@ -1335,7 +1335,7 @@
         "Faqat markaz/o'qituvchilarga"
       ],
       "owner": "To'liq olib tashlash",
-      "decision": "Jonli viktorina olib tashlanadi: /jonli sahifalari, komponentlar, menyu va havolalar o'chiriladi; jadvallar yangi migratsiya bilan o'chiriladi. Kod git tarixida qoladi."
+      "decision": "Jonli viktorina olib tashlandi: /jonli, /api/jonli, komponentlar, menyu va bot j_ havolasi o'chirildi. live_* jadvallari hozircha bazada qoladi (keyingi tozalash migratsiyasida). Kod git tarixida."
     },
     {
       "id": 103,
@@ -1454,7 +1454,7 @@
         "Olib tashlash"
       ],
       "owner": "Olib tashlash",
-      "decision": "AI test yaratish va ulashish (/app/testlar, /t/kod, guruhga vazifa) olib tashlanadi; faqat rasmiy testlar (sohalar, sertifikat) qoladi. 4, 6–21, 22–25 (UGC qismi) qarorlari bekor."
+      "decision": "AI test yaratish va ulashish (/app/testlar, /t/kod, guruhga vazifa) olib tashlanadi; faqat rasmiy testlar (sohalar, sertifikat) qoladi. 4, 6–21, 22–25 (UGC qismi) qarorlari bekor. Jadvallar (tests, test_attempts …) bazada qoladi — ma'lumot yo'qolmasin; ai_weekly va uz_week() boshqa limitlar bilan umumiy."
     },
     {
       "id": 112,
