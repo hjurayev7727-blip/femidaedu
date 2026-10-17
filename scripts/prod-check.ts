@@ -53,7 +53,7 @@ async function main() {
       await sql.end();
     }
   });
-  await check("Anthropic (AI testlar, AI ustoz)", async () => {
+  await check("Anthropic (AI javoblar, AI ustoz)", async () => {
     const client = new Anthropic({ apiKey: need("ANTHROPIC_API_KEY") });
     const m = await client.models.retrieve(AI_MODEL);
     return `model ${m.id} mavjud`;

@@ -5,8 +5,8 @@ import { aiEnabled } from "@/lib/ai-server";
 import { requireUser } from "@/lib/auth";
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 import { TUTOR_FREE_WEEKLY, TUTOR_PREMIUM_WEEKLY } from "@/lib/tutor";
-import { uzWeekStart } from "@/lib/user-tests";
-import { ask, mistakesTest } from "./actions";
+import { uzWeekStart } from "@/lib/dates";
+import { ask } from "./actions";
 
 export const metadata: Metadata = { title: "AI yordamchi" };
 export const maxDuration = 300;
@@ -31,7 +31,6 @@ export default async function TutorPage({ searchParams }: PageProps<"/app/yordam
       premium={Boolean(premium)}
       hasPlan={Boolean(plan)}
       error={typeof sp.xato === "string" ? sp.xato.slice(0, 200) : undefined}
-      mistakesAction={mistakesTest}
     />
   );
 }

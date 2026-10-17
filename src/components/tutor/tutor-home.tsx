@@ -7,7 +7,7 @@ import type { TutorMode } from "@/lib/ai";
 export type ThreadRow = { id: string; mode: TutorMode; title: string; updated_at: string };
 export type WeakRow = { article_id: number; number: string; title: string | null; doc_title: string; field_slug: string | null; seen: number; correct: number };
 
-/** AI yordamchi bosh sahifasi: yangi suhbat, xatolardan test, o'quv reja, oldingi suhbatlar */
+/** AI yordamchi bosh sahifasi: yangi suhbat, zaif moddalar, o'quv reja, oldingi suhbatlar */
 export function TutorHome(props: {
   chat: ReactNode;
   threads: ThreadRow[];
@@ -17,7 +17,6 @@ export function TutorHome(props: {
   premium: boolean;
   hasPlan: boolean;
   error?: string;
-  mistakesAction?: () => Promise<void>;
   base?: string;
 }) {
   const base = props.base ?? "/app/yordamchi";
@@ -37,7 +36,7 @@ export function TutorHome(props: {
 
       <div className="grid gap-4 md:grid-cols-2">
         <section className="card space-y-3">
-          <h2 className="text-xl font-bold">🎯 Xatolardan test</h2>
+          <h2 className="text-xl font-bold">🎯 Zaif moddalar</h2>
           {props.weak.length ? (
             <>
               <ul className="space-y-1 text-sm">
@@ -49,10 +48,7 @@ export function TutorHome(props: {
                   </li>
                 ))}
               </ul>
-              <form action={props.mistakesAction}>
-                <button className="btn-primary !py-2.5">AI test yaratish</button>
-              </form>
-              <p className="text-xs text-mute">Haftalik AI test limitiga kiradi.</p>
+              <p className="text-xs text-mute">Moddani oching — matnini qayta o&apos;qing va shu modda bo&apos;yicha testni ishlang.</p>
             </>
           ) : <p className="text-sm text-mute">Hali xato qilingan moddalar yo&apos;q. Sohalar bo&apos;yicha test ishlang — zaif joylar shu yerda chiqadi.</p>}
         </section>

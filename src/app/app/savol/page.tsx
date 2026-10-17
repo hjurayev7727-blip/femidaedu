@@ -5,11 +5,10 @@ import { LegalChat } from "@/components/legal/legal-chat";
 import { SavolTabs } from "@/components/legal/savol-tabs";
 import { aiEnabled } from "@/lib/ai-server";
 import { requireUser } from "@/lib/auth";
-import { fmtUz } from "@/lib/dates";
+import { fmtUz, uzWeekStart } from "@/lib/dates";
 import { DOC_FREE_WEEKLY, DOC_PREMIUM_WEEKLY } from "@/lib/legal";
 import { lawyersEnabled } from "@/lib/legal-server";
 import { TUTOR_FREE_WEEKLY, TUTOR_PREMIUM_WEEKLY } from "@/lib/tutor";
-import { uzWeekStart } from "@/lib/user-tests";
 import { analyzeDocAction, askLegalAction, startDocUpload } from "./actions";
 
 export const metadata: Metadata = { title: "Savol bering" };

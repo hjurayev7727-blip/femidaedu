@@ -1,7 +1,32 @@
 # DOYSE V3 — yagona huquq platformasi: AI bilan test yaratish va ulashish
 
 > Holat: **loyiha hujjati (reja)**, kod hali yozilmagan. Asos: hozirgi A+ Huquq 2.0 kodi (shu repo).
+> **2026-10-17:** yo'nalish o'zgardi — pastdagi "so'rovnoma 102–113" bo'limi ustun.
 > Qarorlar: loyiha egasi bilan 41 + 20 savollik so'rovnoma (2026-09-30), `data/v3/polls.json`.
+
+## Yangilanish (so'rovnoma 102–113, 2026-10-17): savol-javob, bilim va yuristlar platformasi
+
+Femida Edu — **hamma uchun huquqiy bilim va savollarga javob** beradigan, yuristlar va advokatlarni jamlagan platforma.
+Bu bo'lim quyidagi eski qarorlardan ustun turadi.
+
+| # | Savol | Javob | Qaror |
+|---|---|---|---|
+| 102 | Jonli viktorina | **To'liq olib tashlash** | `/jonli`, komponentlar, menyu va havolalar o'chirildi; `live_*` jadvallari hozircha bazada. 3.8-bo'lim bekor. |
+| 103 | Bosh ekran | **Savol berish maydoni** | Yuqorida "Savolingizni yozing", pastda hayotiy vaziyatlar va tasdiqlangan yuristlar. |
+| 104 | Javob qanday beriladi | **AI darhol + yuristga o'tish** | AI bazadagi moddalar bilan javob beradi. Ochiq forum yo'q. |
+| 105 | Yuristlar nima qiladi | **Pullik konsultatsiya** | Chat + escrow (mavjud buyurtma tizimi). Katalog profili shu uchun. |
+| 106 | Tekshiruv | **Hujjat + reyestr** | Diplom/guvohnoma → admin palata reyestri bilan solishtiradi → "Tasdiqlangan". Tasdiqlanmagan yurist ko'rinmaydi. |
+| 107 | Yurist / advokat | **Alohida belgi** | "Advokat" (litsenziya raqami majburiy) va "Yurist"; katalogda filtr. |
+| 108 | Daromad | **Obuna + komissiya** | Premium (ko'proq AI savol, hujjat tahlili) + har buyurtmadan komissiya. Payme asosiy. |
+| 109 | Milliy sertifikat | **Qoladi, ikkinchi darajali** | Imtihon, mashq, takrorlash, reyting — "Bilim" ichida. |
+| 110 | Bilim formati | **Hayotiy vaziyatlar** | "Ishdan bo'shatishdi", "Aliment", "Ijara" — qadam-baqadam, har qadamda modda havolasi. Sohalar ichkarida. |
+| 111 | AI test yaratish va ulashish | **Olib tashlash** | `/app/testlar`, `/t/…`, guruhga vazifa o'chiriladi; faqat rasmiy testlar. 3.3–3.6-bo'limlar bekor. |
+| 112 | Yuristga o'tish | **Mos yuristlar kartasi** | AI javobi ostida soha va hududga mos 2–3 tasdiqlangan yurist, narxi bilan; savol buyurtmaga o'tadi. |
+| 113 | Menyu | **Savol · Bilim · Yuristlar · Profil** | AI ustoz, sertifikat, mashq — "Bilim" ichida. |
+
+**Ishlar tartibi:** (1) ✅ jonli viktorina va AI test/ulashishni olib tashlash (kod; jadvallar bazada) → (2) yangi menyu va bosh ekran (savol maydoni) →
+(3) yurist/advokat turi va hujjat + reyestr tekshiruvi → (4) AI javobi ostida mos yuristlar kartasi →
+(5) "Bilim": hayotiy vaziyatlar qo'llanmalari, sertifikat ichkariga.
 
 ## Yangilanish (so'rovnoma 70–93): Femida Edu — alohida mahsulot
 

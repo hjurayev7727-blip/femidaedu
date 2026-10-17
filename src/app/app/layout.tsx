@@ -3,13 +3,12 @@ import { Logo } from "@/components/logo";
 import { requireUser } from "@/lib/auth";
 import { lawyersEnabled } from "@/lib/legal-server";
 
-// Mobil pastki panelda "wide" bo'lmaganlar (7 ta) ko'rinadi; Sertifikat bo'limi bosh sahifadan ham ochiladi.
+// Mobil pastki panelda "wide" bo'lmaganlar (6 ta) ko'rinadi; Sertifikat bo'limi bosh sahifadan ham ochiladi.
 const NAV = [
   { href: "/app", label: "Bosh sahifa", short: "Bosh", icon: "🏠" },
   { href: "/app/savol", label: "Savol bering", short: "Savol", icon: "💬" },
   { href: "/app/sohalar", label: "Sohalar", short: "Sohalar", icon: "⚖️" },
   { href: "/app/mashq", label: "Mashq", short: "Mashq", icon: "🎯" },
-  { href: "/app/testlar", label: "Testlar", short: "Testlar", icon: "📝" },
   { href: "/app/imtihon", label: "Sertifikat", short: "Sertifikat", icon: "⏱️", wide: true },
   { href: "/app/takrorlash", label: "Takrorlash", short: "Xatolar", icon: "🔁" },
   { href: "/app/profil", label: "Profil", short: "Profil", icon: "👤" },
